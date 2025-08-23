@@ -1,91 +1,58 @@
-## supabase-ui-svelte
+# Svelte library
 
-UI components for Supabase authentication using Svelte. Inspired by the [React version](https://github.com/supabase/ui).
+Everything you need to build a Svelte library, powered by [`sv`](https://npmjs.com/package/sv).
 
-# Supported Features
+Read more about creating a library [in the docs](https://svelte.dev/docs/kit/packaging).
 
-- Login via OAUTH providers: Google, Facebook, Twitter, Github, Azure, Gitlab, Bitbucket, Discord
-- Login and signup via email/password
-- Login via magic link
-- Password recovery
-- Password reset
+## Creating a project
 
-# Storybook
-
-View the components in action:
-
-[supabase-ui-svelte.vercel.app](https://supabase-ui-svelte.vercel.app/?path=/story/auth-auth--default)
-
-# Setup
-
-Install the npm package:
+If you're seeing this, you've probably already done this step. Congrats!
 
 ```bash
-yarn install -D supabase-ui-svelte
+# create a new project in the current directory
+npx sv create
+
+# create a new project in my-app
+npx sv create my-app
 ```
 
-Import the component:
+## Developing
 
-```js
-import Auth from 'supabase-ui-svelte'
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+
+```bash
+npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
 ```
 
-Create a supabase client:
+Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
 
-```js
-import { createClient } from '@supabase/supabase-js'
+## Building
 
-// get keys via the settings page at https://app.supabase.io
-const supabaseClient = createClient('<your supabase url>', '<your supabase key>')
+To build your library:
+
+```bash
+npm run package
 ```
 
-Add the component anywhere on your page:
+To create a production version of your showcase app:
 
-```js
-<Auth {supabaseClient}/>
+```bash
+npm run build
 ```
 
-# Props
+You can preview the production build with `npm run preview`.
 
-## `supabaseClient`
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
 
-Required. This is the supabase client object. Call `createClient()` to get it.
+## Publishing
 
-## `view`
+Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
 
-A `string` that sets which view to display.
-Can be one of `sign_in` | `sign_up` | `magic_link` | `forgotten_password`. Default is `sign_in`.
+To publish your library to [npm](https://www.npmjs.com):
 
-## `providers`
-
-An array of `string`. Can be any combination of `['facebook', 'google', 'twitter', 'github', 'gitlab', 'bitbucket', 'azure', 'discord']`. When left empty, the social login option is not displayed.
-Default is an empty array.
-
-## `socialButtonSize`
-
-A `string` that specifies the size of the social buttons. Can be one of `tiny` | `small` | `medium` | `large` | `xlarge`.
-Default is `medium`.
-
-## `socialLayout`
-
-A `string` that specifies the layout direction of the social buttons. Valid options are `horizontal` or `vertical`.
-Default is `vertical`.
-
-## `socialColors`
-
-A `boolean` that indicates whether the social buttons should use the brand's colors.
-Default is `false`.
-
-## `class`
-
-A `string` of CSS classes to add to the outermost container.
-Default is empty.
-
-## `style`
-
-A `string` of CSS attributes to add to the outermost container.
-Default is empty.
-
-# License
-
-MIT
+```bash
+npm publish
+```
