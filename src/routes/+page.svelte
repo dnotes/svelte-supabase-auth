@@ -1,3 +1,8 @@
-<h1>Welcome to your library project</h1>
-<p>Create your package using @sveltejs/package and preview/showcase your work with SvelteKit</p>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+  import Auth from '$lib/Auth.svelte'
+  import { supabaseClient } from './supabase.js'
+</script>
+
+<div class="mx-auto mt-6 md:mt-48 w-120 max-w-full p-5">
+  <Auth {supabaseClient} />
+</div>
