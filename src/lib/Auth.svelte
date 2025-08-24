@@ -58,7 +58,7 @@
 <div class="component {classes}" {style}>
   <div class="container">
     {#if loading}
-      <div class="loading"></div>
+      <div class="supabase-auth-loading"></div>
     {:else if user}
       <AuthenticatedView {supabaseClient} {user} />
     {:else}
@@ -90,10 +90,5 @@
   .container {
     display: flex;
     flex-direction: column;
-  }
-
-  .loading {
-    text-align: center;
-    padding: 1rem;
   }
 </style>
