@@ -1,5 +1,6 @@
 <script lang="ts">
   import Auth from '$lib/Auth.svelte'
+  import type { Session, User } from '@supabase/supabase-js';
   import { supabaseClient } from './supabase.js'
 </script>
 

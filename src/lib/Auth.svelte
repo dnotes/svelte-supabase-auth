@@ -5,7 +5,7 @@
   import ForgottenPasswordView from './ForgottenPasswordView.svelte'
   import AuthenticatedView from './views/AuthenticatedView.svelte'
   import type { Provider, SupabaseClient, User } from '@supabase/supabase-js'
-  import { onMount } from 'svelte'
+  import { onMount, type Snippet } from 'svelte'
 
   interface Props {
     supabaseClient: SupabaseClient
@@ -16,6 +16,7 @@
     socialButtonSize?: 'tiny' | 'small' | 'medium' | 'large'
     providers?: Provider[]
     view?: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password'
+    loggedInAs?: Snippet<[User]>
   }
 
   let {
@@ -26,11 +27,12 @@
     socialColors = false,
     socialButtonSize = 'medium',
     providers = [],
-    view = $bindable('sign_in')
+    view = 'sign_in',
+    loggedInAs,
   }: Props = $props()
 
-  let user = $state<User | null>(null)
-  let loading = $state(true)
+  let user = $state<User|null>(null)
+  let loading = $state<boolean>(true)
 
   function setView(newView: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password') {
     view = newView
@@ -57,10 +59,10 @@
 
 <div class="component {classes}" {style}>
   <div class="container">
-    {#if loading}
+    {#if user && !user.is_anonymous}
+      <AuthenticatedView {supabaseClient} {user} {loggedInAs} />
+    {:else if loading}
       <div class="supabase-auth-loading"></div>
-    {:else if user}
-      <AuthenticatedView {supabaseClient} {user} />
     {:else}
       <SocialAuthView
         {supabaseClient}
