@@ -1,8 +1,8 @@
 <script lang="ts">
-  import EmailAuthView from './EmailAuthView.svelte'
-  import SocialAuthView from './SocialAuthView.svelte'
-  import MagicLinkView from './MagicLinkView.svelte'
-  import ForgottenPasswordView from './ForgottenPasswordView.svelte'
+  import EmailAuthView from './views/EmailAuthView.svelte'
+  import SocialAuthView from './views/SocialAuthView.svelte'
+  import MagicLinkView from './views/MagicLinkView.svelte'
+  import ForgottenPasswordView from './views/ForgottenPasswordView.svelte'
   import AuthenticatedView from './views/AuthenticatedView.svelte'
   import type { Provider, SupabaseClient, User } from '@supabase/supabase-js'
   import { onMount, type Snippet } from 'svelte'

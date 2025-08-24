@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Button from './Button.svelte'
-  import Text from './Text.svelte'
+  import Button from '../Button.svelte'
+  import Text from '../Text.svelte'
   import type { Provider, SupabaseClient } from '@supabase/supabase-js'
 
   interface Props {

@@ -1,17 +1,17 @@
 // Main components
 export { default as Auth } from './Auth.svelte'
 export { default as Button } from './Button.svelte'
-export { default as EmailAuthView } from './EmailAuthView.svelte'
-export { default as ForgottenPasswordView } from './ForgottenPasswordView.svelte'
 export { default as Icon } from './Icon.svelte'
 export { default as Input } from './Input.svelte'
 export { default as LinkButton } from './LinkButton.svelte'
-export { default as MagicLinkView } from './MagicLinkView.svelte'
-export { default as SocialAuthView } from './SocialAuthView.svelte'
 export { default as Text } from './Text.svelte'
 
 // Views
 export { default as AuthenticatedView } from './views/AuthenticatedView.svelte'
+export { default as EmailAuthView } from './views/EmailAuthView.svelte'
+export { default as ForgottenPasswordView } from './views/ForgottenPasswordView.svelte'
+export { default as MagicLinkView } from './views/MagicLinkView.svelte'
+export { default as SocialAuthView } from './views/SocialAuthView.svelte'
 
 // Social icons
 export { default as AzureIcon } from './social-icons/AzureIcon.svelte'
