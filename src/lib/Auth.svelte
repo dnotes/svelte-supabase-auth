@@ -3,7 +3,9 @@
   import SocialAuthView from './SocialAuthView.svelte'
   import MagicLinkView from './MagicLinkView.svelte'
   import ForgottenPasswordView from './ForgottenPasswordView.svelte'
-  import type { Provider, SupabaseClient } from '@supabase/supabase-js'
+  import AuthenticatedView from './views/AuthenticatedView.svelte'
+  import type { Provider, SupabaseClient, User } from '@supabase/supabase-js'
+  import { onMount } from 'svelte'
 
   interface Props {
     supabaseClient: SupabaseClient
@@ -27,28 +29,55 @@
     view = $bindable('sign_in')
   }: Props = $props()
 
+  let user = $state<User | null>(null)
+  let loading = $state(true)
+
   function setView(newView: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password') {
     view = newView
   }
+
+  onMount(() => {
+    // Get initial session
+    supabaseClient.auth.getSession().then(({ data: { session } }) => {
+      user = session?.user ?? null
+      loading = false
+    })
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabaseClient.auth.onAuthStateChange(
+      (event, session) => {
+        user = session?.user ?? null
+        loading = false
+      }
+    )
+
+    return () => subscription.unsubscribe()
+  })
 </script>
 
 <div class="component {classes}" {style}>
   <div class="container">
-    <SocialAuthView
-      {supabaseClient}
-      {providers}
-      {socialLayout}
-      {socialButtonSize}
-      {socialColors}
-      {view}
-    />
+    {#if loading}
+      <div class="loading"></div>
+    {:else if user}
+      <AuthenticatedView {supabaseClient} {user} />
+    {:else}
+      <SocialAuthView
+        {supabaseClient}
+        {providers}
+        {socialLayout}
+        {socialButtonSize}
+        {socialColors}
+        {view}
+      />
 
-    {#if view == 'sign_in' || view == 'sign_up'}
-      <EmailAuthView {supabaseClient} {view} {setView}/>
-    {:else if view == 'magic_link'}
-      <MagicLinkView {supabaseClient} {setView}/>
-    {:else if view == 'forgotten_password'}
-      <ForgottenPasswordView {supabaseClient} {setView}/>
+      {#if view == 'sign_in' || view == 'sign_up'}
+        <EmailAuthView {supabaseClient} {view} {setView}/>
+      {:else if view == 'magic_link'}
+        <MagicLinkView {supabaseClient} {setView}/>
+      {:else if view == 'forgotten_password'}
+        <ForgottenPasswordView {supabaseClient} {setView}/>
+      {/if}
     {/if}
   </div>
 </div>
@@ -61,5 +90,10 @@
   .container {
     display: flex;
     flex-direction: column;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 1rem;
   }
 </style>

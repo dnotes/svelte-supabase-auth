@@ -62,6 +62,9 @@ export declare const MagicLinkView: Component<any>
 export declare const SocialAuthView: Component<any>
 export declare const Text: Component<TextProps>
 
+// View exports
+export declare const AuthenticatedView: Component<any>
+
 // Social icon exports
 export declare const AzureIcon: Component<SocialIconProps>
 export declare const BitbucketIcon: Component<SocialIconProps>

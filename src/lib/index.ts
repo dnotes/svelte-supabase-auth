@@ -10,6 +10,9 @@ export { default as MagicLinkView } from './MagicLinkView.svelte'
 export { default as SocialAuthView } from './SocialAuthView.svelte'
 export { default as Text } from './Text.svelte'
 
+// Views
+export { default as AuthenticatedView } from './views/AuthenticatedView.svelte'
+
 // Social icons
 export { default as AzureIcon } from './social-icons/AzureIcon.svelte'
 export { default as BitbucketIcon } from './social-icons/BitbucketIcon.svelte'
