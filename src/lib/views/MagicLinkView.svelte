@@ -4,7 +4,7 @@
   import Button from '../Button.svelte'
   import Input from '../Input.svelte'
   import type { SupabaseClient } from '@supabase/supabase-js'
-  import type { AuthTexts } from '../i18n.js'
+  import type { AuthTexts } from '../i18n'
 
   interface Props {
     supabaseClient: SupabaseClient
@@ -45,7 +45,7 @@
     bind:value={email}
   />
   <Button block primary size="large" {loading} icon="inbox">
-    {getText('magicLinkButton')}
+    {getText('sendLink')}
   </Button>
 
   <LinkButton onclick={() => setView('sign_in')}>

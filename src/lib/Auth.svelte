@@ -1,7 +1,7 @@
 <script module lang="ts">
   import type { SupabaseClient, Provider, User } from '@supabase/supabase-js'
   import type { Snippet } from 'svelte'
-  import type { AuthTexts } from './i18n.js'
+  import type { AuthTexts } from './i18n'
 
   // Auth component props interface
   export interface AuthProps {
@@ -29,7 +29,7 @@
   import ForgottenPasswordView from './views/ForgottenPasswordView.svelte'
   import AuthenticatedView from './views/AuthenticatedView.svelte'
   import { onMount } from 'svelte'
-  import { createGetText } from './i18n.js'
+  import { createGetText } from './i18n'
 
   let {
     supabaseClient,
@@ -78,7 +78,7 @@
 <div class="component {classes}" {style}>
   <div class="container">
     {#if user && !user.is_anonymous}
-      <AuthenticatedView {supabaseClient} {user} {loggedInAs} {getText} />
+      <AuthenticatedView {supabaseClient} {user} {loggedInAs} {getText} {locale} />
     {:else if loading}
       <div class="supabase-auth-loading"></div>
     {:else}

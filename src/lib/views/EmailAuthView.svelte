@@ -4,7 +4,7 @@
   import Button from '../Button.svelte'
   import Input from '../Input.svelte'
   import type { SupabaseClient } from '@supabase/supabase-js'
-  import type { AuthTexts } from '../i18n.js'
+  import type { AuthTexts } from '../i18n'
 
   interface Props {
     supabaseClient: SupabaseClient
@@ -64,7 +64,7 @@
 
   {#if view == 'sign_up'}
     <Button block primary size="large" {loading} icon="inbox">
-      {getText('signUpButton')}
+      {getText('signUp')}
     </Button>
     <div class="links">
       <LinkButton onclick={() => setView('magic_link')}>
@@ -76,7 +76,7 @@
     </div>
   {:else}
     <Button block primary size="large" {loading} icon="inbox">
-      {getText('signInButton')}
+      {getText('signIn')}
     </Button>
     <div class="links">
       <LinkButton onclick={() => setView('sign_up')}>

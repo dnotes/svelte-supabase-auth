@@ -2,7 +2,7 @@
   import Button from '../Button.svelte'
   import Text from '../Text.svelte'
   import type { Provider, SupabaseClient } from '@supabase/supabase-js'
-  import type { AuthTexts } from '../i18n.js'
+  import type { AuthTexts } from '../i18n'
 
   interface Props {
     supabaseClient: SupabaseClient

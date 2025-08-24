@@ -3,19 +3,22 @@
   import Button from '../Button.svelte'
   import Text from '../Text.svelte'
   import type { SupabaseClient, User } from '@supabase/supabase-js'
-  import type { AuthTexts } from '../i18n.js'
+  import type { AuthTexts } from '../i18n'
 
   interface Props {
     supabaseClient: SupabaseClient
     user: User|null
+    locale?: string
     loggedInAs?: Snippet<[User]>|undefined
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 
-  let { supabaseClient, user, loggedInAs, getText }: Props = $props()
+  let { supabaseClient, user, loggedInAs, getText, locale }: Props = $props()
 
   let loading = $state(false)
   let error = $state('')
+
+  const dateDisplay = $derived(user?.last_sign_in_at ? new Date(user?.last_sign_in_at).toLocaleString(locale) : '')
 
   async function handleSignOut() {
     loading = true
@@ -32,16 +35,12 @@
 
 {#snippet defaultLoggedInAs(user:User|null)}
   <p>
+    {getText('loggedIn')}
     {#if user?.last_sign_in_at}
-      {getText('loggedInSince')} {new Date(user?.last_sign_in_at).toLocaleString()}.
-    {:else}
-      {getText('loggedIn')}
+      <br/>{getText('lastLogin')} {dateDisplay}
     {/if}
     {#if user?.email}
-      <br/>Email: {user?.email}
-    {/if}
-    {#if user?.phone}
-      <br/>Phone: {user?.phone}
+      <br/>{getText('emailLabel')} {user?.email}
     {/if}
   </p>
 {/snippet}
