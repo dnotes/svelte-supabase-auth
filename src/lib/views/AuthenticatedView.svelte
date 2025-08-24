@@ -51,29 +51,8 @@
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
-    border: 1px solid #e5e5e5;
-    border-radius: 0.5rem;
-    background: #f9f9f9;
   }
-
   .user-info {
     text-align: center;
-  }
-
-  .user-details {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    margin-top: 0.5rem;
-  }
-
-  .user-details strong {
-    font-size: 0.875rem;
-    color: #333;
-  }
-
-  .name {
-    font-size: 0.75rem;
-    color: #666;
   }
 </style>
