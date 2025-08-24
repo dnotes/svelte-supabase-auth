@@ -1,17 +1,6 @@
 import type { Component } from 'svelte'
-import type { SupabaseClient } from '@supabase/supabase-js'
-
-// Auth component props
-export interface AuthProps {
-  supabaseClient: SupabaseClient
-  class?: string
-  style?: string
-  socialLayout?: 'vertical' | 'horizontal'
-  socialColors?: boolean
-  socialButtonSize?: 'tiny' | 'small' | 'medium' | 'large'
-  providers?: string[]
-  view?: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password'
-}
+import type { AuthTexts } from './i18n.js'
+import type { AuthProps } from './Auth.svelte'
 
 // Button component props
 export interface ButtonProps {
@@ -49,6 +38,9 @@ export interface IconProps {
 export interface SocialIconProps {
   size?: string
 }
+
+// Re-export types
+export type { AuthTexts, AuthProps }
 
 // Component exports
 export declare const Auth: Component<AuthProps>

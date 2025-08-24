@@ -3,14 +3,16 @@
   import Button from '../Button.svelte'
   import Text from '../Text.svelte'
   import type { SupabaseClient, User } from '@supabase/supabase-js'
+  import type { AuthTexts } from '../i18n.js'
 
   interface Props {
     supabaseClient: SupabaseClient
     user: User|null
     loggedInAs?: Snippet<[User]>|undefined
+    getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 
-  let { supabaseClient, user }: Props = $props()
+  let { supabaseClient, user, loggedInAs, getText }: Props = $props()
 
   let loading = $state(false)
   let error = $state('')
@@ -28,12 +30,12 @@
   }
 </script>
 
-{#snippet loggedInAs(user:User|null)}
+{#snippet defaultLoggedInAs(user:User|null)}
   <p>
     {#if user?.last_sign_in_at}
-      You have been logged in since {new Date(user?.last_sign_in_at).toLocaleString()}.
+      {getText('loggedInSince')} {new Date(user?.last_sign_in_at).toLocaleString()}.
     {:else}
-      You are logged in.
+      {getText('loggedIn')}
     {/if}
     {#if user?.email}
       <br/>Email: {user?.email}
@@ -46,7 +48,11 @@
 
 <div class="supabase-auth-authenticated-view">
   <div class="supabase-auth-user-info">
-    {@render loggedInAs(user)}
+    {#if loggedInAs && user}
+      {@render loggedInAs(user)}
+    {:else}
+      {@render defaultLoggedInAs(user)}
+    {/if}
   </div>
 
   <Button
@@ -55,7 +61,7 @@
     {loading}
     onclick={handleSignOut}
   >
-    Sign Out
+    {getText('signOutButton')}
   </Button>
 
   {#if error}

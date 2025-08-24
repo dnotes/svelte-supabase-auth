@@ -2,6 +2,7 @@
   import Button from '../Button.svelte'
   import Text from '../Text.svelte'
   import type { Provider, SupabaseClient } from '@supabase/supabase-js'
+  import type { AuthTexts } from '../i18n.js'
 
   interface Props {
     supabaseClient: SupabaseClient
@@ -10,9 +11,10 @@
     socialButtonSize: 'tiny' | 'small' | 'medium' | 'large'
     socialColors: boolean
     view: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password'
+    getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 
-  let { supabaseClient, providers, socialLayout, socialButtonSize, socialColors, view }: Props = $props()
+  let { supabaseClient, providers, socialLayout, socialButtonSize, socialColors, view, getText }: Props = $props()
 
   let loading = $state(false)
   let error = $state('')
@@ -63,17 +65,28 @@
 </script>
 
 {#if hasProviders}
-  <span class="heading">{view == 'sign_up' ? 'Sign up' : 'Sign in'} with</span>
+  <span class="heading">
+    {view == 'sign_up' ? getText('socialSignUpHeading') : getText('socialSignInHeading')}
+  </span>
 
   <div class="providers" class:horizontal={socialLayout == 'horizontal'}>
     {#each providers as provider}
-      <Button block shadow icon={provider} size={socialButtonSize} style={socialColors ? (buttonStyles[provider] || {}) : {}} onclick={() => handleProviderSignIn(provider)}>
-        {#if socialLayout == 'vertical'}{view == 'sign_up' ? 'Sign up' : 'Sign in'} with {provider}{/if}
+      <Button
+        block
+        shadow
+        icon={provider}
+        size={socialButtonSize}
+        style={socialColors ? (buttonStyles[provider] || {}) : {}}
+        onclick={() => handleProviderSignIn(provider)}
+      >
+        {#if socialLayout == 'vertical'}
+          {view == 'sign_up' ? getText('socialSignUpWith') : getText('socialSignInWith')} {provider}
+        {/if}
       </Button>
     {/each}
   </div>
   <div role="separator" class="divider">
-    <span>or continue with</span>
+    <span>{getText('socialDivider')}</span>
   </div>
 {/if}
 

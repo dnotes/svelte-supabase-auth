@@ -1,13 +1,10 @@
-<script lang="ts">
-  import EmailAuthView from './views/EmailAuthView.svelte'
-  import SocialAuthView from './views/SocialAuthView.svelte'
-  import MagicLinkView from './views/MagicLinkView.svelte'
-  import ForgottenPasswordView from './views/ForgottenPasswordView.svelte'
-  import AuthenticatedView from './views/AuthenticatedView.svelte'
-  import type { Provider, SupabaseClient, User } from '@supabase/supabase-js'
-  import { onMount, type Snippet } from 'svelte'
+<script module lang="ts">
+  import type { SupabaseClient, Provider, User } from '@supabase/supabase-js'
+  import type { Snippet } from 'svelte'
+  import type { AuthTexts } from './i18n.js'
 
-  interface Props {
+  // Auth component props interface
+  export interface AuthProps {
     supabaseClient: SupabaseClient
     class?: string
     style?: string
@@ -17,7 +14,22 @@
     providers?: Provider[]
     view?: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password'
     loggedInAs?: Snippet<[User]>
+
+    // Internationalization
+    texts?: Partial<AuthTexts>
+    locale?: string
+    t?: (key: string, params?: Record<string, any>) => string
   }
+</script>
+
+<script lang="ts">
+  import EmailAuthView from './views/EmailAuthView.svelte'
+  import SocialAuthView from './views/SocialAuthView.svelte'
+  import MagicLinkView from './views/MagicLinkView.svelte'
+  import ForgottenPasswordView from './views/ForgottenPasswordView.svelte'
+  import AuthenticatedView from './views/AuthenticatedView.svelte'
+  import { onMount } from 'svelte'
+  import { createGetText } from './i18n.js'
 
   let {
     supabaseClient,
@@ -29,10 +41,16 @@
     providers = [],
     view = 'sign_in',
     loggedInAs,
-  }: Props = $props()
+    texts,
+    locale = 'en',
+    t,
+  }: AuthProps = $props()
 
   let user = $state<User|null>(null)
   let loading = $state<boolean>(true)
+
+  // Create the getText function with current settings
+  const getText = $derived(createGetText(locale, texts, t))
 
   function setView(newView: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password') {
     view = newView
@@ -60,7 +78,7 @@
 <div class="component {classes}" {style}>
   <div class="container">
     {#if user && !user.is_anonymous}
-      <AuthenticatedView {supabaseClient} {user} {loggedInAs} />
+      <AuthenticatedView {supabaseClient} {user} {loggedInAs} {getText} />
     {:else if loading}
       <div class="supabase-auth-loading"></div>
     {:else}
@@ -71,14 +89,15 @@
         {socialButtonSize}
         {socialColors}
         {view}
+        {getText}
       />
 
       {#if view == 'sign_in' || view == 'sign_up'}
-        <EmailAuthView {supabaseClient} {view} {setView}/>
+        <EmailAuthView {supabaseClient} {view} {setView} {getText}/>
       {:else if view == 'magic_link'}
-        <MagicLinkView {supabaseClient} {setView}/>
+        <MagicLinkView {supabaseClient} {setView} {getText}/>
       {:else if view == 'forgotten_password'}
-        <ForgottenPasswordView {supabaseClient} {setView}/>
+        <ForgottenPasswordView {supabaseClient} {setView} {getText}/>
       {/if}
     {/if}
   </div>

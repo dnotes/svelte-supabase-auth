@@ -1,10 +1,13 @@
 // Main components
-export { default as Auth } from './Auth.svelte'
+export { default as Auth, type AuthProps } from './Auth.svelte'
 export { default as Button } from './Button.svelte'
 export { default as Icon } from './Icon.svelte'
 export { default as Input } from './Input.svelte'
 export { default as LinkButton } from './LinkButton.svelte'
 export { default as Text } from './Text.svelte'
+
+// Internationalization - re-export for easy access
+export { defaultTranslations, createGetText, type AuthTexts } from './i18n.js'
 
 // Views
 export { default as AuthenticatedView } from './views/AuthenticatedView.svelte'

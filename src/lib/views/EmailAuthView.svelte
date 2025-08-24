@@ -4,14 +4,16 @@
   import Button from '../Button.svelte'
   import Input from '../Input.svelte'
   import type { SupabaseClient } from '@supabase/supabase-js'
+  import type { AuthTexts } from '../i18n.js'
 
   interface Props {
     supabaseClient: SupabaseClient
     view: 'sign_in' | 'sign_up'
     setView: (view: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password') => void
+    getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 
-  let { supabaseClient, view, setView }: Props = $props()
+  let { supabaseClient, view, setView, getText }: Props = $props()
 
   let error = $state('')
   let message = $state('')
@@ -43,19 +45,43 @@
 </script>
 
 <form onsubmit={(e) => { e.preventDefault(); submit(); }}>
-  <Input name="email" type="email" label="Email address" icon="mail" bind:value={email}/>
-  <Input name="password" type="password" label="Password" icon="key" bind:value={password}/>
+  <Input
+    name="email"
+    type="email"
+    label={getText('emailLabel')}
+    placeholder={getText('emailPlaceholder')}
+    icon="mail"
+    bind:value={email}
+  />
+  <Input
+    name="password"
+    type="password"
+    label={getText('passwordLabel')}
+    placeholder={getText('passwordPlaceholder')}
+    icon="key"
+    bind:value={password}
+  />
 
   {#if view == 'sign_up'}
-    <Button block primary size="large" {loading} icon="inbox">Sign up</Button>
+    <Button block primary size="large" {loading} icon="inbox">
+      {getText('signUpButton')}
+    </Button>
     <div class="links">
-      <LinkButton onclick={() => setView('magic_link')}>Sign in with magic link</LinkButton>
-      <LinkButton onclick={() => setView('sign_in')}>Do you have an account? Sign in</LinkButton>
+      <LinkButton onclick={() => setView('magic_link')}>
+        {getText('switchToMagicLink')}
+      </LinkButton>
+      <LinkButton onclick={() => setView('sign_in')}>
+        {getText('switchToSignIn')}
+      </LinkButton>
     </div>
   {:else}
-    <Button block primary size="large" {loading} icon="inbox">Sign in</Button>
+    <Button block primary size="large" {loading} icon="inbox">
+      {getText('signInButton')}
+    </Button>
     <div class="links">
-      <LinkButton onclick={() => setView('sign_up')}>Don't have an account? Sign up</LinkButton>
+      <LinkButton onclick={() => setView('sign_up')}>
+        {getText('switchToSignUp')}
+      </LinkButton>
     </div>
   {/if}
 

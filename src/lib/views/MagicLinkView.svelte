@@ -4,13 +4,15 @@
   import Button from '../Button.svelte'
   import Input from '../Input.svelte'
   import type { SupabaseClient } from '@supabase/supabase-js'
+  import type { AuthTexts } from '../i18n.js'
 
   interface Props {
     supabaseClient: SupabaseClient
     setView: (view: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password') => void
+    getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 
-  let { supabaseClient, setView }: Props = $props()
+  let { supabaseClient, setView, getText }: Props = $props()
 
   let error = $state('')
   let message = $state('')
@@ -27,17 +29,28 @@
     if (err)
       error = err.message
     else
-      message = 'Check your email for the magic link.'
+      message = getText('magicLinkSent')
 
     loading = false
   }
 </script>
 
 <form onsubmit={(e) => { e.preventDefault(); submit(); }}>
-  <Input name="email" type="email" label="Email address" placeholder="Your email address" icon="mail" bind:value={email}/>
-  <Button block primary size="large" {loading} icon="inbox">Send magic link</Button>
+  <Input
+    name="email"
+    type="email"
+    label={getText('emailLabel')}
+    placeholder={getText('emailPlaceholder')}
+    icon="mail"
+    bind:value={email}
+  />
+  <Button block primary size="large" {loading} icon="inbox">
+    {getText('magicLinkButton')}
+  </Button>
 
-  <LinkButton onclick={() => setView('sign_in')}>Sign in with password</LinkButton>
+  <LinkButton onclick={() => setView('sign_in')}>
+    {getText('switchToPassword')}
+  </LinkButton>
 
   {#if message}
     <Text>{message}</Text>
