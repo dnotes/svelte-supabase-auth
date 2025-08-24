@@ -8,13 +8,16 @@
   import { defaultTranslations } from '$lib/i18n/index'
 
   let locale = $state('en')
+
+  import { languages } from './languages'
+  console.log(languages)
 </script>
 
 <div class="mx-auto mt-6 md:mt-48 w-120 max-w-full p-5">
   <div class="flex">
     {#each Object.keys(defaultTranslations) as lc}
-    <label class="flex items-center px-2 text-xs relative overflow-hidden {locale == lc ? 'font-bold text-sky-500' : 'text-stone-500'}">
-      {lc}
+    <label class="flex items-center px-2 text-xs relative overflow-hidden cursor-pointer {locale == lc ? 'font-bold text-sky-500' : 'text-stone-500'}">
+      {languages?.[lc] || lc}
       <input class="absolute -ml-50" type="radio" name="locale" value={lc} bind:group={locale}>
     </label>
     {/each}
