@@ -29,8 +29,10 @@ export const chineseTranslations: AuthTexts = {
   socialSignUpWith: '使用',
 
   // Authenticated view
-  lastLogin: '上次登录',
+  lastLogin: '上次登录：{time}',
   loggedIn: '您已登录。',
+  loggedInTime: '上次登录：{time}',
+  loggedInEmail: '邮箱：{email}',
   signOutButton: '退出登录',
 }
 

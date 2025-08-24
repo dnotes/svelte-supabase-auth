@@ -29,8 +29,9 @@ export interface AuthTexts {
   socialSignUpWith?: string
 
   // Authenticated view
-  lastLogin?: string
   loggedIn?: string
+  loggedInTime?: string
+  loggedInEmail?: string
   signOutButton?: string
 }
 
@@ -66,7 +67,8 @@ export const defaultTranslations: Record<string, AuthTexts> = {
 
     // Authenticated view
     loggedIn: 'You are logged in.',
-    lastLogin: 'Last login',
+    loggedInTime: 'Last login: {time}',
+    loggedInEmail: 'Email: {email}',
     signOutButton: 'Sign out',
   }
 }
@@ -87,6 +89,19 @@ export function addTranslations(locale: string, translations: AuthTexts) {
  * 3. Built-in translations based on locale
  * 4. Fallback to English
  */
+/**
+ * Simple interpolation function that replaces {key} placeholders with values
+ * @param template - String template with {key} placeholders
+ * @param params - Object with values to substitute
+ */
+function interpolate(template: string, params?: Record<string, any>): string {
+  if (!params) return template
+
+  return template.replace(/\{(\w+)\}/g, (match, key) => {
+    return params[key] !== undefined ? String(params[key]) : match
+  })
+}
+
 export function createGetText(
   locale: string = 'en',
   texts?: Partial<AuthTexts>,
@@ -94,14 +109,15 @@ export function createGetText(
 ) {
   return function getText(key: string | number | symbol, params?: Record<string, any>): string {
     const keyStr = String(key)
+    let result: string
 
     // Priority 1: User-provided t() function (existing i18n)
     if (t) {
       try {
-        const result = t(`auth.${keyStr}`, params)
+        result = t(`auth.${keyStr}`, params)
         // Only use if it's not the same as the key (indicates translation found)
         if (result !== `auth.${keyStr}`) {
-          return result
+          return result // External i18n handles its own interpolation
         }
       } catch (error) {
         // Continue to next priority if t() fails
@@ -110,23 +126,27 @@ export function createGetText(
 
     // Priority 2: User text overrides
     if (texts && texts[keyStr as keyof AuthTexts]) {
-      return texts[keyStr as keyof AuthTexts]!
+      result = texts[keyStr as keyof AuthTexts]!
+      return interpolate(result, params)
     }
 
-            // Priority 3: Built-in translations based on locale
+    // Priority 3: Built-in translations based on locale
     if (defaultTranslations[locale] && defaultTranslations[locale][keyStr as keyof AuthTexts]) {
-      return defaultTranslations[locale][keyStr as keyof AuthTexts]!
+      result = defaultTranslations[locale][keyStr as keyof AuthTexts]!
+      return interpolate(result, params)
     }
 
     // Priority 3.5: Language fallback - try base language code (first 2 characters)
     const baseLanguage = locale.substring(0, 2)
     if (baseLanguage !== locale && defaultTranslations[baseLanguage] && defaultTranslations[baseLanguage][keyStr as keyof AuthTexts]) {
-      return defaultTranslations[baseLanguage][keyStr as keyof AuthTexts]!
+      result = defaultTranslations[baseLanguage][keyStr as keyof AuthTexts]!
+      return interpolate(result, params)
     }
 
     // Priority 4: Fallback to English
     if (defaultTranslations.en[keyStr as keyof AuthTexts]) {
-      return defaultTranslations.en[keyStr as keyof AuthTexts]!
+      result = defaultTranslations.en[keyStr as keyof AuthTexts]!
+      return interpolate(result, params)
     }
 
     // Ultimate fallback: return the key itself

@@ -18,7 +18,7 @@
   let loading = $state(false)
   let error = $state('')
 
-  const dateDisplay = $derived(user?.last_sign_in_at ? new Date(user?.last_sign_in_at).toLocaleString(locale) : '')
+  const time = $derived(user?.last_sign_in_at ? new Date(user?.last_sign_in_at).toLocaleString(locale) : '')
 
   async function handleSignOut() {
     loading = true
@@ -41,10 +41,10 @@
       <p dir="auto">
         {getText('loggedIn')}
         {#if user?.last_sign_in_at}
-          <br/>{getText('lastLogin')} {dateDisplay}
+          <br/>{getText('loggedInTime', { time })}
         {/if}
         {#if user?.email}
-          <br/>{getText('emailLabel')} {user?.email}
+          <br/>{getText('loggedInEmail', { email: user?.email ?? ''})}
         {/if}
       </p>
     {/if}

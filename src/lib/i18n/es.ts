@@ -28,8 +28,10 @@ export const spanishTranslations: AuthTexts = {
   socialSignUpWith: 'Registrarse con',
 
   // Authenticated view
-  lastLogin: 'Último acceso',
+  lastLogin: 'Último acceso: {time}',
   loggedIn: 'Estás conectado.',
+  loggedInTime: 'Último acceso: {time}',
+  loggedInEmail: 'Correo: {email}',
   signOutButton: 'Cerrar sesión',
 }
 

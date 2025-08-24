@@ -29,8 +29,10 @@ export const frenchTranslations: AuthTexts = {
   socialSignUpWith: "S'inscrire avec",
 
   // Authenticated view
-  lastLogin: 'Dernière connexion',
+  lastLogin: 'Dernière connexion : {time}',
   loggedIn: 'Vous êtes connecté.',
+  loggedInTime: 'Dernière connexion : {time}',
+  loggedInEmail: 'E-mail : {email}',
   signOutButton: 'Se déconnecter',
 }
 
