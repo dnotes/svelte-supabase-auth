@@ -9,7 +9,7 @@
     supabaseClient: SupabaseClient
     user: User|null
     locale?: string
-    loggedInAs?: Snippet<[User]>|undefined
+    loggedInAs?: Snippet<[User|null]>|undefined
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 
@@ -33,24 +33,20 @@
   }
 </script>
 
-{#snippet defaultLoggedInAs(user:User|null)}
-  <p>
-    {getText('loggedIn')}
-    {#if user?.last_sign_in_at}
-      <br/>{getText('lastLogin')} {dateDisplay}
-    {/if}
-    {#if user?.email}
-      <br/>{getText('emailLabel')} {user?.email}
-    {/if}
-  </p>
-{/snippet}
-
 <div class="supabase-auth-authenticated-view">
   <div class="supabase-auth-user-info">
-    {#if loggedInAs && user}
+    {#if loggedInAs}
       {@render loggedInAs(user)}
     {:else}
-      {@render defaultLoggedInAs(user)}
+      <p dir="auto">
+        {getText('loggedIn')}
+        {#if user?.last_sign_in_at}
+          <br/>{getText('lastLogin')} {dateDisplay}
+        {/if}
+        {#if user?.email}
+          <br/>{getText('emailLabel')} {user?.email}
+        {/if}
+      </p>
     {/if}
   </div>
 
