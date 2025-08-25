@@ -13,7 +13,7 @@
     socialButtonSize?: 'tiny' | 'small' | 'medium' | 'large'
     providers?: Provider[]
     view?: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password'
-    loggedInAs?: Snippet<[User]>
+    loggedInAs?: Snippet<[User|null]>
 
     // Internationalization
     texts?: Partial<AuthTexts>
