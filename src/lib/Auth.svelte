@@ -75,40 +75,35 @@
   })
 </script>
 
-<div class="component {classes}" {style}>
-  <div class="container">
-    {#if user && !user.is_anonymous}
-      <AuthenticatedView {supabaseClient} {user} {loggedInAs} {getText} {locale} />
-    {:else if loading}
-      <div class="supabase-auth-loading"></div>
-    {:else}
-      <SocialAuthView
-        {supabaseClient}
-        {providers}
-        {socialLayout}
-        {socialButtonSize}
-        {socialColors}
-        {view}
-        {getText}
-      />
+<div class="supabase-auth {classes}" {style}>
+  {#if user && !user.is_anonymous}
+    <AuthenticatedView {supabaseClient} {user} {loggedInAs} {getText} {locale} />
+  {:else if loading}
+    <div class="supabase-auth-loading"></div>
+  {:else}
+    <SocialAuthView
+      {supabaseClient}
+      {providers}
+      {socialLayout}
+      {socialButtonSize}
+      {socialColors}
+      {view}
+      {getText}
+    />
 
-      {#if view == 'sign_in' || view == 'sign_up'}
-        <EmailAuthView {supabaseClient} {view} {setView} {getText}/>
-      {:else if view == 'magic_link'}
-        <MagicLinkView {supabaseClient} {setView} {getText}/>
-      {:else if view == 'forgotten_password'}
-        <ForgottenPasswordView {supabaseClient} {setView} {getText}/>
-      {/if}
+    {#if view == 'sign_in' || view == 'sign_up'}
+      <EmailAuthView {supabaseClient} {view} {setView} {getText}/>
+    {:else if view == 'magic_link'}
+      <MagicLinkView {supabaseClient} {setView} {getText}/>
+    {:else if view == 'forgotten_password'}
+      <ForgottenPasswordView {supabaseClient} {setView} {getText}/>
     {/if}
-  </div>
+  {/if}
 </div>
 
 <style>
-  .component {
+  .supabase-auth {
     width: 100%;
-  }
-
-  .container {
     display: flex;
     flex-direction: column;
   }

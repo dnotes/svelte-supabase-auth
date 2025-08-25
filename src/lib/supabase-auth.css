@@ -1,0 +1,88 @@
+/* Supabase Auth UI Default Styles */
+/* Import this CSS file if you want to use the default visual styling */
+
+.supabase-auth button {
+  color: #444;
+  text-shadow: 0px 0px 4px rgb(38 111 78 / 50%);
+  background: none;
+  border-color: rgba(224, 224, 224);
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  text-align: center;
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  border-radius: 0.25rem;
+  font-family: inherit;
+  font-weight: inherit;
+}
+
+.supabase-auth button.primary {
+  background: rgba(101, 217, 165);
+  border-color: transparent;
+  color: white;
+}
+
+.supabase-auth button.large {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.supabase-auth button.medium {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+/* LinkButton styles */
+.supabase-auth button:is([onclick]) {
+  cursor: pointer;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: rgba(62, 207, 142);
+}
+
+/* Input styles */
+.supabase-auth label {
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.supabase-auth input {
+  font-size: 0.9rem;
+  font-weight: 300;
+  background: transparent;
+  border-radius: 0.375rem;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ccc;
+  box-sizing: border-box;
+}
+
+.supabase-auth .icon {
+  color: #ccc;
+}
+
+.supabase-auth .input {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+/* Text styles */
+.supabase-auth .danger {
+  color: rgba(245, 101, 101);
+}
+
+/* View-specific styles */
+.supabase-auth .divider {
+  color: rgb(187, 187, 187);
+  font-size: 80%;
+}
+
+.supabase-auth .divider::before,
+.supabase-auth .divider::after {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  top: 50%;
+}

@@ -11,7 +11,5 @@
 </span>
 
 <style>
-  .danger {
-    color: rgba(245, 101, 101)
-  }
+  /* Layout-only styles - no visual styling */
 </style>
