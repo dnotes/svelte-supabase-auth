@@ -1,13 +1,13 @@
 <script lang="ts">
   import { KeyIcon, MailIcon, InboxIcon } from 'svelte-feather-icons'
-  import GoogleIcon from './social-icons/GoogleIcon.svelte'
-  import FacebookIcon from './social-icons/FacebookIcon.svelte'
-  import TwitterIcon from './social-icons/TwitterIcon.svelte'
-  import GithubIcon from './social-icons/GithubIcon.svelte'
-  import GitlabIcon from './social-icons/GitlabIcon.svelte'
-  import BitbucketIcon from './social-icons/BitbucketIcon.svelte'
-  import AzureIcon from './social-icons/AzureIcon.svelte'
-  import DiscordIcon from './social-icons/DiscordIcon.svelte'
+  import GoogleIcon from '../social-icons/GoogleIcon.svelte'
+  import FacebookIcon from '../social-icons/FacebookIcon.svelte'
+  import TwitterIcon from '../social-icons/TwitterIcon.svelte'
+  import GithubIcon from '../social-icons/GithubIcon.svelte'
+  import GitlabIcon from '../social-icons/GitlabIcon.svelte'
+  import BitbucketIcon from '../social-icons/BitbucketIcon.svelte'
+  import AzureIcon from '../social-icons/AzureIcon.svelte'
+  import DiscordIcon from '../social-icons/DiscordIcon.svelte'
 
   const map = {
     mail: MailIcon,

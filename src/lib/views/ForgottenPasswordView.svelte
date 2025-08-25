@@ -1,8 +1,8 @@
 <script lang="ts">
-  import LinkButton from '../LinkButton.svelte'
-  import Text from '../Text.svelte'
-  import Button from '../Button.svelte'
-  import Input from '../Input.svelte'
+  import LinkButton from '../elements/LinkButton.svelte'
+  import Text from '../elements/Text.svelte'
+  import Button from '../elements/Button.svelte'
+  import Input from '../elements/Input.svelte'
   import type { SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
 
