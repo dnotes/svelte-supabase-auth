@@ -71,6 +71,7 @@
 
   <div class="providers" class:horizontal={socialLayout == 'horizontal'}>
     {#each providers as provider}
+      {@const providerName = provider.charAt(0).toUpperCase() + provider.slice(1)}
       <Button
         block
         shadow
@@ -80,7 +81,7 @@
         onclick={() => handleProviderSignIn(provider)}
       >
         {#if socialLayout == 'vertical'}
-          {view == 'sign_up' ? getText('socialSignUpWith') : getText('socialSignInWith')} {provider}
+          {view == 'sign_up' ? getText('socialSignUpWith', {provider: providerName}) : getText('socialSignInWith', {provider: providerName})}
         {/if}
       </Button>
     {/each}
@@ -107,12 +108,11 @@
 
   .divider {
     color: rgb(187, 187, 187);
-    margin: 1rem 0;
     width: 100%;
     display: flex;
     align-items: center;
     white-space: nowrap;
-    font-size: 0.9rem;
+    font-size: 80%;
   }
 
   .divider span {
@@ -130,9 +130,6 @@
   }
 
   .heading {
-    font-weight: 500;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
     margin: 0 0 0.5rem 0;
   }
 </style>
