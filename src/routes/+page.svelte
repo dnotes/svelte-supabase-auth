@@ -21,6 +21,6 @@
     </label>
     {/each}
   </div>
-  <Auth {supabaseClient} {locale}>
+  <Auth {supabaseClient} {locale} providers={['apple', 'google', 'github']}>
   </Auth>
 </div>
