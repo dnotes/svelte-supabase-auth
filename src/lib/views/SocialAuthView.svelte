@@ -3,6 +3,7 @@
   import Text from '../elements/Text.svelte'
   import type { Provider, SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
+  import type { AuthViews } from '$lib/Auth.svelte';
 
   interface Props {
     supabaseClient: SupabaseClient
@@ -10,7 +11,7 @@
     socialLayout: 'vertical' | 'horizontal'
     socialButtonSize: 'tiny' | 'small' | 'medium' | 'large'
     socialColors: boolean
-    view: 'sign_in' | 'sign_in_with_password' | 'forgotten_password'
+    view: AuthViews
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 

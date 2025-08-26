@@ -33,6 +33,29 @@ export interface AuthTexts {
   loggedInTime?: string
   loggedInEmail?: string
   signOutButton?: string
+
+  // MFA Challenge
+  mfaChallenge?: string
+  mfaChallengeDescription?: string
+  totpCode?: string
+  verifyCode?: string
+
+  // MFA Enrollment/Management
+  mfaEnrollment?: string
+  enrollMFA?: string
+  totpSetup?: string
+  totpSetupDescription?: string
+  scanQRCode?: string
+  enterSecret?: string
+  verifySetup?: string
+  mfaFactors?: string
+  noFactorsEnrolled?: string
+  factorName?: string
+  factorType?: string
+  factorStatus?: string
+  enrollNewFactor?: string
+  unenrollFactor?: string
+  confirmUnenroll?: string
 }
 
 
@@ -68,6 +91,29 @@ export const defaultTranslations: Record<string, AuthTexts> = {
     loggedInTime: 'Last login: {time}',
     loggedInEmail: 'Email: {email}',
     signOutButton: 'Sign out',
+
+    // MFA Challenge
+    mfaChallenge: 'Multi-Factor Authentication',
+    mfaChallengeDescription: 'Enter the verification code from your authenticator app',
+    totpCode: 'Verification code',
+    verifyCode: 'Verify',
+
+    // MFA Enrollment/Management
+    mfaEnrollment: 'Two-Factor Authentication',
+    enrollMFA: 'Set up MFA',
+    totpSetup: 'Set up Authenticator App',
+    totpSetupDescription: 'Scan the QR code with your authenticator app, then enter the verification code below',
+    scanQRCode: 'Scan this QR code with your authenticator app',
+    enterSecret: 'Or enter this secret manually: {secret}',
+    verifySetup: 'Verify Setup',
+    mfaFactors: 'Your authentication methods',
+    noFactorsEnrolled: 'No authentication methods set up',
+    factorName: 'Factor Name',
+    factorType: 'Type',
+    factorStatus: 'Status',
+    enrollNewFactor: 'Add new factor',
+    unenrollFactor: 'Remove',
+    confirmUnenroll: 'Are you sure you want to remove this authentication method?',
   }
 }
 

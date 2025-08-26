@@ -22,6 +22,11 @@ enabled = true
 site_url = "http://localhost:5173"
 enable_signup = true
 
+[auth.mfa.totp]
+enroll_enabled = true
+verify_enabled = true
+
+
 [auth.email]
 enable_signup = true
 enable_confirmations = true

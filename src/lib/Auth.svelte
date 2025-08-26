@@ -5,6 +5,12 @@
   import InputWrapper from './elements/InputWrapper.svelte'
   import { SUPABASE_AUTH_DEFAULTS, type SupabaseAuthOptions } from './options'
 
+  export type AuthViews =
+    | 'sign_in'
+    | 'sign_in_with_password'
+    | 'forgotten_password'
+    | 'mfa_management'
+
   // Auth component props interface
   export interface AuthProps {
     supabaseClient: SupabaseClient
@@ -14,7 +20,7 @@
     socialColors?: boolean
     socialButtonSize?: 'tiny' | 'small' | 'medium' | 'large'
     providers?: Provider[]
-    view?: 'sign_in' | 'sign_in_with_password' | 'forgotten_password'
+    view?: AuthViews
     loggedInAs?: Snippet<[User|null]>
     authOptions?: SupabaseAuthOptions
 
@@ -33,6 +39,7 @@
   import SocialAuthView from './views/SocialAuthView.svelte'
   import ForgottenPasswordView from './views/ForgottenPasswordView.svelte'
   import AuthenticatedView from './views/AuthenticatedView.svelte'
+  import AuthenticatedMFAView from './views/AuthenticatedMFAView.svelte'
   import { onMount } from 'svelte'
   import { createGetText } from './i18n'
   import { defaultsDeep } from 'lodash-es'
@@ -62,7 +69,7 @@
   // Create the getText function with current settings
   const getText = $derived(createGetText(locale, texts, t))
 
-  function setView(newView: 'sign_in' | 'sign_in_with_password' | 'forgotten_password') {
+  function setView(newView:AuthViews) {
     view = newView
   }
 
@@ -87,7 +94,24 @@
 
 <div dir="auto" class="supabase-auth {classes}" {style}>
   {#if user && !user.is_anonymous}
-    <AuthenticatedView {supabaseClient} {user} {loggedInAs} {getText} {locale} />
+    {#if view == 'mfa_management'}
+      <AuthenticatedMFAView
+        InputWrapper={Wrapper ?? InputWrapper}
+        {supabaseClient}
+        {getText}
+        onComplete={() => setView('sign_in')}
+      />
+    {:else}
+      <AuthenticatedView
+        {supabaseClient}
+        {user}
+        {loggedInAs}
+        {getText}
+        {locale}
+        authOptions={opts}
+        {setView}
+      />
+    {/if}
   {:else if loading}
     <div class="supabase-auth-loading"></div>
   {:else}

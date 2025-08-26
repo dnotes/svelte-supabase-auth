@@ -6,11 +6,12 @@
   import type { AuthTexts } from '../i18n'
   import type { SupabaseAuthOptions } from '../options'
   import InputWrapper from '$lib/elements/InputWrapper.svelte';
+  import type { AuthViews } from '$lib/Auth.svelte';
 
   interface Props {
     InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
-    setView: (view: 'sign_in' | 'sign_in_with_password' | 'forgotten_password') => void
+    setView: (view: AuthViews) => void
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
     authOptions: SupabaseAuthOptions
     view: 'sign_in' | 'sign_in_with_password'

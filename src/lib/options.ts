@@ -46,6 +46,10 @@
  *  OTP lifetime in seconds (default 1 hour). Shorten for higher security.
  *
  * @property {Object} [auth.mfa]
+ * @property {boolean} [auth.mfa.required=false]
+ *  Require new users to enroll MFA after account creation. When true, users must set up MFA before accessing the app.
+ *  This is ONLY a setting for this UI library, not for Supabase.
+ *
  * @property {Object} [auth.mfa.totp]
  * @property {boolean} [auth.mfa.totp.enroll_enabled=true]
  *  Allow users to enroll a TOTP factor (e.g., Authenticator app).
@@ -101,6 +105,7 @@ export const SUPABASE_AUTH_DEFAULTS = {
 
     // --- MFA (TOTP) ---
     mfa: {
+      required: false,
       totp: {
         enroll_enabled: true,
         verify_enabled: true,
