@@ -3,16 +3,12 @@
 
 .supabase-auth button {
   color: inherit;
-  text-shadow: 0px 0px 4px rgb(38 111 78 / 50%);
   background: none;
   border-color: var(--layout-color);
   border-style: solid;
   border-width: 1px;
   cursor: pointer;
   text-align: center;
-  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
   border-radius: 0.25rem;
   font-family: inherit;
   font-weight: inherit;
