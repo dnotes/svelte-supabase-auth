@@ -10,7 +10,7 @@
     socialLayout: 'vertical' | 'horizontal'
     socialButtonSize: 'tiny' | 'small' | 'medium' | 'large'
     socialColors: boolean
-    view: 'sign_in' | 'forgotten_password'
+    view: 'sign_in' | 'sign_in_with_password' | 'forgotten_password'
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 

@@ -10,22 +10,23 @@
   interface Props {
     InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
-    setView: (view: 'sign_in' | 'forgotten_password') => void
+    setView: (view: 'sign_in' | 'sign_in_with_password' | 'forgotten_password') => void
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
     authOptions: SupabaseAuthOptions
+    view: 'sign_in' | 'sign_in_with_password'
   }
 
-  let { InputWrapper:Wrapper, supabaseClient, setView, getText, authOptions }: Props = $props()
+  let { InputWrapper:Wrapper, supabaseClient, setView, getText, authOptions, view }: Props = $props()
 
   let error = $state('')
   let message = $state('')
   let loading = $state(false)
   let email = $state('')
   let password = $state('')
-  let usePassword = $state(false) // Default to magic link flow
 
   // Computed properties for auth options
   const canSignUp = $derived(authOptions.auth.enable_signup && authOptions.auth.email?.enable_signup)
+  const usePassword = $derived(view === 'sign_in_with_password')
 
   async function submitMagicLink() {
     error = ''
@@ -65,13 +66,31 @@
   }
 </script>
 
+{#snippet emailLinks()}
+  {#if !usePassword}
+    <LinkButton onclick={() => setView('sign_in_with_password')}>
+      {getText('switchToPassword')}
+    </LinkButton>
+  {:else}
+    <LinkButton onclick={() => setView('sign_in')}>
+      {getText('switchToMagicLink')}
+    </LinkButton>
+  {/if}
+{/snippet}
+
+{#snippet resetPasswordLink()}
+  <LinkButton onclick={() => setView('forgotten_password')}>
+    {getText('resetPassword')}
+  </LinkButton>
+{/snippet}
+
 <form>
-  <Wrapper name="email" label={getText('emailLabel')} icon="mail">
+  <Wrapper name="email" label={getText('emailLabel')} icon="mail" links={emailLinks}>
     <input type="email" name="email" bind:value={email}>
   </Wrapper>
 
   {#if usePassword}
-    <Wrapper name="password" label={getText('passwordLabel')} icon="key">
+    <Wrapper name="password" label={getText('passwordLabel')} icon="key" links={resetPasswordLink}>
       <input type="password" name="password" bind:value={password}>
     </Wrapper>
   {/if}
@@ -94,22 +113,6 @@
     {/if}
   {/if}
 
-  <div class="links">
-    {#if !usePassword}
-      <LinkButton onclick={() => usePassword = true}>
-        {getText('switchToPassword')}
-      </LinkButton>
-    {:else}
-      <LinkButton onclick={() => usePassword = false}>
-        {getText('switchToMagicLink')}
-      </LinkButton>
-
-      <LinkButton onclick={() => setView('forgotten_password')}>
-        {getText('resetPassword')}
-      </LinkButton>
-    {/if}
-  </div>
-
   {#if message}
     <Text>{message}</Text>
   {/if}
@@ -119,16 +122,3 @@
   {/if}
 </form>
 
-<style>
-  form {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .links {
-    display: flex;
-    flex-direction: column;
-    margin: 1rem 0;
-    gap: 0.5rem;
-  }
-</style>

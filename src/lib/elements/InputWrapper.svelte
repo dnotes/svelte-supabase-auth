@@ -6,12 +6,13 @@
     label: string
     icon?: string | null
     children: Snippet<[]>
+    links?: Snippet<[]>
   }
 </script>
 
 <script lang="ts">
   import Icon from "./Icon.svelte";
-  let { name, label, icon, children }: InputWrapperProps = $props()
+  let { name, label, icon, children, links }: InputWrapperProps = $props()
 </script>
 
 <div class="supabase-auth-field">
@@ -29,15 +30,16 @@
 
     </div>
   </label>
+  {#if links}
+    <div class="links">
+      {@render links?.()}
+    </div>
+  {/if}
 </div>
 
 <style>
-  .supabase-auth-field {
-    margin-bottom: 5px;
-  }
   label {
     display: block;
-    margin-bottom: 0.5rem;
   }
   label>span {
     display: block;
@@ -51,5 +53,9 @@
   .input {
     position: relative;
     display: flex;
+  }
+  .links {
+    display: flex;
+    gap: 0.5rem;
   }
 </style>

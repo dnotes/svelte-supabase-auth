@@ -100,11 +100,13 @@ function interpolate(template: string, params?: Record<string, any>): string {
   })
 }
 
+export type GetText = (key: string | number | symbol, params?: Record<string, any>) => string
+
 export function createGetText(
   locale: string = 'en',
   texts?: Partial<AuthTexts>,
   t?: (key: string, params?: Record<string, any>) => string
-) {
+):GetText {
   return function getText(key: string | number | symbol, params?: Record<string, any>): string {
     const keyStr = String(key)
     let result: string

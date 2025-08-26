@@ -14,7 +14,7 @@
     socialColors?: boolean
     socialButtonSize?: 'tiny' | 'small' | 'medium' | 'large'
     providers?: Provider[]
-    view?: 'sign_in' | 'forgotten_password'
+    view?: 'sign_in' | 'sign_in_with_password' | 'forgotten_password'
     loggedInAs?: Snippet<[User|null]>
     authOptions?: SupabaseAuthOptions
 
@@ -62,7 +62,7 @@
   // Create the getText function with current settings
   const getText = $derived(createGetText(locale, texts, t))
 
-  function setView(newView: 'sign_in' | 'forgotten_password') {
+  function setView(newView: 'sign_in' | 'sign_in_with_password' | 'forgotten_password') {
     view = newView
   }
 
@@ -101,8 +101,8 @@
       {getText}
     />
 
-    {#if opts.auth.email && view == 'sign_in'}
-      <EmailAuthView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {setView} {getText} authOptions={opts}/>
+    {#if opts.auth.email && (view == 'sign_in' || view == 'sign_in_with_password')}
+      <EmailAuthView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {setView} {getText} authOptions={opts} {view}/>
     {:else if view == 'forgotten_password'}
       <ForgottenPasswordView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {setView} {getText}/>
     {/if}
