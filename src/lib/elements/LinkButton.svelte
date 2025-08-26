@@ -1,19 +1,19 @@
 <script lang="ts">
   interface Props {
-    small?: boolean
     block?: boolean
     class?: string
     children: ()=>any
     onclick?: () => void
   }
 
-  let { small, block, class:classText, onclick, children }: Props = $props()
+  let { block, class:classText, onclick, children }: Props = $props()
 </script>
 
-<button class:small class:block class="{classText}" type="button" onclick={(e) => { e.preventDefault(); onclick?.(); }}>{@render children()}</button>
+<button class:block class="{classText}" type="button" onclick={(e) => { e.preventDefault(); onclick?.(); }}>{@render children()}</button>
 
 <style>
   button {
+    text-align: match-parent;
     border: none;
     background: none;
     color: var(--link-color);

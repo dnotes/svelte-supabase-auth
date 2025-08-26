@@ -21,6 +21,7 @@
     providers?: Provider[]
     view?: AuthViews
     loggedInAs?: Snippet<[User|null]>
+    userInfo?: Snippet<[User|null]>
     authOptions?: PartialSupabaseAuthOptions
 
     // Components
@@ -53,6 +54,7 @@
     providers = [],
     view = 'sign_in',
     loggedInAs,
+    userInfo,
     InputWrapper:Wrapper,
     authOptions,
     texts,
@@ -104,6 +106,7 @@
       {locale}
       authOptions={opts}
       {setView}
+      {userInfo}
     />
   {:else if loading}
     <div class="sA-loading"></div>

@@ -11,6 +11,7 @@
   import type { SupabaseAuthOptions } from '../options'
   import type { AuthViews } from '$lib/Auth.svelte';
   import { messages } from '$lib/messages.svelte';
+  import Accordion from '$lib/components/Accordion.svelte';
 
   interface Props {
     InputWrapper: typeof InputWrapper
@@ -21,9 +22,10 @@
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
     authOptions: SupabaseAuthOptions
     setView: (view: AuthViews) => void
+    userInfo?: Snippet<[User|null]>
   }
 
-  let { InputWrapper: Wrapper, supabaseClient, user, loggedInAs, getText, locale, authOptions, setView }: Props = $props()
+  let { InputWrapper: Wrapper, supabaseClient, user, loggedInAs, getText, locale, authOptions, setView, userInfo }: Props = $props()
 
   let loading = $state(false)
   let mfaRequired = $state(false)
@@ -214,10 +216,13 @@
       {/if}
     </div>
 
+    {#if userInfo}
+      {@render userInfo(user)}
+    {/if}
+
     <!-- MFA Factors List -->
     {#if authOptions.auth.mfa.totp.enroll_enabled}
-      <div>
-        <h3>{getText('mfaFactorListHeading')}</h3>
+      <Accordion title={getText('mfaFactorListHeading') + ` (${verifiedFactors.length})${verifiedFactors.length === 1 ? ' ⚠️' : ''}`}>
 
         {#if factors.length === 0}
           <p>{getText('mfaNoFactorsText')}</p>
@@ -247,7 +252,7 @@
         <LinkButton block onclick={() => showAddMFA = true}>
           {getText('mfaAddFactorLink')}
         </LinkButton>
-      </div>
+      </Accordion>
     {/if}
 
     <Button
