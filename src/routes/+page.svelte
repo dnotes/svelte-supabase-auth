@@ -21,6 +21,21 @@
     </label>
     {/each}
   </div>
-  <Auth {supabaseClient} {locale} providers={['apple', 'google', 'github']}>
-  </Auth>
+  <div class="py-6 px-3 m-4 shadow-md rounded-lg bg-stone-200 dark:bg-stone-800">
+    <Auth {supabaseClient} {locale} providers={['apple', 'google', 'github']}>
+    </Auth>
+  </div>
 </div>
+
+<style lang="postcss">
+  @reference "tailwindcss";
+
+  :global(div.supabase-auth) {
+    --link-color: var(color-sky-500);
+    --layout-color: var(--color-stone-500);
+    --primary-color: var(--color-sky-500);
+    --primary-text-color: var(--color-stone-50);
+    --danger-color: var(--color-rose-500);
+  }
+
+</style>
