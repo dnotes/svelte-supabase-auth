@@ -2,6 +2,7 @@
   import type { SupabaseClient, Provider, User } from '@supabase/supabase-js'
   import type { Snippet } from 'svelte'
   import type { AuthTexts } from './i18n'
+  import InputWrapper from './elements/InputWrapper.svelte'
 
   // Auth component props interface
   export interface AuthProps {
@@ -14,6 +15,9 @@
     providers?: Provider[]
     view?: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password'
     loggedInAs?: Snippet<[User|null]>
+
+    // Components
+    InputWrapper?: typeof InputWrapper
 
     // Internationalization
     texts?: Partial<AuthTexts>
@@ -41,6 +45,7 @@
     providers = [],
     view = 'sign_in',
     loggedInAs,
+    InputWrapper:Wrapper,
     texts,
     locale = 'en',
     t,
@@ -75,7 +80,7 @@
   })
 </script>
 
-<div class="supabase-auth {classes}" {style}>
+<div dir="auto" class="supabase-auth {classes}" {style}>
   {#if user && !user.is_anonymous}
     <AuthenticatedView {supabaseClient} {user} {loggedInAs} {getText} {locale} />
   {:else if loading}
@@ -92,11 +97,11 @@
     />
 
     {#if view == 'sign_in' || view == 'sign_up'}
-      <EmailAuthView {supabaseClient} {view} {setView} {getText}/>
+      <EmailAuthView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {view} {setView} {getText}/>
     {:else if view == 'magic_link'}
-      <MagicLinkView {supabaseClient} {setView} {getText}/>
+      <MagicLinkView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {setView} {getText}/>
     {:else if view == 'forgotten_password'}
-      <ForgottenPasswordView {supabaseClient} {setView} {getText}/>
+      <ForgottenPasswordView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {setView} {getText}/>
     {/if}
   {/if}
 </div>
@@ -106,5 +111,18 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+  }
+  :global(.supabase-auth) {
+    --input-padding: 5px 3px 5px 35px;
+    --link-color: blue;
+    --layout-color: #ccc;
+    --primary-color: rgba(101, 217, 165);
+    --primary-text-color: #fff;
+    --danger-color: rgba(245, 101, 101);
+  }
+  :global(.supabase-auth input) {
+    display: block;
+    width: 100%;
+    padding: var(--input-padding);
   }
 </style>

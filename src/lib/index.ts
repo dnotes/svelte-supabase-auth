@@ -2,7 +2,7 @@
 export { default as Auth, type AuthProps } from './Auth.svelte'
 export { default as Button } from './elements/Button.svelte'
 export { default as Icon } from './elements/Icon.svelte'
-export { default as Input } from './elements/Input.svelte'
+export { default as InputWrapper } from './elements/InputWrapper.svelte'
 export { default as LinkButton } from './elements/LinkButton.svelte'
 export { default as Text } from './elements/Text.svelte'
 

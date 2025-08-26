@@ -2,17 +2,18 @@
   import LinkButton from '../elements/LinkButton.svelte'
   import Text from '../elements/Text.svelte'
   import Button from '../elements/Button.svelte'
-  import Input from '../elements/Input.svelte'
   import type { SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
+  import InputWrapper from '$lib/elements/InputWrapper.svelte';
 
   interface Props {
+    InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
     setView: (view: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password') => void
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 
-  let { supabaseClient, setView, getText }: Props = $props()
+  let { InputWrapper:Wrapper, supabaseClient, setView, getText }: Props = $props()
 
   let error = $state('')
   let message = $state('')
@@ -36,14 +37,9 @@
 </script>
 
 <form onsubmit={(e) => { e.preventDefault(); submit(); }}>
-  <Input
-    name="email"
-    type="email"
-    label={getText('emailLabel')}
-    placeholder={getText('emailPlaceholder')}
-    icon="mail"
-    bind:value={email}
-  />
+  <Wrapper name="email" label={getText('emailLabel')} icon="mail">
+    <input type="email" name="email" bind:value={email}>
+  </Wrapper>
   <Button block primary size="large" {loading} icon="inbox">
     {getText('resetPassword')}
   </Button>

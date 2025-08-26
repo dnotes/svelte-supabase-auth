@@ -2,18 +2,19 @@
   import LinkButton from '../elements/LinkButton.svelte'
   import Text from '../elements/Text.svelte'
   import Button from '../elements/Button.svelte'
-  import Input from '../elements/Input.svelte'
   import type { SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
+  import InputWrapper from '$lib/elements/InputWrapper.svelte';
 
   interface Props {
+    InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
     view: 'sign_in' | 'sign_up'
     setView: (view: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password') => void
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 
-  let { supabaseClient, view, setView, getText }: Props = $props()
+  let { InputWrapper:Wrapper, supabaseClient, view, setView, getText }: Props = $props()
 
   let error = $state('')
   let message = $state('')
@@ -45,22 +46,12 @@
 </script>
 
 <form onsubmit={(e) => { e.preventDefault(); submit(); }}>
-  <Input
-    name="email"
-    type="email"
-    label={getText('emailLabel')}
-    placeholder={getText('emailPlaceholder')}
-    icon="mail"
-    bind:value={email}
-  />
-  <Input
-    name="password"
-    type="password"
-    label={getText('passwordLabel')}
-    placeholder={getText('passwordPlaceholder')}
-    icon="key"
-    bind:value={password}
-  />
+  <Wrapper name="email" label={getText('emailLabel')} icon="mail">
+    <input type="email" name="email" bind:value={email}>
+  </Wrapper>
+  <Wrapper name="password" label={getText('passwordLabel')} icon="key">
+    <input type="password" name="password" bind:value={password}>
+  </Wrapper>
 
   {#if view == 'sign_up'}
     <Button block primary size="large" {loading} icon="inbox">

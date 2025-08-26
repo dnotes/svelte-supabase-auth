@@ -5,7 +5,7 @@
   color: #444;
   text-shadow: 0px 0px 4px rgb(38 111 78 / 50%);
   background: none;
-  border-color: rgba(224, 224, 224);
+  border-color: var(--layout-color);
   border-style: solid;
   border-width: 1px;
   cursor: pointer;
@@ -19,7 +19,7 @@
 }
 
 .supabase-auth button.primary {
-  background: rgba(101, 217, 165);
+  background: var(--primary-color);
   border-color: transparent;
   color: white;
 }
@@ -39,7 +39,7 @@
   cursor: pointer;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: rgba(62, 207, 142);
+  color: var(--primary-color);
 }
 
 /* Input styles */
@@ -56,12 +56,12 @@
   border-radius: 0.375rem;
   border-style: solid;
   border-width: 1px;
-  border-color: #ccc;
+  border-color: var(--layout-color);
   box-sizing: border-box;
 }
 
 .supabase-auth .icon {
-  color: #ccc;
+  color: var(--layout-color);
 }
 
 .supabase-auth .input {
@@ -71,12 +71,12 @@
 
 /* Text styles */
 .supabase-auth .danger {
-  color: rgba(245, 101, 101);
+  color: var(--danger-color);
 }
 
 /* View-specific styles */
 .supabase-auth .divider {
-  color: rgb(187, 187, 187);
+  color: var(--layout-color);
   font-size: 80%;
 }
 
