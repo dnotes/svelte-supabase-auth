@@ -128,4 +128,9 @@
     width: 100%;
     padding: var(--input-padding);
   }
+  :global(.supabase-auth form) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
 </style>
