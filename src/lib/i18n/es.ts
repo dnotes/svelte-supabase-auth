@@ -24,11 +24,10 @@ export const spanishTranslations: AuthTexts = {
   socialSignInHeading: 'Iniciar sesión con',
   socialSignUpHeading: 'Registrarse con',
   socialDivider: 'o continuar con',
-  socialSignInWith: 'Iniciar sesión con',
-  socialSignUpWith: 'Registrarse con',
+  socialSignInWith: 'Iniciar sesión con {provider}',
+  socialSignUpWith: 'Registrarse con {provider}',
 
   // Authenticated view
-  lastLogin: 'Último acceso: {time}',
   loggedIn: 'Estás conectado.',
   loggedInTime: 'Último acceso: {time}',
   loggedInEmail: 'Correo: {email}',

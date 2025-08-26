@@ -25,11 +25,10 @@ export const chineseTranslations: AuthTexts = {
   socialSignInHeading: '使用以下方式登录',
   socialSignUpHeading: '使用以下方式注册',
   socialDivider: '或继续使用',
-  socialSignInWith: '使用',
-  socialSignUpWith: '使用',
+  socialSignInWith: '使用 {provider} 登录',
+  socialSignUpWith: '使用 {provider} 注册',
 
   // Authenticated view
-  lastLogin: '上次登录：{time}',
   loggedIn: '您已登录。',
   loggedInTime: '上次登录：{time}',
   loggedInEmail: '邮箱：{email}',
