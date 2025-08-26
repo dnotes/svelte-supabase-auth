@@ -43,6 +43,7 @@
   import { createGetText } from './i18n'
   import { defaultsDeep } from 'lodash-es'
   import { messages } from './messages.svelte'
+  import LinkButton from './elements/LinkButton.svelte';
 
   let {
     supabaseClient,
@@ -126,18 +127,17 @@
     {:else if view == 'forgotten_password'}
       <ForgottenPasswordView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {setView} {getText}/>
     {/if}
+  {/if}
 
-    {#if $messages.length}
-      <ul>
-        {#each $messages as message, i}
-          <li class="{message.type}">
-            <span>{message.message}</span>
-            <button type="button" class="danger" onclick={() => messages.drop(i)}>&cross;</button>
-          </li>
-        {/each}
-      </ul>
-    {/if}
-
+  {#if $messages.length}
+    <ul>
+      {#each $messages as message, i}
+        <li>
+          <span class="message {message.type}">{message.message}</span>
+          <LinkButton class="danger" onclick={() => messages.drop(i)}>&cross;</LinkButton>
+        </li>
+      {/each}
+    </ul>
   {/if}
 </div>
 
@@ -190,7 +190,7 @@
   :global(.sA ul li span) {
     flex: 1;
   }
-  :global(.sA .danger) {
+  :global(.sA .danger), :global(.sA .error) {
     color: var(--danger-color);
   }
   :global(.sA .warning) {
