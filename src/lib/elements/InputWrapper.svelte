@@ -15,7 +15,7 @@
   let { name, label, icon, children, links }: InputWrapperProps = $props()
 </script>
 
-<div class="supabase-auth-field">
+<div class="sA-field">
   <label for={name}>
     <span>{label}</span>
 

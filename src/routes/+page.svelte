@@ -45,7 +45,7 @@
     }
   }
 
-  :global(div.supabase-auth) {
+  :global(div.sA) {
     --link-color: var(--color-sky-500);
     --layout-color: var(--color-stone-500);
     --primary-color: var(--color-sky-500);

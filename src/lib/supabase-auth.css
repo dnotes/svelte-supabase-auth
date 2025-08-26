@@ -1,7 +1,7 @@
 /* Supabase Auth UI Default Styles */
 /* Import this CSS file if you want to use the default visual styling */
 
-.supabase-auth button {
+.sA button {
   color: inherit;
   background: none;
   border-color: var(--layout-color);
@@ -14,24 +14,24 @@
   font-weight: inherit;
 }
 
-.supabase-auth button.primary {
+.sA button.primary {
   background: var(--primary-color);
   border-color: transparent;
   color: var(--primary-text-color);
 }
 
-.supabase-auth button.large {
+.sA button.large {
   font-size: 1rem;
   line-height: 1.5rem;
 }
 
-.supabase-auth button.medium {
+.sA button.medium {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
 
 /* LinkButton styles */
-.supabase-auth button:is([onclick]) {
+.sA button:is([onclick]) {
   cursor: pointer;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -39,13 +39,13 @@
 }
 
 /* Input styles */
-.supabase-auth label {
+.sA label {
   font-weight: 500;
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
 
-.supabase-auth input {
+.sA input {
   font-size: 0.9rem;
   font-weight: 300;
   background: transparent;
@@ -56,46 +56,46 @@
   box-sizing: border-box;
 }
 
-.supabase-auth .icon {
+.sA .icon {
   color: var(--layout-color);
 }
 
-.supabase-auth button:hover .icon,
-.supabase-auth button:focus .icon,
-.supabase-auth button:active .icon,
-.supabase-auth label:has(input:focus) .icon,
-.supabase-auth label:has(input:active) .icon {
+.sA button:hover .icon,
+.sA button:focus .icon,
+.sA button:active .icon,
+.sA label:has(input:focus) .icon,
+.sA label:has(input:active) .icon {
   color: inherit;
 }
 
-.supabase-auth .primary .icon {
+.sA .primary .icon {
   color: var(--primary-text-color);
 }
 
-.supabase-auth .input {
+.sA .input {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
 
 /* Text styles */
-.supabase-auth .danger {
+.sA .danger {
   color: var(--danger-color);
 }
 
 /* View-specific styles */
-.supabase-auth .divider {
+.sA .divider {
   color: var(--layout-color);
   font-size: 80%;
 }
 
-.supabase-auth .divider::before,
-.supabase-auth .divider::after {
+.sA .divider::before,
+.sA .divider::after {
   border-bottom-style: solid;
   border-bottom-width: 1px;
   top: 50%;
 }
 
-.supabase-auth li {
+.sA li {
   font-size: 90%;
   border: 1px solid var(--layout-color);
   border-radius: 0.375rem;

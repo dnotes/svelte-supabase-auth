@@ -10,6 +10,7 @@
   import type { AuthTexts } from '../i18n'
   import type { SupabaseAuthOptions } from '../options'
   import type { AuthViews } from '$lib/Auth.svelte';
+  import { messages } from '$lib/messages.svelte';
 
   interface Props {
     InputWrapper: typeof InputWrapper
@@ -25,12 +26,12 @@
   let { InputWrapper: Wrapper, supabaseClient, user, loggedInAs, getText, locale, authOptions, setView }: Props = $props()
 
   let loading = $state(false)
-  let error = $state('')
   let mfaRequired = $state(false)
   let needsMFAChallenge = $state(false)
   let factors = $state<Factor[]>([])
   let verifiedFactors = $derived(factors.filter(factor => factor.status === 'verified'))
   let showAddMFA = $state(false)
+  let showNetworkError = $state(false)
 
   const time = $derived(user?.last_sign_in_at ? new Date(user?.last_sign_in_at).toLocaleString(locale) : '')
 
@@ -43,48 +44,73 @@
     if (!user || user.is_anonymous) {
       mfaRequired = false
       needsMFAChallenge = false
+      showNetworkError = false
       return
     }
 
     try {
-      // Check current AAL
-      const { data: aalData } = await supabaseClient.auth.mfa.getAuthenticatorAssuranceLevel()
-
       // Check if user has any enrolled factors
-      const { data: factorsData } = await supabaseClient.auth.mfa.listFactors()
+      const { data: factorsData, error: factorsError } = await supabaseClient.auth.mfa.listFactors()
 
-      if (!aalData || !factorsData) {
-        mfaRequired = false
-        needsMFAChallenge = false
-        return
+      if (factorsError) {
+        throw new Error(`Failed to load MFA factors: ${factorsError.message}`)
       }
 
-      factors = factorsData.all
+      factors = factorsData?.all ?? []
+
+      // Check current AAL
+      const { data: aalData, error: aalError } = await supabaseClient.auth.mfa.getAuthenticatorAssuranceLevel()
+
+      if (aalError) {
+        throw new Error(`Failed to check authentication level: ${aalError.message}`)
+      }
+
+      if (!aalData) {
+        throw new Error('Authentication level data not available')
+      }
 
       const hasVerifiedFactors = verifiedFactors.length > 0
       const isAAL1 = aalData.currentLevel === 'aal1'
       const canUpgradeToAAL2 = aalData.nextLevel === 'aal2'
 
-      // User needs MFA challenge if they have factors and are at AAL1 but can upgrade to AAL2
+      // AAL2 (Multi-Factor Authentication) behavior:
+      // - AAL2 expires after a session timeout (typically 1-2 hours of inactivity)
+      // - When AAL2 expires, user drops back to AAL1 but stays logged in
+      // - If user has MFA factors and is at AAL1 but can upgrade to AAL2, they need MFA challenge
+      // - This is normal behavior and not overly aggressive - users aren't challenged on every page load
+      // - Only challenged when their AAL2 has actually expired due to timeout
       needsMFAChallenge = hasVerifiedFactors && isAAL1 && canUpgradeToAAL2
 
       // User needs to enroll MFA if they're new, have no verified factors, and MFA is required
       const isNewUser = !hasVerifiedFactors
-      mfaRequired = isNewUser && authOptions?.auth?.mfa?.required || false
+      mfaRequired = isNewUser && authOptions.auth.mfa.required || false
+
+      // Clear any previous network errors
+      showNetworkError = false
+
     } catch (error) {
-      console.error('Error checking MFA status:', error)
-      mfaRequired = false
-      needsMFAChallenge = false
+      console.warn('MFA status check failed:', error)
+
+      // If we have verified factors but can't check AAL, show MFA challenge
+      // This allows users to still authenticate even if AAL check fails
+      if (verifiedFactors.length > 0) {
+        needsMFAChallenge = true
+        mfaRequired = false
+        showNetworkError = false
+      } else {
+        // If we can't determine anything, show network error with options
+        showNetworkError = true
+      }
     }
   }
 
   async function handleSignOut() {
     loading = true
-    error = ''
+    messages.clear()
 
     const { error: signOutError } = await supabaseClient.auth.signOut()
     if (signOutError) {
-      error = signOutError.message
+      messages.add('error', signOutError.message)
     }
 
     loading = false
@@ -94,14 +120,14 @@
     const canDelete = !authOptions?.auth?.mfa?.required || verifiedFactors.length > 1 || factor.status === 'unverified'
 
     if (!canDelete) {
-      error = getText('mfaNoDeleteError')
+      messages.add('error', getText('mfaNoDeleteError'))
       return
     }
 
     if (!confirm(getText('mfaDeleteFactorConfirmation', { name: factor.friendly_name ?? factor.factor_type.toUpperCase() }))) return
 
     loading = true
-    error = ''
+    messages.clear()
 
     try {
       const { error: unenrollError } = await supabaseClient.auth.mfa.unenroll({
@@ -113,7 +139,7 @@
       // Refresh MFA status
       await checkMFAStatus()
     } catch (err) {
-      error = err instanceof Error ? err.message : 'Failed to remove factor'
+      messages.add('error', err instanceof Error ? err.message : 'Failed to remove factor')
     } finally {
       loading = false
     }
@@ -128,13 +154,22 @@
   }
 </script>
 
-{#if needsMFAChallenge}
+<div class="sA-authenticated-view">
+
+{#if showNetworkError}
+  <!-- Network/Server Error Screen -->
+  <p class="danger">{getText('networkError')}</p>
+
+  <Button block size="medium" {loading} onclick={handleSignOut}>
+    Sign Out
+  </Button>
+{:else if needsMFAChallenge}
   <!-- User has MFA factors and needs to complete MFA challenge -->
   <MFAChallengeView InputWrapper={Wrapper} {supabaseClient} {getText} />
 {:else if showAddMFA}
   <!-- Add MFA Factor View -->
   <AddMFAView
-    defaultFriendlyName={verifiedFactors.length === 1 ? `${getText('backupText', { count: verifiedFactors.length })}` : 'TOTP'}
+    defaultFriendlyName={verifiedFactors.length ? `${getText('backupText', { count: factors.length })}` : 'TOTP'}
     InputWrapper={Wrapper}
     {supabaseClient}
     {user}
@@ -163,8 +198,7 @@
   </div>
 {:else}
   <!-- User is fully authenticated -->
-  <div class="supabase-auth-authenticated-view">
-    <div class="supabase-auth-user-info">
+    <div class="sA-user-info">
       {#if loggedInAs}
         {@render loggedInAs(user)}
       {:else}
@@ -207,7 +241,7 @@
         {/if}
 
         {#if verifiedFactors.length === 1}
-          <p class="danger">{getText('mfaWarningText')}</p>
+          <p class="warning message">{getText('mfaWarningText')}</p>
         {/if}
 
         <LinkButton block onclick={() => showAddMFA = true}>
@@ -224,33 +258,15 @@
     >
       {getText('signOutButton')}
     </Button>
-
-    {#if error}
-      <Text type="danger">{error}</Text>
-    {/if}
-  </div>
 {/if}
 
+</div>
+
 <style>
-  .supabase-auth-authenticated-view {
+  .sA-authenticated-view {
     display: flex;
     flex-direction: column;
     gap: 1.5em;
     padding: 1em;
-  }
-  ul {
-    padding: .5em 0;
-  }
-  li {
-    padding: .5em;
-    margin: .5em 0;
-  }
-  li>span {
-    flex: 1;
-  }
-  p.danger {
-    font-size: 70%;
-    line-height: 1.1em;
-    margin: .5em;
   }
 </style>

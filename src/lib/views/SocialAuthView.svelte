@@ -4,6 +4,7 @@
   import type { Provider, SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
   import type { AuthViews } from '$lib/Auth.svelte';
+  import { messages } from '$lib/messages.svelte';
 
   interface Props {
     supabaseClient: SupabaseClient
@@ -18,7 +19,6 @@
   let { supabaseClient, providers, socialLayout, socialButtonSize, socialColors, view, getText }: Props = $props()
 
   let loading = $state(false)
-  let error = $state('')
 
   const buttonStyles: Partial<Record<Provider, Record<string, string>>> = {
     google: {
@@ -59,7 +59,7 @@
     loading = true
 
     const { error: signInError } = await supabaseClient.auth.signInWithOAuth({ provider })
-    if (signInError) error = signInError.message
+    if (signInError) messages.add('error', signInError.message)
 
     loading = false
   }
@@ -92,10 +92,6 @@
   <div role="separator" class="divider flex">
     <span>{getText('socialDivider')}</span>
   </div>
-{/if}
-
-{#if error}
-  <Text type="danger">{error}</Text>
 {/if}
 
 <style>

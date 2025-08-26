@@ -7,6 +7,7 @@
   import type { SupabaseAuthOptions } from '../options'
   import InputWrapper from '$lib/elements/InputWrapper.svelte';
   import type { AuthViews } from '$lib/Auth.svelte';
+  import { messages } from '$lib/messages.svelte';
 
   interface Props {
     InputWrapper: typeof InputWrapper
@@ -19,8 +20,6 @@
 
   let { InputWrapper:Wrapper, supabaseClient, setView, getText, authOptions, view }: Props = $props()
 
-  let error = $state('')
-  let message = $state('')
   let loading = $state(false)
   let email = $state('')
   let password = $state('')
@@ -30,23 +29,21 @@
   const usePassword = $derived(view === 'sign_in_with_password')
 
   async function submitMagicLink() {
-    error = ''
-    message = ''
+    messages.clear()
     loading = true
 
     const { error: err } = await supabaseClient.auth.signInWithOtp({ email })
 
     if (err)
-      error = err.message
+      messages.add('error', err.message)
     else
-      message = getText('magicLinkSent')
+      messages.add('success', getText('magicLinkSent'))
 
     loading = false
   }
 
   async function submitPassword(isSignUp: boolean = false) {
-    error = ''
-    message = ''
+    messages.clear()
     loading = true
 
     if (isSignUp) {
@@ -54,13 +51,13 @@
         email, password
       })
 
-      if (signUpError) error = signUpError.message
+      if (signUpError) messages.add('error', signUpError.message)
     } else {
       const { error: signInError } = await supabaseClient.auth.signInWithPassword({
         email, password
       })
 
-      if (signInError) error = signInError.message
+      if (signInError) messages.add('error', signInError.message)
     }
 
     loading = false
@@ -86,7 +83,6 @@
 {/snippet}
 
 <form onsubmit={(e) => {
-  console.log('fwah!')
   e.preventDefault()
   if (usePassword) {
     submitPassword(false)
@@ -122,12 +118,5 @@
     {/if}
   {/if}
 
-  {#if message}
-    <Text>{message}</Text>
-  {/if}
-
-  {#if error}
-    <Text type="danger">{error}</Text>
-  {/if}
 </form>
 

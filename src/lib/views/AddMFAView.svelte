@@ -3,8 +3,11 @@
   import Text from '../elements/Text.svelte'
   import InputWrapper from '../elements/InputWrapper.svelte'
   import LinkButton from '../elements/LinkButton.svelte'
+  import MFASingleChallenge from './MFASingleChallenge.svelte'
   import type { SupabaseClient, User } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
+  import { onDestroy } from 'svelte'
+  import { messages } from '../messages.svelte'
 
   interface Props {
     defaultFriendlyName?: string
@@ -19,25 +22,38 @@
   let { defaultFriendlyName, InputWrapper: Wrapper, supabaseClient, user, getText, onComplete, onCancel }: Props = $props()
 
   let loading = $state(false)
-  let error = $state('')
-  let message = $state('')
   let showEnrollment = $state(false)
 
   // Enrollment state
   let qrCode = $state('')
   let secret = $state('')
-  let verificationCode = $state('')
   let factorId = $state('')
-  let challengeId = $state('')
   let friendlyName = $state(defaultFriendlyName ?? 'TOTP')
+  let showSecret = $state(false)
+
+  // Input validation functions
+  function validateFriendlyName(name: string): boolean {
+    // Allow any Unicode characters, limit length for security and UX
+    return name.trim().length > 0 && name.trim().length <= 50
+  }
+
+  function sanitizeSecret(secret: string): string {
+    // Ensure secret contains only base32 characters for display
+    return secret.replace(/[^A-Z2-7]/g, '')
+  }
 
   async function startEnrollment() {
+    if (!validateFriendlyName(friendlyName)) {
+      messages.add('error', 'Please enter a valid name (1-50 characters)')
+      return
+    }
+
     loading = true
-    error = ''
+    messages.clear()
 
     try {
       const { data, error: enrollError } = await supabaseClient.auth.mfa.enroll({
-        friendlyName,
+        friendlyName: friendlyName.trim(),
         factorType: 'totp'
       })
 
@@ -48,58 +64,40 @@
       secret = data.totp.secret
       showEnrollment = true
     } catch (err) {
-      error = err instanceof Error ? err.message : 'Failed to start enrollment'
+      messages.add('error', err instanceof Error ? err.message : 'Failed to start enrollment')
     } finally {
       loading = false
     }
   }
 
-  async function verifyEnrollment() {
-    if (!verificationCode.trim()) return
+  function handleEnrollmentSuccess() {
+    messages.add('success', 'MFA enrollment successful!')
 
-    loading = true
-    error = ''
-
-    try {
-      // First create a challenge
-      const { data: challengeData, error: challengeError } = await supabaseClient.auth.mfa.challenge({
-        factorId
-      })
-
-      if (challengeError) throw challengeError
-      challengeId = challengeData.id
-
-      // Then verify the code
-      const { error: verifyError } = await supabaseClient.auth.mfa.verify({
-        factorId,
-        challengeId,
-        code: verificationCode.trim()
-      })
-
-      if (verifyError) throw verifyError
-
-      message = 'MFA enrollment successful!'
-
-      // Call completion callback if provided
-      if (onComplete) {
-        setTimeout(onComplete, 1500)
-      }
-    } catch (err) {
-      error = err instanceof Error ? err.message : 'Invalid verification code'
-    } finally {
-      loading = false
+    // Call completion callback if provided
+    if (onComplete) {
+      setTimeout(onComplete, 1500)
     }
   }
 
   function cancelEnrollment() {
     showEnrollment = false
-    verificationCode = ''
-    error = ''
-    message = ''
+    messages.clear()
+    // Clear sensitive data
+    secret = ''
+    qrCode = ''
+    factorId = ''
     if (onCancel) {
       onCancel()
     }
   }
+
+  // Cleanup on component destruction
+  onDestroy(() => {
+    // Clear all sensitive state
+    secret = ''
+    qrCode = ''
+    factorId = ''
+  })
 </script>
 
 <div>
@@ -135,49 +133,47 @@
       {/if}
 
       <Text>{getText('mfaEnterSecret')}</Text>
-      <div class="mfa-secret">{secret}</div>
+      <div class="mfa-secret-container">
+        {#if showSecret}
+          <div class="mfa-secret" aria-label="TOTP Secret">{sanitizeSecret(secret)}</div>
+          <LinkButton small onclick={() => showSecret = false}>Hide</LinkButton>
+        {:else}
+          <div class="mfa-secret-hidden">••••••••••••••••••••••••••••••••</div>
+          <LinkButton small onclick={() => showSecret = true}>Show Secret</LinkButton>
+        {/if}
+      </div>
     </div>
 
-    <form onsubmit={(e) => { e.preventDefault(); verifyEnrollment(); }}>
-      <Wrapper name="verification-code" label={getText('mfaEnterCodeLabel')} icon="key">
-        <input
-          type="text"
-          name="verification-code"
-          bind:value={verificationCode}
-          placeholder="000000"
-          maxlength="6"
-          pattern="[0-9]{6}"
-          autocomplete="one-time-code"
-          disabled={loading}
-        >
-      </Wrapper>
+    <MFASingleChallenge
+      InputWrapper={Wrapper}
+      {supabaseClient}
+      factor={{id: factorId, status: 'unverified', factor_type: 'totp', friendly_name: friendlyName, created_at: new Date().toISOString(), updated_at: new Date().toISOString()}}
+      {getText}
+      {factorId}
+    />
 
-      <Button primary size="large" {loading} onclick={verifyEnrollment}>
-        {getText('mfaVerifyCodeButton')}
-      </Button>
-
-      <LinkButton onclick={cancelEnrollment}>
-        Cancel
-      </LinkButton>
-    </form>
-  {/if}
-
-  {#if message}
-    <Text>{message}</Text>
-  {/if}
-
-  {#if error}
-    <Text type="danger">{error}</Text>
+    <LinkButton onclick={cancelEnrollment}>
+      Cancel
+    </LinkButton>
   {/if}
 </div>
 
 <style>
-  .mfa-secret {
+  .mfa-secret-container {
+    margin: .5em 0;
+    text-align: center;
+  }
+  .mfa-secret, .mfa-secret-hidden {
     font-family: monospace;
     text-align: center;
     margin: .5em 0;
     line-height: 1;
     padding: .5em;
+    border-radius: 4px;
+    word-break: break-all;
+  }
+  .mfa-secret-hidden {
+    color: var(--layout-color);
   }
   img {
     display: block;

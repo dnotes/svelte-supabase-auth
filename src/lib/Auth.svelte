@@ -41,6 +41,7 @@
   import { onMount } from 'svelte'
   import { createGetText } from './i18n'
   import { defaultsDeep } from 'lodash-es'
+  import { messages } from './messages.svelte'
 
   let {
     supabaseClient,
@@ -92,7 +93,7 @@
   $inspect(user)
 </script>
 
-<div dir="auto" class="supabase-auth {classes}" {style}>
+<div dir="auto" class="sA {classes}" {style}>
   {#if user && !user.is_anonymous}
     <AuthenticatedView
       InputWrapper={Wrapper ?? InputWrapper}
@@ -105,7 +106,7 @@
       {setView}
     />
   {:else if loading}
-    <div class="supabase-auth-loading"></div>
+    <div class="sA-loading"></div>
   {:else}
     <SocialAuthView
       {supabaseClient}
@@ -122,36 +123,74 @@
     {:else if view == 'forgotten_password'}
       <ForgottenPasswordView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {setView} {getText}/>
     {/if}
+
+    {#if $messages.length}
+      <ul>
+        {#each $messages as message, i}
+          <li class="{message.type}">
+            <span>{message.message}</span>
+            <button type="button" class="danger" onclick={() => messages.drop(i)}>&cross;</button>
+          </li>
+        {/each}
+      </ul>
+    {/if}
+
   {/if}
 </div>
 
 <style>
-  .supabase-auth {
+  .sA {
     width: 100%;
     display: flex;
     flex-direction: column;
   }
-  :global(.supabase-auth) {
+  :global(.sA) {
     --flex-gap: .5em;
     --input-padding: 5px 3px 5px 35px;
     --link-color: blue;
     --layout-color: #ccc;
     --primary-color: rgba(101, 217, 165);
-    --primary-text-color: #fff;
+    --primary-text-color: white;
     --danger-color: rgba(245, 101, 101);
+    --warning-color: rgba(255, 202, 40);
+    --success-color: rgba(101, 217, 165);
   }
-  :global(.supabase-auth input) {
+  :global(.sA .message) {
+    font-size: 78%;
+    line-height: 1.1em;
+    margin: .5em;
+  }
+  :global(.sA input) {
     display: block;
     width: 100%;
     padding: var(--input-padding);
   }
-  :global(.supabase-auth form) {
+  :global(.sA form) {
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
   }
-  :global(.supabase-auth .flex) {
+  :global(.sA .flex) {
     display: flex;
     gap: var(--flex-gap);
+  }
+  :global(.sA ul) {
+    padding: .5em 0;
+  }
+  :global(.sA ul li) {
+    padding: .5em;
+    margin: .5em 0;
+    display: flex;
+    align-items: center;
+    gap: var(--flex-gap);
+  }
+  :global(.sA ul li span) {
+    flex: 1;
+  }
+  :global(.sA .danger) {
+    color: var(--danger-color);
+  }
+  :global(.sA .warning) {
+    color: var(--warning-color);
   }
 </style>

@@ -6,6 +6,7 @@
   import type { AuthTexts } from '../i18n'
   import InputWrapper from '$lib/elements/InputWrapper.svelte';
   import type { AuthViews } from '$lib/Auth.svelte';
+  import { messages } from '$lib/messages.svelte';
 
   interface Props {
     InputWrapper: typeof InputWrapper
@@ -16,22 +17,19 @@
 
   let { InputWrapper:Wrapper, supabaseClient, setView, getText }: Props = $props()
 
-  let error = $state('')
-  let message = $state('')
   let loading = $state(false)
   let email = $state('')
 
   async function submit() {
-    error = ''
-    message = ''
+    messages.clear()
     loading = true
 
     const { error: err } = await supabaseClient.auth.resetPasswordForEmail(email)
 
     if (err)
-      error = err.message
+      messages.add('error', err.message)
     else
-      message = getText('resetPasswordSent')
+      messages.add('success', getText('resetPasswordSent'))
 
     loading = false
   }
@@ -48,12 +46,4 @@
   <LinkButton onclick={() => setView('sign_in')}>
     {getText('goBackToSignIn')}
   </LinkButton>
-
-  {#if message}
-    <Text>{message}</Text>
-  {/if}
-
-  {#if error}
-    <Text type="danger">{error}</Text>
-  {/if}
 </form>
