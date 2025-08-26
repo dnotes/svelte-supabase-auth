@@ -109,7 +109,7 @@
   }
 
   .divider {
-    color: rgb(187, 187, 187);
+    color: var(--layout-color);
     width: 100%;
     display: flex;
     align-items: center;
