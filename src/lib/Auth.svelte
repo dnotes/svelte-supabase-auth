@@ -3,6 +3,7 @@
   import type { Snippet } from 'svelte'
   import type { AuthTexts } from './i18n'
   import InputWrapper from './elements/InputWrapper.svelte'
+  import { SUPABASE_AUTH_DEFAULTS, type SupabaseAuthOptions } from './options'
 
   // Auth component props interface
   export interface AuthProps {
@@ -13,8 +14,9 @@
     socialColors?: boolean
     socialButtonSize?: 'tiny' | 'small' | 'medium' | 'large'
     providers?: Provider[]
-    view?: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password'
+    view?: 'sign_in' | 'forgotten_password'
     loggedInAs?: Snippet<[User|null]>
+    authOptions?: SupabaseAuthOptions
 
     // Components
     InputWrapper?: typeof InputWrapper
@@ -29,11 +31,11 @@
 <script lang="ts">
   import EmailAuthView from './views/EmailAuthView.svelte'
   import SocialAuthView from './views/SocialAuthView.svelte'
-  import MagicLinkView from './views/MagicLinkView.svelte'
   import ForgottenPasswordView from './views/ForgottenPasswordView.svelte'
   import AuthenticatedView from './views/AuthenticatedView.svelte'
   import { onMount } from 'svelte'
   import { createGetText } from './i18n'
+  import { defaultsDeep } from 'lodash-es'
 
   let {
     supabaseClient,
@@ -46,10 +48,13 @@
     view = 'sign_in',
     loggedInAs,
     InputWrapper:Wrapper,
+    authOptions,
     texts,
     locale = 'en',
     t,
   }: AuthProps = $props()
+
+  const opts = $derived(defaultsDeep(authOptions, SUPABASE_AUTH_DEFAULTS))
 
   let user = $state<User|null>(null)
   let loading = $state<boolean>(true)
@@ -57,7 +62,7 @@
   // Create the getText function with current settings
   const getText = $derived(createGetText(locale, texts, t))
 
-  function setView(newView: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password') {
+  function setView(newView: 'sign_in' | 'forgotten_password') {
     view = newView
   }
 
@@ -96,10 +101,8 @@
       {getText}
     />
 
-    {#if view == 'sign_in' || view == 'sign_up'}
-      <EmailAuthView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {view} {setView} {getText}/>
-    {:else if view == 'magic_link'}
-      <MagicLinkView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {setView} {getText}/>
+    {#if opts.auth.email && view == 'sign_in'}
+      <EmailAuthView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {setView} {getText} authOptions={opts}/>
     {:else if view == 'forgotten_password'}
       <ForgottenPasswordView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {setView} {getText}/>
     {/if}

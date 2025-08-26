@@ -20,7 +20,10 @@
  * @property {boolean} [auth.enable_manual_linking=false]
  *  Allow manual linking of accounts with multiple providers (e.g., email+social).
  *
- * @property {Object} [auth.email]
+ * @property {Object|null|false} [auth.email]
+ *  Email auth controls. If you have disabled email auth in your Supabase dashboard,
+ *  set this to `null` or `false` to disable the email signup form.
+ *
  * @property {boolean} [auth.email.enable_signup=true]
  *  Allow signups via email/password. Turning off forces other providers or invites only.
  *
@@ -111,3 +114,5 @@ export const SUPABASE_AUTH_DEFAULTS = {
     requiredCharacters: "", // empty => no specific sets required
   },
 } as const;
+
+export type SupabaseAuthOptions = typeof SUPABASE_AUTH_DEFAULTS

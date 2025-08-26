@@ -9,7 +9,7 @@
   interface Props {
     InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
-    setView: (view: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password') => void
+    setView: (view: 'sign_in' | 'forgotten_password') => void
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 

@@ -4,36 +4,56 @@
   import Button from '../elements/Button.svelte'
   import type { SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
+  import type { SupabaseAuthOptions } from '../options'
   import InputWrapper from '$lib/elements/InputWrapper.svelte';
 
   interface Props {
     InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
-    view: 'sign_in' | 'sign_up'
-    setView: (view: 'sign_in' | 'sign_up' | 'magic_link' | 'forgotten_password') => void
+    setView: (view: 'sign_in' | 'forgotten_password') => void
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
+    authOptions: SupabaseAuthOptions
   }
 
-  let { InputWrapper:Wrapper, supabaseClient, view, setView, getText }: Props = $props()
+  let { InputWrapper:Wrapper, supabaseClient, setView, getText, authOptions }: Props = $props()
 
   let error = $state('')
   let message = $state('')
   let loading = $state(false)
   let email = $state('')
   let password = $state('')
+  let usePassword = $state(false) // Default to magic link flow
 
-  async function submit() {
+  // Computed properties for auth options
+  const canSignUp = $derived(authOptions.auth.enable_signup && authOptions.auth.email?.enable_signup)
+
+  async function submitMagicLink() {
     error = ''
     message = ''
     loading = true
 
-    if (view == 'sign_up') {
+    const { error: err } = await supabaseClient.auth.signInWithOtp({ email })
+
+    if (err)
+      error = err.message
+    else
+      message = getText('magicLinkSent')
+
+    loading = false
+  }
+
+  async function submitPassword(isSignUp: boolean = false) {
+    error = ''
+    message = ''
+    loading = true
+
+    if (isSignUp) {
       const { error: signUpError } = await supabaseClient.auth.signUp({
         email, password
       })
 
       if (signUpError) error = signUpError.message
-    } else if (view == 'sign_in') {
+    } else {
       const { error: signInError } = await supabaseClient.auth.signInWithPassword({
         email, password
       })
@@ -45,36 +65,50 @@
   }
 </script>
 
-<form onsubmit={(e) => { e.preventDefault(); submit(); }}>
+<form>
   <Wrapper name="email" label={getText('emailLabel')} icon="mail">
     <input type="email" name="email" bind:value={email}>
   </Wrapper>
-  <Wrapper name="password" label={getText('passwordLabel')} icon="key">
-    <input type="password" name="password" bind:value={password}>
-  </Wrapper>
 
-  {#if view == 'sign_up'}
-    <Button block primary size="large" {loading} icon="inbox">
-      {getText('signUp')}
+  {#if usePassword}
+    <Wrapper name="password" label={getText('passwordLabel')} icon="key">
+      <input type="password" name="password" bind:value={password}>
+    </Wrapper>
+  {/if}
+
+  {#if !usePassword}
+    <!-- Magic Link Flow -->
+    <Button block primary size="large" {loading} icon="inbox" onclick={submitMagicLink}>
+      {getText('sendLink')}
     </Button>
-    <div class="links">
-      <LinkButton onclick={() => setView('magic_link')}>
-        {getText('switchToMagicLink')}
-      </LinkButton>
-      <LinkButton onclick={() => setView('sign_in')}>
-        {getText('switchToSignIn')}
-      </LinkButton>
-    </div>
   {:else}
-    <Button block primary size="large" {loading} icon="inbox">
+    <!-- Password Flow -->
+    <Button block primary size="large" {loading} icon="inbox" onclick={() => submitPassword(false)}>
       {getText('signIn')}
     </Button>
-    <div class="links">
-      <LinkButton onclick={() => setView('sign_up')}>
-        {getText('switchToSignUp')}
-      </LinkButton>
-    </div>
+
+    {#if canSignUp}
+      <Button block size="large" {loading} icon="inbox" onclick={() => submitPassword(true)}>
+        {getText('signUp')}
+      </Button>
+    {/if}
   {/if}
+
+  <div class="links">
+    {#if !usePassword}
+      <LinkButton onclick={() => usePassword = true}>
+        {getText('switchToPassword')}
+      </LinkButton>
+    {:else}
+      <LinkButton onclick={() => usePassword = false}>
+        {getText('switchToMagicLink')}
+      </LinkButton>
+
+      <LinkButton onclick={() => setView('forgotten_password')}>
+        {getText('resetPassword')}
+      </LinkButton>
+    {/if}
+  </div>
 
   {#if message}
     <Text>{message}</Text>
