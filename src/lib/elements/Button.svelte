@@ -1,7 +1,9 @@
 <script lang="ts">
+  import type { Snippet } from 'svelte';
   import Icon from './Icon.svelte'
 
   interface Props {
+    submit?: boolean
     block?: boolean
     primary?: boolean
     shadow?: boolean
@@ -10,9 +12,11 @@
     icon?: string | null
     style?: Record<string, string>
     onclick?: () => void
+    children: Snippet
   }
 
   let {
+    submit = false,
     block = false,
     primary = false,
     shadow = false,
@@ -20,7 +24,8 @@
     loading = false,
     icon = null,
     style = {},
-    onclick
+    onclick,
+    children,
   }: Props = $props()
 
   const styleString = $derived(Object.entries(style).map(([key, value]) => {
@@ -28,13 +33,15 @@
   }).join(';'))
 </script>
 
-<button class:block class={size} class:primary style={styleString} onclick={onclick} disabled={loading}>
+<button type={submit ? 'submit' : 'button'} class:block class={size} class:primary style={styleString} onclick={onclick} disabled={loading}>
   {#if icon}
     <span class="icon">
       <Icon name={icon} size=21/>
     </span>
   {/if}
-  <span><slot/></span>
+  <span>
+    {@render children?.()}
+  </span>
 </button>
 
 <style>

@@ -7,7 +7,7 @@
   let { onclick, children }: Props = $props()
 </script>
 
-<button onclick={(e) => { e.preventDefault(); onclick?.(); }}>{@render children()}</button>
+<button type="button" onclick={(e) => { e.preventDefault(); onclick?.(); }}>{@render children()}</button>
 
 <style>
   button {

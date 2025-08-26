@@ -119,7 +119,7 @@
         >
       </Wrapper>
 
-      <Button block primary size="large" {loading} onclick={verifyCode}>
+      <Button submit block primary size="large" {loading} onclick={verifyCode}>
         {getText('verifyCode')}
       </Button>
 

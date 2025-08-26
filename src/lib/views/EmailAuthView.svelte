@@ -85,7 +85,15 @@
   </LinkButton>
 {/snippet}
 
-<form>
+<form onsubmit={(e) => {
+  console.log('fwah!')
+  e.preventDefault()
+  if (usePassword) {
+    submitPassword(false)
+  } else {
+    submitMagicLink()
+  }
+}}>
   <Wrapper name="email" label={getText('emailLabel')} icon="mail" links={emailLinks}>
     <input type="email" name="email" bind:value={email}>
   </Wrapper>
@@ -98,12 +106,12 @@
 
   {#if !usePassword}
     <!-- Magic Link Flow -->
-    <Button block primary size="large" {loading} icon="inbox" onclick={submitMagicLink}>
+    <Button submit block primary size="large" {loading} icon="inbox" onclick={submitMagicLink}>
       {getText('sendLink')}
     </Button>
   {:else}
     <!-- Password Flow -->
-    <Button block primary size="large" {loading} icon="inbox" onclick={() => submitPassword(false)}>
+    <Button submit block primary size="large" {loading} icon="inbox" onclick={() => submitPassword(false)}>
       {getText('signIn')}
     </Button>
 
