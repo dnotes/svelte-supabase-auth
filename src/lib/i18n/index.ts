@@ -10,6 +10,7 @@ export interface AuthTexts {
 
   // Sign in
   signIn?: string
+  signUp?: string
   emailLabel?: string
   passwordLabel?: string
   sendLink?: string

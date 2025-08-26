@@ -26,7 +26,7 @@
   let password = $state('')
 
   // Computed properties for auth options
-  const canSignUp = $derived(authOptions.auth.enable_signup && authOptions.auth.email?.enable_signup)
+  const canSignUp = $derived(authOptions.auth.enable_signup && authOptions.auth.email && authOptions.auth.email.enable_signup)
   const usePassword = $derived(view === 'sign_in_with_password')
 
   async function submitMagicLink() {
