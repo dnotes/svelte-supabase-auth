@@ -13,5 +13,6 @@
   button {
     border: none;
     background: none;
+    color: var(--link-color);
   }
 </style>
