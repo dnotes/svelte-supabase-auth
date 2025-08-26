@@ -65,9 +65,11 @@
 </script>
 
 {#if hasProviders}
-  <span class="heading">
-    {view == 'sign_up' ? getText('socialSignUpHeading') : getText('socialSignInHeading')}
-  </span>
+  {#if socialLayout === 'horizontal'}
+    <span class="heading">
+      {getText('socialHeading')}
+    </span>
+  {/if}
 
   <div class="providers" class:horizontal={socialLayout == 'horizontal'}>
     {#each providers as provider}
