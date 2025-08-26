@@ -3,13 +3,12 @@
   import type { Snippet } from 'svelte'
   import type { AuthTexts } from './i18n'
   import InputWrapper from './elements/InputWrapper.svelte'
-  import { SUPABASE_AUTH_DEFAULTS, type SupabaseAuthOptions } from './options'
+  import { SUPABASE_AUTH_DEFAULTS, type PartialSupabaseAuthOptions, type SupabaseAuthOptions } from './options'
 
   export type AuthViews =
     | 'sign_in'
     | 'sign_in_with_password'
     | 'forgotten_password'
-    | 'mfa_management'
 
   // Auth component props interface
   export interface AuthProps {
@@ -22,7 +21,7 @@
     providers?: Provider[]
     view?: AuthViews
     loggedInAs?: Snippet<[User|null]>
-    authOptions?: SupabaseAuthOptions
+    authOptions?: PartialSupabaseAuthOptions
 
     // Components
     InputWrapper?: typeof InputWrapper
@@ -39,7 +38,6 @@
   import SocialAuthView from './views/SocialAuthView.svelte'
   import ForgottenPasswordView from './views/ForgottenPasswordView.svelte'
   import AuthenticatedView from './views/AuthenticatedView.svelte'
-  import AuthenticatedMFAView from './views/AuthenticatedMFAView.svelte'
   import { onMount } from 'svelte'
   import { createGetText } from './i18n'
   import { defaultsDeep } from 'lodash-es'
@@ -61,7 +59,7 @@
     t,
   }: AuthProps = $props()
 
-  const opts = $derived(defaultsDeep(authOptions, SUPABASE_AUTH_DEFAULTS))
+  const opts = $derived(defaultsDeep(authOptions, SUPABASE_AUTH_DEFAULTS)) as SupabaseAuthOptions
 
   let user = $state<User|null>(null)
   let loading = $state<boolean>(true)
@@ -69,7 +67,7 @@
   // Create the getText function with current settings
   const getText = $derived(createGetText(locale, texts, t))
 
-  function setView(newView:AuthViews) {
+  function setView(newView: AuthViews) {
     view = newView
   }
 
@@ -90,28 +88,22 @@
 
     return () => subscription.unsubscribe()
   })
+
+  $inspect(user)
 </script>
 
 <div dir="auto" class="supabase-auth {classes}" {style}>
   {#if user && !user.is_anonymous}
-    {#if view == 'mfa_management'}
-      <AuthenticatedMFAView
-        InputWrapper={Wrapper ?? InputWrapper}
-        {supabaseClient}
-        {getText}
-        onComplete={() => setView('sign_in')}
-      />
-    {:else}
-      <AuthenticatedView
-        {supabaseClient}
-        {user}
-        {loggedInAs}
-        {getText}
-        {locale}
-        authOptions={opts}
-        {setView}
-      />
-    {/if}
+    <AuthenticatedView
+      InputWrapper={Wrapper ?? InputWrapper}
+      {supabaseClient}
+      {user}
+      {loggedInAs}
+      {getText}
+      {locale}
+      authOptions={opts}
+      {setView}
+    />
   {:else if loading}
     <div class="supabase-auth-loading"></div>
   {:else}
@@ -140,6 +132,7 @@
     flex-direction: column;
   }
   :global(.supabase-auth) {
+    --flex-gap: .5em;
     --input-padding: 5px 3px 5px 35px;
     --link-color: blue;
     --layout-color: #ccc;
@@ -156,5 +149,9 @@
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
+  }
+  :global(.supabase-auth .flex) {
+    display: flex;
+    gap: var(--flex-gap);
   }
 </style>

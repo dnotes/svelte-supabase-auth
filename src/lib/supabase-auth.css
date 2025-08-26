@@ -17,7 +17,7 @@
 .supabase-auth button.primary {
   background: var(--primary-color);
   border-color: transparent;
-  color: white;
+  color: var(--primary-text-color);
 }
 
 .supabase-auth button.large {
@@ -93,4 +93,10 @@
   border-bottom-style: solid;
   border-bottom-width: 1px;
   top: 50%;
+}
+
+.supabase-auth li {
+  font-size: 90%;
+  border: 1px solid var(--layout-color);
+  border-radius: 0.375rem;
 }

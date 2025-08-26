@@ -35,7 +35,7 @@
 
 <button type={submit ? 'submit' : 'button'} class:block class={size} class:primary style={styleString} onclick={onclick} disabled={loading}>
   {#if icon}
-    <span class="icon">
+    <span class="icon flex">
       <Icon name={icon} size=21/>
     </span>
   {/if}
@@ -50,10 +50,6 @@
     gap: 0.5rem;
     align-items: center;
     position: relative;
-  }
-
-  .icon {
-    display: flex;
   }
 
   button.large {

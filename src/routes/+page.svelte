@@ -7,8 +7,17 @@
   import '$lib/i18n/zh'
   import { defaultTranslations } from '$lib/i18n/index'
   import { languages } from './languages'
+  import type { PartialSupabaseAuthOptions, SupabaseAuthOptions } from '$lib/options';
 
   let locale = $state('en')
+
+  const authOptions: PartialSupabaseAuthOptions = {
+    auth: {
+      mfa: {
+        required: true,
+      },
+    },
+  }
 
 </script>
 
@@ -22,7 +31,7 @@
     {/each}
   </div>
   <div class="py-6 px-3 m-4 shadow-md rounded-lg bg-stone-200 dark:bg-stone-800">
-    <Auth {supabaseClient} {locale} providers={['apple', 'google', 'github']}>
+    <Auth {supabaseClient} {locale} providers={['apple', 'google', 'github']} {authOptions}>
     </Auth>
   </div>
 </div>

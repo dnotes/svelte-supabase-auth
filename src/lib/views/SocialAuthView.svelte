@@ -72,7 +72,7 @@
     </span>
   {/if}
 
-  <div class="providers" class:horizontal={socialLayout == 'horizontal'}>
+  <div class="providers flex" class:horizontal={socialLayout == 'horizontal'}>
     {#each providers as provider}
       {@const providerName = provider.charAt(0).toUpperCase() + provider.slice(1)}
       <Button
@@ -89,7 +89,7 @@
       </Button>
     {/each}
   </div>
-  <div role="separator" class="divider">
+  <div role="separator" class="divider flex">
     <span>{getText('socialDivider')}</span>
   </div>
 {/if}
@@ -100,9 +100,7 @@
 
 <style>
   .providers {
-    display: flex;
     flex-direction: column;
-    gap: 5px;
   }
 
   .providers.horizontal {
@@ -112,7 +110,6 @@
   .divider {
     color: var(--layout-color);
     width: 100%;
-    display: flex;
     align-items: center;
     white-space: nowrap;
     font-size: 80%;

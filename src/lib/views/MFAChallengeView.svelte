@@ -86,9 +86,6 @@
 </script>
 
 <div>
-  <h2>{getText('mfaChallenge')}</h2>
-  <p>{getText('mfaChallengeDescription')}</p>
-
   {#await factorsPromise}
     <p>Loading authentication methods...</p>
   {:then factors}
@@ -98,7 +95,7 @@
         <select id="factor-select" value={selectedFactor?.id} onchange={(e) => handleFactorChange((e.target as HTMLSelectElement).value, factors)}>
           {#each factors as factor}
             <option value={factor.id}>
-              {factor.friendly_name || `${factor.factor_type.toUpperCase()} Factor`}
+              {factor.friendly_name || `${factor.factor_type.toUpperCase()}`}
             </option>
           {/each}
         </select>
@@ -106,7 +103,7 @@
     {/if}
 
     <form onsubmit={(e) => { e.preventDefault(); verifyCode(); }}>
-      <Wrapper name="verification-code" label={getText('totpCode')} icon="key">
+      <Wrapper name="verification-code" label={getText('mfaEnterCodeLabel')} icon="key">
         <input
           type="text"
           name="verification-code"
@@ -120,7 +117,7 @@
       </Wrapper>
 
       <Button submit block primary size="large" {loading} onclick={verifyCode}>
-        {getText('verifyCode')}
+        {getText('mfaVerifyCodeButton')}
       </Button>
 
       {#if error}

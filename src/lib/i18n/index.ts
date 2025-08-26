@@ -1,12 +1,17 @@
 // Internationalization types
 export interface AuthTexts {
+
+  // Strings
+  cancelButton?: string
+  deleteButton?: string
+  verifiedText?: string
+  unverifiedText?: string
+  backupText?: string
+
+  // Sign in
   signIn?: string
-  signUp?: string
   emailLabel?: string
-  phoneLabel?: string
   passwordLabel?: string
-  emailPlaceholder?: string
-  passwordPlaceholder?: string
   sendLink?: string
   resetPassword?: string
 
@@ -34,28 +39,26 @@ export interface AuthTexts {
   loggedInEmail?: string
   signOutButton?: string
 
-  // MFA Challenge
-  mfaChallenge?: string
-  mfaChallengeDescription?: string
-  totpCode?: string
-  verifyCode?: string
+  // MFA
+  mfaFactorListHeading?: string
+  mfaListItemText?: string
+  mfaNoFactorsText?: string
+  mfaWarningText?: string
+  mfaAddFactorLink?: string
+  mfaNoDeleteError?: string
+  mfaDeleteFactorConfirmation?: string
+  // MFA required
+  mfaRequired?: string
+  // Add MFA screen
+  mfaAddFactorParagraph?: string
+  mfaFriendlyNameLabel?: string
+  mfaAddFactorButton?: string
+  mfaScanQRCode?: string
+  mfaEnterSecret?: string
+  // MFA Challenge screen
+  mfaEnterCodeLabel?: string
+  mfaVerifyCodeButton?: string
 
-  // MFA Enrollment/Management
-  mfaEnrollment?: string
-  enrollMFA?: string
-  totpSetup?: string
-  totpSetupDescription?: string
-  scanQRCode?: string
-  enterSecret?: string
-  verifySetup?: string
-  mfaFactors?: string
-  noFactorsEnrolled?: string
-  factorName?: string
-  factorType?: string
-  factorStatus?: string
-  enrollNewFactor?: string
-  unenrollFactor?: string
-  confirmUnenroll?: string
 }
 
 
@@ -63,8 +66,14 @@ export interface AuthTexts {
 // Default translations - only English included in core
 export const defaultTranslations: Record<string, AuthTexts> = {
   en: {
+
+    cancelButton: 'Cancel',
+    deleteButton: 'Delete',
+    verifiedText: 'verified',
+    unverifiedText: 'unverified',
+    backupText: 'backup #{count}',
+
     signIn: 'Sign in',
-    signUp: 'Sign up',
     emailLabel: 'Email address',
     passwordLabel: 'Password',
     sendLink: 'Send link',
@@ -92,28 +101,31 @@ export const defaultTranslations: Record<string, AuthTexts> = {
     loggedInEmail: 'Email: {email}',
     signOutButton: 'Sign out',
 
+    // MFA
+    mfaFactorListHeading: 'Multi-factor authentication (MFA) tokens',
+    mfaListItemText: '{name} created {date} ({status})',
+    mfaNoFactorsText: 'No MFA tokens',
+    mfaAddFactorLink: 'add a new MFA token',
+    mfaNoDeleteError: 'You cannot delete the last authentication method when MFA is required.',
+    mfaDeleteFactorConfirmation: 'Are you sure you want to delete the {name} multi-factor authentication token?',
+    // MFA required
+    mfaRequired: 'Multi-factor authentication is required for your account. Please set up a token to continue.',
+    // Add MFA
+    mfaAddFactorParagraph: 'Add a multi-factor authentication token to your account.',
+    mfaFriendlyNameLabel: 'Name (for you to identify this token)',
+    mfaAddFactorButton: 'Generate new token',
+    mfaScanQRCode: 'Scan the QR code below in your authentication app:',
+    mfaEnterSecret: 'Or enter the following secret manually:',
     // MFA Challenge
-    mfaChallenge: 'Multi-Factor Authentication',
-    mfaChallengeDescription: 'Enter the verification code from your authenticator app',
-    totpCode: 'Verification code',
-    verifyCode: 'Verify',
+    mfaEnterCodeLabel: 'Enter the code from your authentication app:',
+    mfaVerifyCodeButton: 'Verify code',
+    // MFA Warning
+    mfaWarningText: 'Warning! You have only ONE multi-factor authentication token saved. '
+    +'If you lose that token, it may be impossible to recover access to your account. '
+    +'It is recommended to add at least one backup token to your account, and save the '
+    +'provided codes in a secure location as recovery keys. To do this, take a screenshot '
+    +'of the QR code or copy the secret key into a secure location.',
 
-    // MFA Enrollment/Management
-    mfaEnrollment: 'Two-Factor Authentication',
-    enrollMFA: 'Set up MFA',
-    totpSetup: 'Set up Authenticator App',
-    totpSetupDescription: 'Scan the QR code with your authenticator app, then enter the verification code below',
-    scanQRCode: 'Scan this QR code with your authenticator app',
-    enterSecret: 'Or enter this secret manually: {secret}',
-    verifySetup: 'Verify Setup',
-    mfaFactors: 'Your authentication methods',
-    noFactorsEnrolled: 'No authentication methods set up',
-    factorName: 'Factor Name',
-    factorType: 'Type',
-    factorStatus: 'Status',
-    enrollNewFactor: 'Add new factor',
-    unenrollFactor: 'Remove',
-    confirmUnenroll: 'Are you sure you want to remove this authentication method?',
   }
 }
 

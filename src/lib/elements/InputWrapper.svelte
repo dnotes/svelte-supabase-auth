@@ -31,7 +31,7 @@
     </div>
   </label>
   {#if links}
-    <div class="links">
+    <div class="links flex">
       {@render links?.()}
     </div>
   {/if}
@@ -52,10 +52,5 @@
   }
   .input {
     position: relative;
-    display: flex;
-  }
-  .links {
-    display: flex;
-    gap: 0.5rem;
   }
 </style>

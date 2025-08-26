@@ -3,13 +3,16 @@
   import Button from '../elements/Button.svelte'
   import Text from '../elements/Text.svelte'
   import MFAChallengeView from './MFAChallengeView.svelte'
+  import AddMFAView from './AddMFAView.svelte'
+  import LinkButton from '../elements/LinkButton.svelte'
   import InputWrapper from '../elements/InputWrapper.svelte'
-  import type { SupabaseClient, User } from '@supabase/supabase-js'
+  import type { Factor, SupabaseClient, User } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
   import type { SupabaseAuthOptions } from '../options'
   import type { AuthViews } from '$lib/Auth.svelte';
 
   interface Props {
+    InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
     user: User|null
     locale?: string
@@ -19,12 +22,15 @@
     setView: (view: AuthViews) => void
   }
 
-  let { supabaseClient, user, loggedInAs, getText, locale, authOptions, setView }: Props = $props()
+  let { InputWrapper: Wrapper, supabaseClient, user, loggedInAs, getText, locale, authOptions, setView }: Props = $props()
 
   let loading = $state(false)
   let error = $state('')
   let mfaRequired = $state(false)
   let needsMFAChallenge = $state(false)
+  let factors = $state<Factor[]>([])
+  let verifiedFactors = $derived(factors.filter(factor => factor.status === 'verified'))
+  let showAddMFA = $state(false)
 
   const time = $derived(user?.last_sign_in_at ? new Date(user?.last_sign_in_at).toLocaleString(locale) : '')
 
@@ -53,9 +59,7 @@
         return
       }
 
-      const verifiedFactors = [...(factorsData.totp || []), ...(factorsData.phone || [])].filter(
-        factor => factor.status === 'verified'
-      )
+      factors = factorsData.all
 
       const hasVerifiedFactors = verifiedFactors.length > 0
       const isAAL1 = aalData.currentLevel === 'aal1'
@@ -64,9 +68,9 @@
       // User needs MFA challenge if they have factors and are at AAL1 but can upgrade to AAL2
       needsMFAChallenge = hasVerifiedFactors && isAAL1 && canUpgradeToAAL2
 
-      // User needs to enroll MFA if they're new, have no factors, and MFA is required
+      // User needs to enroll MFA if they're new, have no verified factors, and MFA is required
       const isNewUser = !hasVerifiedFactors
-      mfaRequired = isNewUser && authOptions.auth.mfa.required
+      mfaRequired = isNewUser && authOptions?.auth?.mfa?.required || false
     } catch (error) {
       console.error('Error checking MFA status:', error)
       mfaRequired = false
@@ -84,25 +88,77 @@
     }
 
     loading = false
+  }
+
+  async function deleteFactor(factor: any) {
+    const canDelete = !authOptions?.auth?.mfa?.required || verifiedFactors.length > 1 || factor.status === 'unverified'
+
+    if (!canDelete) {
+      error = getText('mfaNoDeleteError')
+      return
     }
+
+    if (!confirm(getText('mfaDeleteFactorConfirmation', { name: factor.friendly_name ?? factor.factor_type.toUpperCase() }))) return
+
+    loading = true
+    error = ''
+
+    try {
+      const { error: unenrollError } = await supabaseClient.auth.mfa.unenroll({
+        factorId: factor.id
+      })
+
+      if (unenrollError) throw unenrollError
+
+      // Refresh MFA status
+      await checkMFAStatus()
+    } catch (err) {
+      error = err instanceof Error ? err.message : 'Failed to remove factor'
+    } finally {
+      loading = false
+    }
+  }
+
+  function formatDate(dateStr: string): string {
+    return new Date(dateStr).toLocaleDateString(locale, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    })
+  }
 </script>
 
 {#if needsMFAChallenge}
   <!-- User has MFA factors and needs to complete MFA challenge -->
-  <MFAChallengeView InputWrapper={InputWrapper} {supabaseClient} {getText} />
+  <MFAChallengeView InputWrapper={Wrapper} {supabaseClient} {getText} />
+{:else if showAddMFA}
+  <!-- Add MFA Factor View -->
+  <AddMFAView
+    defaultFriendlyName={verifiedFactors.length === 1 ? `${getText('backupText', { count: verifiedFactors.length })}` : 'TOTP'}
+    InputWrapper={Wrapper}
+    {supabaseClient}
+    {user}
+    {getText}
+    onComplete={() => {
+      showAddMFA = false;
+      checkMFAStatus();
+    }}
+    onCancel={() => {
+      showAddMFA = false;
+    }}
+  />
 {:else if mfaRequired}
   <!-- User is new and MFA is required - redirect to enrollment -->
   <div>
-    <h2>{getText('mfaEnrollment')}</h2>
-    <p>Multi-factor authentication is required for your account. Please set up MFA to continue.</p>
+    <p>{getText('mfaRequired')}</p>
 
     <Button
       block
       primary
       size="large"
-      onclick={() => setView('mfa_management')}
+      onclick={() => showAddMFA = true}
     >
-      {getText('enrollMFA')}
+      {getText('mfaAddFactorLink')}
     </Button>
   </div>
 {:else}
@@ -124,26 +180,50 @@
       {/if}
     </div>
 
-    <div class="actions">
-      {#if authOptions.auth.mfa.totp.enroll_enabled}
-        <Button
-          block
-          size="medium"
-          onclick={() => setView('mfa_management')}
-        >
-          {getText('mfaEnrollment')}
-        </Button>
-      {/if}
+    <!-- MFA Factors List -->
+    {#if authOptions.auth.mfa.totp.enroll_enabled}
+      <div>
+        <h3>{getText('mfaFactorListHeading')}</h3>
 
-      <Button
-        block
-        size="medium"
-        {loading}
-        onclick={handleSignOut}
-      >
-        {getText('signOutButton')}
-      </Button>
-    </div>
+        {#if factors.length === 0}
+          <p>{getText('mfaNoFactorsText')}</p>
+        {:else}
+          <ul>
+            {#each factors as factor}
+              <li class="flex">
+                <span>
+                  {getText('mfaListItemText', {
+                    name: factor?.friendly_name ?? factor?.factor_type,
+                    date: formatDate(factor.created_at),
+                    status: getText(`${factor.status}Text`)
+                  })}
+                </span>
+                <LinkButton class="danger" onclick={() => deleteFactor(factor)}>
+                  &cross;
+                </LinkButton>
+              </li>
+            {/each}
+          </ul>
+        {/if}
+
+        {#if verifiedFactors.length === 1}
+          <p class="danger">{getText('mfaWarningText')}</p>
+        {/if}
+
+        <LinkButton block onclick={() => showAddMFA = true}>
+          {getText('mfaAddFactorLink')}
+        </LinkButton>
+      </div>
+    {/if}
+
+    <Button
+      block
+      size="medium"
+      {loading}
+      onclick={handleSignOut}
+    >
+      {getText('signOutButton')}
+    </Button>
 
     {#if error}
       <Text type="danger">{error}</Text>
@@ -155,15 +235,22 @@
   .supabase-auth-authenticated-view {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
+    gap: 1.5em;
+    padding: 1em;
   }
-
-  .actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  ul {
+    padding: .5em 0;
   }
-
-
+  li {
+    padding: .5em;
+    margin: .5em 0;
+  }
+  li>span {
+    flex: 1;
+  }
+  p.danger {
+    font-size: 70%;
+    line-height: 1.1em;
+    margin: .5em;
+  }
 </style>
