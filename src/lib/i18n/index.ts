@@ -22,11 +22,11 @@ export interface AuthTexts {
   resetPasswordSent?: string
 
   // Social auth
-  socialSignInHeading?: string
-  socialSignUpHeading?: string
+  socialHeading?: string
   socialDivider?: string
-  socialSignInWith?: string
-  socialSignUpWith?: string
+  // Note: socialSignIn handles both login AND account creation via OAuth
+  // Supabase's signInWithOAuth() automatically creates accounts if they don't exist
+  socialSignIn?: string
 
   // Authenticated view
   loggedIn?: string
@@ -59,11 +59,9 @@ export const defaultTranslations: Record<string, AuthTexts> = {
     resetPasswordSent: 'Check your email for the password reset link',
 
     // Social auth
-    socialSignInHeading: 'Sign in with',
-    socialSignUpHeading: 'Sign up with',
+    socialHeading: 'Sign in with',
     socialDivider: 'or continue with',
-    socialSignInWith: 'Sign in with {provider}',
-    socialSignUpWith: 'Sign up with {provider}',
+    socialSignIn: 'Sign in with {provider}',
 
     // Authenticated view
     loggedIn: 'You are logged in.',

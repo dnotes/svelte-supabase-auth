@@ -21,11 +21,9 @@ export const spanishTranslations: AuthTexts = {
   resetPasswordSent: 'Revisa tu correo electrónico para el enlace de restablecimiento de contraseña',
 
   // Social auth
-  socialSignInHeading: 'Iniciar sesión con',
-  socialSignUpHeading: 'Registrarse con',
+  socialHeading: 'Iniciar sesión con',
   socialDivider: 'o continuar con',
-  socialSignInWith: 'Iniciar sesión con {provider}',
-  socialSignUpWith: 'Registrarse con {provider}',
+  socialSignIn: 'Iniciar sesión con {provider}',
 
   // Authenticated view
   loggedIn: 'Estás conectado.',

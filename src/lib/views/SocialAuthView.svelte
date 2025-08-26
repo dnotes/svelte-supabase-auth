@@ -81,7 +81,7 @@
         onclick={() => handleProviderSignIn(provider)}
       >
         {#if socialLayout == 'vertical'}
-          {view == 'sign_up' ? getText('socialSignUpWith', {provider: providerName}) : getText('socialSignInWith', {provider: providerName})}
+          {getText('socialSignIn', {provider: providerName})}
         {/if}
       </Button>
     {/each}

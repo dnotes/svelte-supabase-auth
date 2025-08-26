@@ -22,11 +22,9 @@ export const frenchTranslations: AuthTexts = {
   resetPasswordSent: 'Vérifiez votre e-mail pour le lien de réinitialisation du mot de passe',
 
   // Social auth
-  socialSignInHeading: 'Se connecter avec',
-  socialSignUpHeading: "S'inscrire avec",
+  socialHeading: 'Se connecter avec',
   socialDivider: 'ou continuer avec',
-  socialSignInWith: 'Se connecter avec {provider}',
-  socialSignUpWith: "S'inscrire avec {provider}",
+  socialSignIn: 'Se connecter avec {provider}',
 
   // Authenticated view
   loggedIn: 'Vous êtes connecté.',

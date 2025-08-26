@@ -22,11 +22,9 @@ export const chineseTranslations: AuthTexts = {
   resetPasswordSent: '请查看您的邮箱获取密码重置链接',
 
   // Social auth
-  socialSignInHeading: '使用以下方式登录',
-  socialSignUpHeading: '使用以下方式注册',
+  socialHeading: '使用以下方式登录',
   socialDivider: '或继续使用',
-  socialSignInWith: '使用 {provider} 登录',
-  socialSignUpWith: '使用 {provider} 注册',
+  socialSignIn: '使用 {provider} 登录',
 
   // Authenticated view
   loggedIn: '您已登录。',

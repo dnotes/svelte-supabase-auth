@@ -22,11 +22,9 @@ export const arabicTranslations: AuthTexts = {
   resetPasswordSent: 'تحقق من بريدك الإلكتروني لرابط إعادة تعيين كلمة المرور',
 
   // Social auth
-  socialSignInHeading: 'تسجيل الدخول باستخدام',
-  socialSignUpHeading: 'إنشاء حساب باستخدام',
+  socialHeading: 'تسجيل الدخول باستخدام',
   socialDivider: 'أو المتابعة باستخدام',
-  socialSignInWith: 'تسجيل الدخول باستخدام {provider}',
-  socialSignUpWith: 'إنشاء حساب باستخدام {provider}',
+  socialSignIn: 'تسجيل الدخول باستخدام {provider}',
 
   // Authenticated view
   loggedIn: 'أنت مسجل الدخول.',
