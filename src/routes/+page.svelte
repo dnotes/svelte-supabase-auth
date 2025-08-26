@@ -12,7 +12,7 @@
 
 </script>
 
-<div class="mx-auto mt-6 md:mt-48 w-120 max-w-full p-5">
+<div class="mx-auto mt-6 w-120 max-w-full p-5">
   <div class="flex justify-end">
     {#each Object.keys(defaultTranslations) as lc}
     <label class="flex items-center px-2 text-xs relative overflow-hidden cursor-pointer {locale == lc ? 'font-bold text-sky-500' : 'text-stone-500'}">
@@ -29,6 +29,12 @@
 
 <style lang="postcss">
   @reference "tailwindcss";
+
+  @media (min-height: 768px) {
+    div.mx-auto.mt-6 {
+      @apply mt-48;
+    }
+  }
 
   :global(div.supabase-auth) {
     --link-color: var(color-sky-500);
