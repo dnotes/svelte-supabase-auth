@@ -8,33 +8,30 @@
   import type { Factor, SupabaseClient, User } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
   import type { SupabaseAuthOptions } from '../options'
-  import type { AuthViews } from '$lib/Auth.svelte';
   import { messages } from '$lib/messages.svelte';
   import Accordion from '$lib/components/Accordion.svelte';
+  import { needsMFAChallenge, user } from '$lib/stores.svelte'
 
   interface Props {
     InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
-    user: User|null
     locale?: string
     loggedInAs?: Snippet<[User|null]>|undefined
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
     authOptions: SupabaseAuthOptions
-    setView: (view: AuthViews) => void
     userInfo?: Snippet<[User|null]>
   }
 
-  let { InputWrapper: Wrapper, supabaseClient, user, loggedInAs, getText, locale, authOptions, setView, userInfo }: Props = $props()
+  let { InputWrapper: Wrapper, supabaseClient, loggedInAs, getText, locale, authOptions, userInfo }: Props = $props()
 
   let loading = $state(false)
   let mfaRequired = $state(false)
-  let needsMFAChallenge = $state(false)
   let factors = $state<Factor[]>([])
   let verifiedFactors = $derived(factors.filter(factor => factor.status === 'verified'))
   let showAddMFA = $state(false)
   let showNetworkError = $state(false)
 
-  const time = $derived(user?.last_sign_in_at ? new Date(user?.last_sign_in_at).toLocaleString(locale) : '')
+  const time = $derived($user?.last_sign_in_at ? new Date($user?.last_sign_in_at).toLocaleString(locale) : '')
 
   // Check MFA status when component mounts
   $effect(() => {
@@ -42,9 +39,9 @@
   })
 
   async function checkMFAStatus() {
-    if (!user || user.is_anonymous) {
+    if (!$user || $user.is_anonymous) {
       mfaRequired = false
-      needsMFAChallenge = false
+      $needsMFAChallenge = false
       showNetworkError = false
       return
     }
@@ -57,7 +54,7 @@
         throw new Error(`Failed to load MFA factors: ${factorsError.message}`)
       }
 
-      factors = factorsData?.all ?? []
+      factors = factorsData?.all.sort((a, b) => b.created_at < a.created_at ? 1 : -1) ?? []
 
       // Check current AAL
       const { data: aalData, error: aalError } = await supabaseClient.auth.mfa.getAuthenticatorAssuranceLevel()
@@ -80,7 +77,7 @@
       // - If user has MFA factors and is at AAL1 but can upgrade to AAL2, they need MFA challenge
       // - This is normal behavior and not overly aggressive - users aren't challenged on every page load
       // - Only challenged when their AAL2 has actually expired due to timeout
-      needsMFAChallenge = hasVerifiedFactors && isAAL1 && canUpgradeToAAL2
+      $needsMFAChallenge = (hasVerifiedFactors && isAAL1 && canUpgradeToAAL2) ? 'toLogin' : false
 
       // User needs to enroll MFA if they're new, have no verified factors, and MFA is required
       const isNewUser = !hasVerifiedFactors
@@ -95,7 +92,7 @@
       // If we have verified factors but can't check AAL, show MFA challenge
       // This allows users to still authenticate even if AAL check fails
       if (verifiedFactors.length > 0) {
-        needsMFAChallenge = true
+        $needsMFAChallenge = 'toLogin'
         mfaRequired = false
         showNetworkError = false
       } else {
@@ -168,16 +165,16 @@
   <Button block size="medium" {loading} onclick={handleSignOut}>
     Sign Out
   </Button>
-{:else if needsMFAChallenge}
+{:else if $needsMFAChallenge}
   <!-- User has MFA factors and needs to complete MFA challenge -->
-  <MFAChallengeView InputWrapper={Wrapper} {supabaseClient} {getText} />
+  <MFAChallengeView bind:processing={$needsMFAChallenge} InputWrapper={Wrapper} {supabaseClient} {getText} />
 {:else if showAddMFA}
   <!-- Add MFA Factor View -->
   <AddMFAView
+    bind:processing={showAddMFA}
     defaultFriendlyName={verifiedFactors.length ? `${getText('backupText', { count: factors.length })}` : 'TOTP'}
     InputWrapper={Wrapper}
     {supabaseClient}
-    {user}
     {getText}
     onComplete={() => {
       showAddMFA = false;
@@ -205,22 +202,22 @@
   <!-- User is fully authenticated -->
     <div class="sA-user-info">
       {#if loggedInAs}
-        {@render loggedInAs(user)}
+        {@render loggedInAs($user)}
       {:else}
         <p dir="auto">
           {getText('loggedIn')}
-          {#if user?.last_sign_in_at}
+          {#if $user?.last_sign_in_at}
             <br/>{getText('loggedInTime', { time })}
           {/if}
-          {#if user?.email}
-            <br/>{getText('loggedInEmail', { email: user?.email ?? ''})}
+          {#if $user?.email}
+            <br/>{getText('loggedInEmail', { email: $user?.email ?? ''})}
           {/if}
         </p>
       {/if}
     </div>
 
     {#if userInfo}
-      {@render userInfo(user)}
+      {@render userInfo($user)}
     {/if}
 
     <!-- MFA Factors List -->

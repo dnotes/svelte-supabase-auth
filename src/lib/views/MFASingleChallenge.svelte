@@ -3,23 +3,27 @@
   import InputWrapper from '../elements/InputWrapper.svelte'
   import type { AuthMFAChallengeResponse, Factor, SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
-  import { onDestroy } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
   import { messages } from '../messages.svelte'
 
   interface Props {
+    cancellable?: boolean
     InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
     factor: Factor
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
     factorId?: string // For enrollment, use this instead of factor.id
+    processing?: boolean|string|number
   }
 
   let {
+    cancellable = false,
     InputWrapper: Wrapper,
     supabaseClient,
     factor,
     getText,
-    factorId
+    factorId,
+    processing = $bindable(false),
   }: Props = $props()
 
   let loading = $state(false)
@@ -58,7 +62,7 @@
 
     try {
       const id = factorId || factor?.id || ''
-      const { error: verifyError } = await supabaseClient.auth.mfa.verify({
+      const { data, error: verifyError } = await supabaseClient.auth.mfa.verify({
         factorId: id,
         challengeId: challenge.id,
         code: verificationCode.trim()
@@ -66,7 +70,7 @@
 
       if (verifyError) throw verifyError
 
-      messages.add('success', 'MFA verification successful')
+      processing = false
 
     } catch (err) {
       if (err instanceof Error) {
@@ -94,6 +98,9 @@
     }
   }
 
+  let el:HTMLInputElement
+  onMount(()=>{el.focus()})
+
   // Cleanup on component destruction
   onDestroy(() => {
     // Clear sensitive state
@@ -101,6 +108,7 @@
     verificationCode = ''
     messages.clear()
   })
+
 </script>
 
 <form onsubmit={(e) => { e.preventDefault(); verifyCode(); }}>
@@ -114,6 +122,7 @@
       pattern="[0-9]{6}"
       autocomplete="one-time-code"
       disabled={loading}
+      bind:this={el}
     >
   </Wrapper>
 
@@ -121,7 +130,7 @@
     {getText('mfaVerifyCodeButton')}
   </Button>
 
-  <Button block size="large" onclick={()=>{ supabaseClient.auth.signOut() }}>
+  <Button block size="large" onclick={()=>{ if (cancellable) processing = false; else supabaseClient.auth.signOut() }}>
     {getText('cancelButton')}
   </Button>
 

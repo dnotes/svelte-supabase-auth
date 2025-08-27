@@ -4,14 +4,21 @@
   import type { Factor, SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
   import { messages } from '$lib/messages.svelte';
+  import { needsMFAChallenge } from '$lib/stores.svelte'
 
   interface Props {
+    processing?: boolean|string|number
     InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 
-  let { InputWrapper: Wrapper, supabaseClient, getText }: Props = $props()
+  let {
+    processing = $bindable(false),
+    InputWrapper: Wrapper,
+    supabaseClient,
+    getText
+  }: Props = $props()
 
   let selectedFactor = $state<Factor|null>(null)
 
@@ -64,6 +71,8 @@
 
     {#if selectedFactor}
       <MFASingleChallenge
+        cancellable={$needsMFAChallenge === 'toElevate'}
+        bind:processing
         InputWrapper={Wrapper}
         {supabaseClient}
         factor={selectedFactor}

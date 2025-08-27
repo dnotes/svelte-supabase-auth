@@ -44,6 +44,7 @@
   import { defaultsDeep } from 'lodash-es'
   import { messages } from './messages.svelte'
   import LinkButton from './elements/LinkButton.svelte';
+  import { user } from './stores.svelte'
 
   let {
     supabaseClient,
@@ -65,7 +66,6 @@
 
   const opts = $derived(defaultsDeep(authOptions, SUPABASE_AUTH_DEFAULTS)) as SupabaseAuthOptions
 
-  let user = $state<User|null>(null)
   let loading = $state<boolean>(true)
 
   // Create the getText function with current settings
@@ -78,14 +78,14 @@
   onMount(() => {
     // Get initial session
     supabaseClient.auth.getSession().then(({ data: { session } }) => {
-      user = session?.user ?? null
+      $user = session?.user ?? null
       loading = false
     })
 
     // Listen for auth changes
     const { data: { subscription } } = supabaseClient.auth.onAuthStateChange(
       (event, session) => {
-        user = session?.user ?? null
+        $user = session?.user ?? null
         loading = false
       }
     )
@@ -97,16 +97,14 @@
 </script>
 
 <div dir="auto" class="sA {classes}" {style}>
-  {#if user && !user.is_anonymous}
+  {#if $user && !$user.is_anonymous}
     <AuthenticatedView
       InputWrapper={Wrapper ?? InputWrapper}
       {supabaseClient}
-      {user}
       {loggedInAs}
       {getText}
       {locale}
       authOptions={opts}
-      {setView}
       {userInfo}
     />
   {:else if loading}

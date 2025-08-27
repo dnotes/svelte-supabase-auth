@@ -9,16 +9,22 @@
   import { messages } from '../messages.svelte'
 
   interface Props {
+    processing?: boolean
     defaultFriendlyName?: string
     InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
-    user: User|null
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
     onComplete?: () => void
     onCancel?: () => void
   }
 
-  let { defaultFriendlyName, InputWrapper: Wrapper, supabaseClient, user, getText, onComplete, onCancel }: Props = $props()
+  let {
+    processing = $bindable(false),
+    defaultFriendlyName,
+    InputWrapper: Wrapper,
+    supabaseClient,
+    getText
+  }: Props = $props()
 
   let loading = $state(false)
   let showEnrollment = $state(false)
@@ -69,25 +75,15 @@
     }
   }
 
-  function handleEnrollmentSuccess() {
-    messages.add('success', 'MFA enrollment successful!')
+  $inspect(processing)
 
-    // Call completion callback if provided
-    if (onComplete) {
-      setTimeout(onComplete, 1500)
-    }
-  }
-
-  function cancelEnrollment() {
-    showEnrollment = false
+  function oncancel() {
+    processing = false
     messages.clear()
     // Clear sensitive data
     secret = ''
     qrCode = ''
     factorId = ''
-    if (onCancel) {
-      onCancel()
-    }
   }
 
   // Cleanup on component destruction
@@ -120,9 +116,6 @@
       >
         {getText('mfaAddFactorButton')}
       </Button>
-      <LinkButton onclick={cancelEnrollment}>
-        Cancel
-      </LinkButton>
     </form>
   {:else}
 
@@ -145,6 +138,8 @@
     </div>
 
     <MFASingleChallenge
+      bind:processing
+      cancellable
       InputWrapper={Wrapper}
       {supabaseClient}
       factor={{id: factorId, status: 'unverified', factor_type: 'totp', friendly_name: friendlyName, created_at: new Date().toISOString(), updated_at: new Date().toISOString()}}
@@ -152,10 +147,10 @@
       {factorId}
     />
 
-    <LinkButton onclick={cancelEnrollment}>
-      Cancel
-    </LinkButton>
   {/if}
+  <LinkButton onclick={oncancel}>
+    Cancel
+  </LinkButton>
 </div>
 
 <style>
