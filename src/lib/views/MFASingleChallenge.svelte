@@ -1,6 +1,5 @@
 <script lang="ts">
   import Button from '../elements/Button.svelte'
-  import Text from '../elements/Text.svelte'
   import InputWrapper from '../elements/InputWrapper.svelte'
   import type { AuthMFAChallengeResponse, Factor, SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
@@ -80,15 +79,15 @@
               return
             }
           } catch (retryErr) {
-            messages.add('error', 'Authentication failed. Please try again.')
+            messages.add('error', getText('authenticationError', { error: retryErr instanceof Error ? retryErr.message : '?' }))
           }
         } else if (err.message.includes('mfa_verification_failed')) {
-          messages.add('error', 'Invalid code. Please check and try again.')
+          messages.add('error', getText('invalidCodeError'))
         } else {
-          messages.add('error', 'Authentication failed. Please try again.')
+          messages.add('error', getText('authenticationError', { error: err.message }))
         }
       } else {
-        messages.add('error', 'Authentication failed. Please try again.')
+        messages.add('error', getText('authenticationError', { error: '?' }))
       }
     } finally {
       loading = false
@@ -100,6 +99,7 @@
     // Clear sensitive state
     challenge = null
     verificationCode = ''
+    messages.clear()
   })
 </script>
 

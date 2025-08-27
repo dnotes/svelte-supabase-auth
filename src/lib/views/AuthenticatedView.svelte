@@ -1,7 +1,6 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
+  import { onDestroy, type Snippet } from 'svelte';
   import Button from '../elements/Button.svelte'
-  import Text from '../elements/Text.svelte'
   import MFAChallengeView from './MFAChallengeView.svelte'
   import AddMFAView from './AddMFAView.svelte'
   import LinkButton from '../elements/LinkButton.svelte'
@@ -154,6 +153,10 @@
       day: 'numeric'
     })
   }
+
+  onDestroy(()=>{
+    messages.clear()
+  })
 </script>
 
 <div class="sA-authenticated-view">

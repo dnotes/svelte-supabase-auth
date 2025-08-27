@@ -1,5 +1,5 @@
 import type { Component } from 'svelte'
-import type { AuthTexts } from './i18n.js'
+import type { AuthTexts } from './i18n'
 import type { AuthProps } from './Auth.svelte'
 
 // Button component props
@@ -52,7 +52,6 @@ export declare const Input: Component<InputProps>
 export declare const LinkButton: Component<any>
 export declare const MagicLinkView: Component<any>
 export declare const SocialAuthView: Component<any>
-export declare const Text: Component<TextProps>
 
 // View exports
 export declare const AuthenticatedView: Component<any>

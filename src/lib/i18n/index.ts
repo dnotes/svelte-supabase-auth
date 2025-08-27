@@ -27,6 +27,8 @@ export interface AuthTexts {
   magicLinkSent?: string
   resetPasswordSent?: string
   networkError?: string
+  invalidCodeError?: string
+  authenticationError?: string
 
   // Social auth
   socialHeading?: string
@@ -91,7 +93,9 @@ export const defaultTranslations: Record<string, AuthTexts> = {
     // Messages
     magicLinkSent: 'Check your email for the login link',
     resetPasswordSent: 'Check your email for the password reset link',
-    networkError: 'Due to a network or server error, your login could not be completed. Please try again or reload this page.',
+    networkError: 'Due to a network or server error, your login could not be completed. Please try again or reload this page. ({error})',
+    invalidCodeError: 'Invalid code. Please check and try again.',
+    authenticationError: 'Authentication failed. Please try again. ({error})',
 
     // Social auth
     socialHeading: 'Sign in with',

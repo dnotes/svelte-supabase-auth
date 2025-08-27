@@ -1,6 +1,5 @@
 <script lang="ts">
   import Button from '../elements/Button.svelte'
-  import Text from '../elements/Text.svelte'
   import type { Provider, SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
   import type { AuthViews } from '$lib/Auth.svelte';

@@ -4,7 +4,6 @@ export { default as Button } from './elements/Button.svelte'
 export { default as Icon } from './elements/Icon.svelte'
 export { default as InputWrapper } from './elements/InputWrapper.svelte'
 export { default as LinkButton } from './elements/LinkButton.svelte'
-export { default as Text } from './elements/Text.svelte'
 
 // Internationalization - re-export for easy access
 export { defaultTranslations, createGetText, addTranslations, type AuthTexts } from './i18n'

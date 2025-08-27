@@ -1,9 +1,9 @@
 <script lang="ts">
-  import Text from '../elements/Text.svelte'
   import InputWrapper from '../elements/InputWrapper.svelte'
   import MFASingleChallenge from './MFASingleChallenge.svelte'
   import type { Factor, SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
+  import { messages } from '$lib/messages.svelte';
 
   interface Props {
     InputWrapper: typeof InputWrapper
@@ -16,7 +16,10 @@
   let selectedFactor = $state<Factor|null>(null)
 
   // Load factors as a Promise
-  let factorsPromise = $state<Promise<Factor[]>>(loadFactors())
+  let factorsPromise = $state<Promise<Factor[]>>(loadFactors().catch(err => {
+    messages.add('error', getText('networkError', { error: err.message }))
+    return []
+  }))
 
   async function loadFactors(): Promise<Factor[]> {
     const { data, error: factorsError } = await supabaseClient.auth.mfa.listFactors()
@@ -67,8 +70,6 @@
         {getText}
       />
     {/if}
-  {:catch err}
-    <Text type="danger">{err.message || 'Failed to load MFA factors'}</Text>
   {/await}
 </div>
 

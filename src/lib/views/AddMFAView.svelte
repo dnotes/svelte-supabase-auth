@@ -1,6 +1,5 @@
 <script lang="ts">
   import Button from '../elements/Button.svelte'
-  import Text from '../elements/Text.svelte'
   import InputWrapper from '../elements/InputWrapper.svelte'
   import LinkButton from '../elements/LinkButton.svelte'
   import MFASingleChallenge from './MFASingleChallenge.svelte'
@@ -97,6 +96,7 @@
     secret = ''
     qrCode = ''
     factorId = ''
+    messages.clear()
   })
 </script>
 
@@ -132,14 +132,14 @@
         <img src={qrCode} alt="QR Code for TOTP setup" />
       {/if}
 
-      <Text>{getText('mfaEnterSecret')}</Text>
+      <p>{getText('mfaEnterSecret')}</p>
       <div class="mfa-secret-container">
         {#if showSecret}
           <div class="mfa-secret" aria-label="TOTP Secret">{sanitizeSecret(secret)}</div>
-          <LinkButton small onclick={() => showSecret = false}>Hide</LinkButton>
+          <LinkButton onclick={() => showSecret = false}>Hide</LinkButton>
         {:else}
           <div class="mfa-secret-hidden">••••••••••••••••••••••••••••••••</div>
-          <LinkButton small onclick={() => showSecret = true}>Show Secret</LinkButton>
+          <LinkButton onclick={() => showSecret = true}>Show Secret</LinkButton>
         {/if}
       </div>
     </div>
