@@ -26,9 +26,9 @@ export const spanishTranslations: AuthTexts = {
   socialSignIn: 'Iniciar sesión con {provider}',
 
   // Authenticated view
-  loggedIn: 'Estás conectado.',
-  loggedInTime: 'Último acceso: {time}',
-  loggedInEmail: 'Correo: {email}',
+  signedIn: 'Estás conectado.',
+  signedInTime: 'Último acceso: {time}',
+  signedInEmail: 'Correo: {email}',
   signOutButton: 'Cerrar sesión',
 }
 

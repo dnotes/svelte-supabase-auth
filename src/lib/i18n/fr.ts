@@ -27,9 +27,9 @@ export const frenchTranslations: AuthTexts = {
   socialSignIn: 'Se connecter avec {provider}',
 
   // Authenticated view
-  loggedIn: 'Vous êtes connecté.',
-  loggedInTime: 'Dernière connexion : {time}',
-  loggedInEmail: 'E-mail : {email}',
+  signedIn: 'Vous êtes connecté.',
+  signedInTime: 'Dernière connexion : {time}',
+  signedInEmail: 'E-mail : {email}',
   signOutButton: 'Se déconnecter',
 }
 

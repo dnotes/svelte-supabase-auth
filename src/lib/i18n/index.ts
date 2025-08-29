@@ -8,6 +8,7 @@ export interface AuthTexts {
   unverifiedText: string
   backupText: string
   verifyCode: string
+  enterCode: string
   resendEmail: string
 
   // Sign in
@@ -44,9 +45,9 @@ export interface AuthTexts {
   socialSignIn: string
 
   // Authenticated view
-  loggedIn: string
-  loggedInTime: string
-  loggedInEmail: string
+  signedIn: string
+  signedInTime: string
+  signedInEmail: string
   signOutButton: string
 
   // MFA
@@ -87,6 +88,7 @@ const en:AuthTexts = {
   sendLink: 'Send link',
   resetPassword: 'Reset your password',
   verifyCode: 'Verify code',
+  enterCode: 'Enter code',
   resendEmail: 'Resend email',
 
   // Link texts
@@ -113,9 +115,9 @@ const en:AuthTexts = {
   socialSignIn: 'Sign in with {provider}',
 
   // Authenticated view
-  loggedIn: 'You are logged in.',
-  loggedInTime: 'Last login: {time}',
-  loggedInEmail: 'Email: {email}',
+  signedIn: 'You are signed in.',
+  signedInTime: 'Last signin: {time}',
+  signedInEmail: 'Email: {email}',
   signOutButton: 'Sign out',
 
   // MFA
@@ -186,8 +188,8 @@ export type GetText = (key: string | number | symbol, params: Record<string, any
 
 export function createGetText(
   locale: string = 'en',
-  texts: Partial<AuthTexts>,
-  t: (key: string, params: Record<string, any>) => string
+  texts: Partial<AuthTexts> = defaultTranslations,
+  t?: (key: string, params: Record<string, any>) => string
 ):GetText {
   return function getText(key: string | number | symbol, params: Record<string, any>): string {
     const keyStr = String(key)

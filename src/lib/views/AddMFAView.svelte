@@ -88,8 +88,6 @@
     }
   }
 
-  $inspect(processing)
-
   function oncancel() {
     processing = false
     messages.clear()

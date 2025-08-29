@@ -79,7 +79,7 @@
 
 <div>
   <form onsubmit={(e) => { e.preventDefault(); verifyOTP(); }}>
-    <Wrapper name="verification-code" label={getText('linkEnterCodeLabel')} icon="key">
+    <Wrapper name="verification-code" label={getText('linkEnterCodeLabel', { email:$emailLinkSent?.email })} icon="key">
       <input
         type="text"
         name="verification-code"
@@ -88,6 +88,7 @@
         maxlength="6"
         autocomplete="one-time-code"
         inputmode="numeric"
+        aria-label={getText('enterCode')}
         onpaste={(e) => {
           // Handle pasted OTP codes
           const paste = e.clipboardData?.getData('text')

@@ -1,7 +1,7 @@
 <script module lang="ts">
   import type { SupabaseClient, Provider, User } from '@supabase/supabase-js'
   import type { Snippet } from 'svelte'
-  import type { AuthTexts } from './i18n'
+  import { type AuthTexts } from './i18n'
   import InputWrapper from './elements/InputWrapper.svelte'
   import { SUPABASE_AUTH_DEFAULTS, type PartialSupabaseAuthOptions, type SupabaseAuthOptions } from './options'
   import { emailLinkSent, signInView, type SignInView } from './stores.svelte'
@@ -15,7 +15,7 @@
     socialColors?: boolean
     socialButtonSize?: 'tiny' | 'small' | 'medium' | 'large'
     providers?: Provider[]
-    loggedInAs?: Snippet<[User|null]>
+    signedInAs?: Snippet<[User|null]>
     userInfo?: Snippet<[User|null]>
     authOptions?: PartialSupabaseAuthOptions
     initialView?: SignInView
@@ -52,7 +52,7 @@
     socialButtonSize = 'medium',
     providers = [],
     initialView = 'sign_in',
-    loggedInAs,
+    signedInAs,
     userInfo,
     InputWrapper:Wrapper,
     authOptions,
@@ -88,7 +88,6 @@
     return () => subscription.unsubscribe()
   })
 
-  $inspect(user)
 </script>
 
 <div dir="auto" class="sA {classes}" {style}>
@@ -96,7 +95,7 @@
     <AuthenticatedView
       InputWrapper={Wrapper ?? InputWrapper}
       {supabaseClient}
-      {loggedInAs}
+      {signedInAs}
       {getText}
       {locale}
       {userInfo}

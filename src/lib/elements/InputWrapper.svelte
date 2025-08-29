@@ -16,10 +16,10 @@
 </script>
 
 <div class="sA-field">
-  <label for={name}>
+  <label>
     <span>{label}</span>
 
-    <div class="input">
+    <span class="input">
       {#if icon}
         <span class="icon">
           <Icon name={icon} size="21" />
@@ -28,7 +28,7 @@
 
       {@render children()}
 
-    </div>
+    </span>
   </label>
   {#if links}
     <div class="links flex">
@@ -52,5 +52,6 @@
   }
   .input {
     position: relative;
+    display: flex;
   }
 </style>

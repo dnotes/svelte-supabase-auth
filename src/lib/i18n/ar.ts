@@ -27,9 +27,9 @@ export const arabicTranslations: AuthTexts = {
   socialSignIn: 'تسجيل الدخول باستخدام {provider}',
 
   // Authenticated view
-  loggedIn: 'أنت مسجل الدخول.',
-  loggedInTime: 'آخر تسجيل دخول: {time}',
-  loggedInEmail: 'البريد الإلكتروني: {email}',
+  signedIn: 'أنت مسجل الدخول.',
+  signedInTime: 'آخر تسجيل دخول: {time}',
+  signedInEmail: 'البريد الإلكتروني: {email}',
   signOutButton: 'تسجيل الخروج',
 }
 

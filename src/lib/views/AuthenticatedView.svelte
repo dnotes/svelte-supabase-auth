@@ -16,12 +16,12 @@
     InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
     locale?: string
-    loggedInAs?: Snippet<[User|null]>|undefined
+    signedInAs?: Snippet<[User|null]>|undefined
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
     userInfo?: Snippet<[User|null]>
   }
 
-  let { InputWrapper: Wrapper, supabaseClient, loggedInAs, getText, locale, userInfo }: Props = $props()
+  let { InputWrapper: Wrapper, supabaseClient, signedInAs, getText, locale, userInfo }: Props = $props()
 
   let loading = $state(false)
   let mfaRequired = $state(false)
@@ -211,16 +211,16 @@
 {:else}
   <!-- User is fully authenticated -->
     <div class="sA-user-info">
-      {#if loggedInAs}
-        {@render loggedInAs($user)}
+      {#if signedInAs}
+        {@render signedInAs($user)}
       {:else}
         <p dir="auto">
-          {getText('loggedIn')}
+          {getText('signedIn')}
           {#if $user?.last_sign_in_at}
-            <br/>{getText('loggedInTime', { time })}
+            <br/>{getText('signedInTime', { time })}
           {/if}
           {#if $user?.email}
-            <br/>{getText('loggedInEmail', { email: $user?.email ?? ''})}
+            <br/>{getText('signedInEmail', { email: $user?.email ?? ''})}
           {/if}
         </p>
       {/if}
