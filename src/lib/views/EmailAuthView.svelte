@@ -7,6 +7,7 @@
   import { messages } from '$lib/messages.svelte';
   import { emailLinkSent, saOptions, signInView, email } from '$lib/stores.svelte';
   import { autofocus } from '$lib/utils/autofocus.svelte';
+  import { tick } from 'svelte';
 
   interface Props {
     InputWrapper: typeof InputWrapper
@@ -18,6 +19,14 @@
 
   let loading = $state(false)
   let password = $state('')
+
+  let emailEl:HTMLInputElement|undefined = $state()
+  let passwordEl:HTMLInputElement|undefined = $state()
+  async function focus(el:'email'|'password') {
+    await tick()
+    if (el === 'email') emailEl?.focus()
+    else if ($email) passwordEl?.focus()
+  }
 
   // Computed properties for auth options
   const canSignUp = $derived($saOptions.auth.enable_signup && $saOptions.auth.email && $saOptions.auth.email.enable_signup)
@@ -67,11 +76,11 @@
 
 {#snippet emailLinks()}
   {#if !usePassword}
-    <LinkButton onclick={() => $signInView = 'sign_in_with_password'}>
+    <LinkButton onclick={() => { $signInView = 'sign_in_with_password'; focus('password') }}>
       {getText('switchToPassword')}
     </LinkButton>
   {:else}
-    <LinkButton onclick={() => $signInView = 'sign_in'}>
+    <LinkButton onclick={() => { $signInView = 'sign_in'; focus('email') }}>
       {getText('switchToMagicLink')}
     </LinkButton>
   {/if}
@@ -92,12 +101,12 @@
   }
 }}>
   <Wrapper name="email" label={getText('emailLabel')} icon="mail" links={emailLinks}>
-    <input type="email" name="email" bind:value={$email} use:autofocus>
+    <input type="email" name="email" bind:value={$email} use:autofocus bind:this={emailEl}>
   </Wrapper>
 
   {#if usePassword}
     <Wrapper name="password" label={getText('passwordLabel')} icon="key" links={resetPasswordLink}>
-      <input type="password" name="password" bind:value={password}>
+      <input type="password" name="password" bind:value={password} bind:this={passwordEl}>
     </Wrapper>
   {/if}
 

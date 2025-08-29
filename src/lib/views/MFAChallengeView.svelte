@@ -53,20 +53,20 @@
 </script>
 
 <div>
+  <h2>{getText('mfaEnterCodeHeading')}</h2>
   {#await factorsPromise}
     <p>Loading authentication methods...</p>
   {:then factors}
     {#if factors.length > 1}
-      <div>
-        <label for="factor-select">Authentication method:</label>
-        <select id="factor-select" value={selectedFactor?.id} onchange={(e) => handleFactorChange((e.target as HTMLSelectElement).value, factors)}>
+      <Wrapper name="factor-select" label={getText('mfaSelectLabel')}>
+        <select name="factor-select" id="factor-select" value={selectedFactor?.id} onchange={(e) => handleFactorChange((e.target as HTMLSelectElement).value, factors)}>
           {#each factors as factor, index}
             <option value={factor.id}>
               {factor.friendly_name || `${factor.factor_type.toUpperCase()} ${index + 1}`}
             </option>
           {/each}
         </select>
-      </div>
+      </Wrapper>
     {/if}
 
     {#if selectedFactor}
