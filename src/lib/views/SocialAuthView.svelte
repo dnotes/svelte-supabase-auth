@@ -2,7 +2,6 @@
   import Button from '../elements/Button.svelte'
   import type { Provider, SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
-  import type { AuthViews } from '$lib/Auth.svelte';
   import { messages } from '$lib/messages.svelte';
 
   interface Props {
@@ -11,11 +10,10 @@
     socialLayout: 'vertical' | 'horizontal'
     socialButtonSize: 'tiny' | 'small' | 'medium' | 'large'
     socialColors: boolean
-    view: AuthViews
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 
-  let { supabaseClient, providers, socialLayout, socialButtonSize, socialColors, view, getText }: Props = $props()
+  let { supabaseClient, providers, socialLayout, socialButtonSize, socialColors, getText }: Props = $props()
 
   let loading = $state(false)
 

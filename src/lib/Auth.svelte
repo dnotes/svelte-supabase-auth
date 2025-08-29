@@ -4,11 +4,7 @@
   import type { AuthTexts } from './i18n'
   import InputWrapper from './elements/InputWrapper.svelte'
   import { SUPABASE_AUTH_DEFAULTS, type PartialSupabaseAuthOptions, type SupabaseAuthOptions } from './options'
-
-  export type AuthViews =
-    | 'sign_in'
-    | 'sign_in_with_password'
-    | 'forgotten_password'
+  import { emailLinkSent, signInView, type SignInView } from './stores.svelte'
 
   // Auth component props interface
   export interface AuthProps {
@@ -19,10 +15,10 @@
     socialColors?: boolean
     socialButtonSize?: 'tiny' | 'small' | 'medium' | 'large'
     providers?: Provider[]
-    view?: AuthViews
     loggedInAs?: Snippet<[User|null]>
     userInfo?: Snippet<[User|null]>
     authOptions?: PartialSupabaseAuthOptions
+    initialView?: SignInView
 
     // Components
     InputWrapper?: typeof InputWrapper
@@ -39,12 +35,13 @@
   import SocialAuthView from './views/SocialAuthView.svelte'
   import ForgottenPasswordView from './views/ForgottenPasswordView.svelte'
   import AuthenticatedView from './views/AuthenticatedView.svelte'
+  import EmailLinkSentView from './views/EmailLinkSentView.svelte'
   import { onMount } from 'svelte'
   import { createGetText } from './i18n'
   import { defaultsDeep } from 'lodash-es'
   import { messages } from './messages.svelte'
   import LinkButton from './elements/LinkButton.svelte';
-  import { user } from './stores.svelte'
+  import { user, saOptions } from './stores.svelte'
 
   let {
     supabaseClient,
@@ -54,7 +51,7 @@
     socialColors = false,
     socialButtonSize = 'medium',
     providers = [],
-    view = 'sign_in',
+    initialView = 'sign_in',
     loggedInAs,
     userInfo,
     InputWrapper:Wrapper,
@@ -64,16 +61,14 @@
     t,
   }: AuthProps = $props()
 
-  const opts = $derived(defaultsDeep(authOptions, SUPABASE_AUTH_DEFAULTS)) as SupabaseAuthOptions
+  $saOptions = defaultsDeep(authOptions, SUPABASE_AUTH_DEFAULTS) as SupabaseAuthOptions
 
   let loading = $state<boolean>(true)
 
   // Create the getText function with current settings
   const getText = $derived(createGetText(locale, texts, t))
 
-  function setView(newView: AuthViews) {
-    view = newView
-  }
+  $signInView = initialView
 
   onMount(() => {
     // Get initial session
@@ -104,9 +99,10 @@
       {loggedInAs}
       {getText}
       {locale}
-      authOptions={opts}
       {userInfo}
     />
+  {:else if $emailLinkSent}
+    <EmailLinkSentView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {getText} />
   {:else if loading}
     <div class="sA-loading"></div>
   {:else}
@@ -116,14 +112,13 @@
       {socialLayout}
       {socialButtonSize}
       {socialColors}
-      {view}
       {getText}
     />
 
-    {#if opts.auth.email && (view == 'sign_in' || view == 'sign_in_with_password')}
-      <EmailAuthView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {setView} {getText} authOptions={opts} {view}/>
-    {:else if view == 'forgotten_password'}
-      <ForgottenPasswordView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {setView} {getText}/>
+    {#if $saOptions.auth.email && ($signInView == 'sign_in' || $signInView == 'sign_in_with_password')}
+      <EmailAuthView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {getText} />
+    {:else if $signInView == 'forgotten_password'}
+      <ForgottenPasswordView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {getText}/>
     {/if}
   {/if}
 

@@ -7,6 +7,8 @@
   import type { AuthTexts } from '../i18n'
   import { onDestroy } from 'svelte'
   import { messages } from '../messages.svelte'
+  import { needsMFAChallenge } from '../stores.svelte'
+  import { isElevationError } from '$lib/utils/aal2';
 
   interface Props {
     processing?: boolean
@@ -62,13 +64,24 @@
         factorType: 'totp'
       })
 
-      if (enrollError) throw enrollError
+      if (enrollError) {
+        // Check for AAL2 requirement on enroll
+        if (isElevationError(enrollError)) {
+          $needsMFAChallenge = 'toElevate'
+          return
+        }
+        throw enrollError
+      }
 
       factorId = data.id
       qrCode = data.totp.qr_code
       secret = data.totp.secret
       showEnrollment = true
     } catch (err) {
+      if (isElevationError(err)) {
+        $needsMFAChallenge = 'toElevate'
+        return
+      }
       messages.add('error', err instanceof Error ? err.message : 'Failed to start enrollment')
     } finally {
       loading = false

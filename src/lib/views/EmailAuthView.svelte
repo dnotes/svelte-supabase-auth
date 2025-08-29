@@ -3,31 +3,28 @@
   import Button from '../elements/Button.svelte'
   import type { SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
-  import type { SupabaseAuthOptions } from '../options'
   import InputWrapper from '$lib/elements/InputWrapper.svelte';
-  import type { AuthViews } from '$lib/Auth.svelte';
   import { messages } from '$lib/messages.svelte';
+  import { emailLinkSent, saOptions, signInView } from '$lib/stores.svelte';
 
   interface Props {
     InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
-    setView: (view: AuthViews) => void
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
-    authOptions: SupabaseAuthOptions
-    view: 'sign_in' | 'sign_in_with_password'
   }
 
-  let { InputWrapper:Wrapper, supabaseClient, setView, getText, authOptions, view }: Props = $props()
+  let { InputWrapper:Wrapper, supabaseClient, getText }: Props = $props()
 
   let loading = $state(false)
   let email = $state('')
   let password = $state('')
 
   // Computed properties for auth options
-  const canSignUp = $derived(authOptions.auth.enable_signup && authOptions.auth.email && authOptions.auth.email.enable_signup)
-  const usePassword = $derived(view === 'sign_in_with_password')
+  const canSignUp = $derived($saOptions.auth.enable_signup && $saOptions.auth.email && $saOptions.auth.email.enable_signup)
+  const usePassword = $derived($signInView === 'sign_in_with_password')
 
   async function submitMagicLink() {
+    if (!$saOptions.auth.email) return
     messages.clear()
     loading = true
 
@@ -35,8 +32,13 @@
 
     if (err)
       messages.add('error', err.message)
-    else
-      messages.add('success', getText('magicLinkSent'))
+    else {
+      $emailLinkSent = {
+        email,
+        sentAt: new Date(),
+        expiresAt: new Date(Date.now() + $saOptions.auth.email.otp_expiry * 1000)
+      }
+    }
 
     loading = false
   }
@@ -65,18 +67,18 @@
 
 {#snippet emailLinks()}
   {#if !usePassword}
-    <LinkButton onclick={() => setView('sign_in_with_password')}>
+    <LinkButton onclick={() => $signInView = 'sign_in_with_password'}>
       {getText('switchToPassword')}
     </LinkButton>
   {:else}
-    <LinkButton onclick={() => setView('sign_in')}>
+    <LinkButton onclick={() => $signInView = 'sign_in'}>
       {getText('switchToMagicLink')}
     </LinkButton>
   {/if}
 {/snippet}
 
 {#snippet resetPasswordLink()}
-  <LinkButton onclick={() => setView('forgotten_password')}>
+  <LinkButton onclick={() => $signInView = 'forgotten_password'}>
     {getText('resetPassword')}
   </LinkButton>
 {/snippet}

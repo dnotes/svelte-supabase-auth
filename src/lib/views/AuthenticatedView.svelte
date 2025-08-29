@@ -7,10 +7,10 @@
   import InputWrapper from '../elements/InputWrapper.svelte'
   import type { Factor, SupabaseClient, User } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
-  import type { SupabaseAuthOptions } from '../options'
   import { messages } from '$lib/messages.svelte';
   import Accordion from '$lib/components/Accordion.svelte';
-  import { needsMFAChallenge, user } from '$lib/stores.svelte'
+  import { needsMFAChallenge, user, saOptions } from '$lib/stores.svelte'
+  import { isElevationError } from '$lib/utils/aal2';
 
   interface Props {
     InputWrapper: typeof InputWrapper
@@ -18,11 +18,10 @@
     locale?: string
     loggedInAs?: Snippet<[User|null]>|undefined
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
-    authOptions: SupabaseAuthOptions
     userInfo?: Snippet<[User|null]>
   }
 
-  let { InputWrapper: Wrapper, supabaseClient, loggedInAs, getText, locale, authOptions, userInfo }: Props = $props()
+  let { InputWrapper: Wrapper, supabaseClient, loggedInAs, getText, locale, userInfo }: Props = $props()
 
   let loading = $state(false)
   let mfaRequired = $state(false)
@@ -81,7 +80,7 @@
 
       // User needs to enroll MFA if they're new, have no verified factors, and MFA is required
       const isNewUser = !hasVerifiedFactors
-      mfaRequired = isNewUser && authOptions.auth.mfa.required || false
+      mfaRequired = isNewUser && $saOptions.auth.mfa.required || false
 
       // Clear any previous network errors
       showNetworkError = false
@@ -115,7 +114,7 @@
   }
 
   async function deleteFactor(factor: any) {
-    const canDelete = !authOptions?.auth?.mfa?.required || verifiedFactors.length > 1 || factor.status === 'unverified'
+    const canDelete = !$saOptions?.auth?.mfa?.required || verifiedFactors.length > 1 || factor.status === 'unverified'
 
     if (!canDelete) {
       messages.add('error', getText('mfaNoDeleteError'))
@@ -132,11 +131,22 @@
         factorId: factor.id
       })
 
-      if (unenrollError) throw unenrollError
+      if (unenrollError) {
+        // Check for AAL2 requirement on unenroll
+        if (isElevationError(unenrollError)) {
+          $needsMFAChallenge = 'toElevate'
+          return
+        }
+      }
 
       // Refresh MFA status
       await checkMFAStatus()
     } catch (err) {
+      // Additional check for AAL2 errors in catch block
+      if (isElevationError(err)) {
+        $needsMFAChallenge = 'toElevate'
+        return
+      }
       messages.add('error', err instanceof Error ? err.message : 'Failed to remove factor')
     } finally {
       loading = false
@@ -221,7 +231,7 @@
     {/if}
 
     <!-- MFA Factors List -->
-    {#if authOptions.auth.mfa.totp.enroll_enabled}
+    {#if $saOptions.auth.mfa.totp.enroll_enabled}
       <Accordion title={getText('mfaFactorListHeading') + ` (${verifiedFactors.length})${verifiedFactors.length === 1 ? ' ⚠️' : ''}`}>
 
         {#if factors.length === 0}

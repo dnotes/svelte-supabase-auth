@@ -127,7 +127,7 @@
   </Wrapper>
 
   <Button submit block primary size="large" {loading} onclick={verifyCode}>
-    {getText('mfaVerifyCodeButton')}
+    {getText('verifyCode')}
   </Button>
 
   <Button block size="large" onclick={()=>{ if (cancellable) processing = false; else supabaseClient.auth.signOut() }}>

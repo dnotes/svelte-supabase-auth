@@ -4,17 +4,16 @@
   import type { SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
   import InputWrapper from '$lib/elements/InputWrapper.svelte';
-  import type { AuthViews } from '$lib/Auth.svelte';
   import { messages } from '$lib/messages.svelte';
+  import { signInView } from '$lib/stores.svelte';
 
   interface Props {
     InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
-    setView: (view: AuthViews) => void
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 
-  let { InputWrapper:Wrapper, supabaseClient, setView, getText }: Props = $props()
+  let { InputWrapper:Wrapper, supabaseClient, getText }: Props = $props()
 
   let loading = $state(false)
   let email = $state('')
@@ -42,7 +41,7 @@
     {getText('resetPassword')}
   </Button>
 
-  <LinkButton onclick={() => setView('sign_in')}>
+  <LinkButton onclick={() => $signInView = 'sign_in_with_password'}>
     {getText('goBackToSignIn')}
   </LinkButton>
 </form>

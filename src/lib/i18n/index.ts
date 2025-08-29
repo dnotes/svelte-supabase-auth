@@ -7,6 +7,8 @@ export interface AuthTexts {
   verifiedText?: string
   unverifiedText?: string
   backupText?: string
+  verifyCode?: string
+  resendEmail?: string
 
   // Sign in
   signIn?: string
@@ -24,11 +26,14 @@ export interface AuthTexts {
   goBackToSignIn?: string
 
   // Messages
-  magicLinkSent?: string
+  emailLinkSent?: string
   resetPasswordSent?: string
   networkError?: string
   invalidCodeError?: string
   authenticationError?: string
+
+  // Email verification
+  linkEnterCodeLabel?: string
 
   // Social auth
   socialHeading?: string
@@ -61,7 +66,6 @@ export interface AuthTexts {
   mfaEnterSecret?: string
   // MFA Challenge screen
   mfaEnterCodeLabel?: string
-  mfaVerifyCodeButton?: string
 
 }
 
@@ -82,6 +86,8 @@ export const defaultTranslations: Record<string, AuthTexts> = {
     passwordLabel: 'Password',
     sendLink: 'Send link',
     resetPassword: 'Reset your password',
+    verifyCode: 'Verify code',
+    resendEmail: 'Resend email',
 
     // Link texts
     switchToSignUp: "Don't have an account? Sign up",
@@ -91,11 +97,14 @@ export const defaultTranslations: Record<string, AuthTexts> = {
     goBackToSignIn: 'Go back to sign in',
 
     // Messages
-    magicLinkSent: 'Check your email for the login link',
+    emailLinkSent: 'Login link sent to {email}.',
     resetPasswordSent: 'Check your email for the password reset link',
     networkError: 'Due to a network or server error, your login could not be completed. Please try again or reload this page. ({error})',
     invalidCodeError: 'Invalid code. Please check and try again.',
     authenticationError: 'Authentication failed. Please try again. ({error})',
+
+    // Email verification
+    linkEnterCodeLabel: 'Click the link in the email sent to {email}, or enter the verification code below.',
 
     // Social auth
     socialHeading: 'Sign in with',
@@ -125,7 +134,6 @@ export const defaultTranslations: Record<string, AuthTexts> = {
     mfaEnterSecret: 'Or enter the following secret manually:',
     // MFA Challenge
     mfaEnterCodeLabel: 'Enter the code from your authentication app:',
-    mfaVerifyCodeButton: 'Verify code',
     // MFA Warning
     mfaWarningText: 'Warning! You have only ONE multi-factor authentication token saved. '
     +'If you lose that token, it may be impossible to recover access to your account. '
