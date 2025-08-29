@@ -2,146 +2,155 @@
 export interface AuthTexts {
 
   // Strings
-  cancelButton?: string
-  deleteButton?: string
-  verifiedText?: string
-  unverifiedText?: string
-  backupText?: string
-  verifyCode?: string
-  resendEmail?: string
+  cancelButton: string
+  deleteButton: string
+  verifiedText: string
+  unverifiedText: string
+  backupText: string
+  verifyCode: string
+  resendEmail: string
 
   // Sign in
-  signIn?: string
-  signUp?: string
-  emailLabel?: string
-  passwordLabel?: string
-  sendLink?: string
-  resetPassword?: string
+  signIn: string
+  signUp: string
+  emailLabel: string
+  passwordLabel: string
+  sendLink: string
+  resetPassword: string
 
   // Link texts
-  switchToSignUp?: string
-  switchToSignIn?: string
-  switchToMagicLink?: string
-  switchToPassword?: string
-  goBackToSignIn?: string
+  switchToSignUp: string
+  switchToSignIn: string
+  switchToMagicLink: string
+  switchToPassword: string
+  goBackToSignIn: string
 
   // Messages
-  emailLinkSent?: string
-  resetPasswordSent?: string
-  networkError?: string
-  invalidCodeError?: string
-  authenticationError?: string
+  emailLinkSent: string
+  resetPasswordSent: string
+  networkError: string
+  invalidCodeError: string
+  authenticationError: string
 
   // Email verification
-  linkEnterCodeLabel?: string
+  linkEnterCodeHeading: string
+  linkEnterCodeLabel: string
 
   // Social auth
-  socialHeading?: string
-  socialDivider?: string
+  socialHeading: string
+  socialDivider: string
   // Note: socialSignIn handles both login AND account creation via OAuth
   // Supabase's signInWithOAuth() automatically creates accounts if they don't exist
-  socialSignIn?: string
+  socialSignIn: string
 
   // Authenticated view
-  loggedIn?: string
-  loggedInTime?: string
-  loggedInEmail?: string
-  signOutButton?: string
+  loggedIn: string
+  loggedInTime: string
+  loggedInEmail: string
+  signOutButton: string
 
   // MFA
-  mfaFactorListHeading?: string
-  mfaListItemText?: string
-  mfaNoFactorsText?: string
-  mfaWarningText?: string
-  mfaAddFactorLink?: string
-  mfaNoDeleteError?: string
-  mfaDeleteFactorConfirmation?: string
+  mfaFactorListHeading: string
+  mfaListItemText: string
+  mfaNoFactorsText: string
+  mfaWarningText: string
+  mfaAddFactorLink: string
+  mfaNoDeleteError: string
+  mfaDeleteFactorConfirmation: string
   // MFA required
-  mfaRequired?: string
+  mfaRequired: string
   // Add MFA screen
-  mfaAddFactorParagraph?: string
-  mfaFriendlyNameLabel?: string
-  mfaAddFactorButton?: string
-  mfaScanQRCode?: string
-  mfaEnterSecret?: string
+  mfaAddFactorParagraph: string
+  mfaFriendlyNameLabel: string
+  mfaAddFactorButton: string
+  mfaScanQRCode: string
+  mfaEnterSecret: string
   // MFA Challenge screen
-  mfaEnterCodeLabel?: string
+  mfaSelectLabel: string
+  mfaEnterCodeHeading: string
+  mfaEnterCodeLabel: string
+
+}
+
+const en:AuthTexts = {
+
+  cancelButton: 'Cancel',
+  deleteButton: 'Delete',
+  verifiedText: 'verified',
+  unverifiedText: 'unverified',
+  backupText: 'backup #{count}',
+
+  signIn: 'Sign in',
+  signUp: 'Sign up',
+  emailLabel: 'Email address',
+  passwordLabel: 'Password',
+  sendLink: 'Send link',
+  resetPassword: 'Reset your password',
+  verifyCode: 'Verify code',
+  resendEmail: 'Resend email',
+
+  // Link texts
+  switchToSignUp: "Don't have an account? Sign up",
+  switchToSignIn: 'Do you have an account? Sign in',
+  switchToMagicLink: 'Sign in with an email link',
+  switchToPassword: 'Sign in with a password',
+  goBackToSignIn: 'Go back to sign in',
+
+  // Messages
+  emailLinkSent: 'Login link sent to {email}.',
+  resetPasswordSent: 'Check your email for the password reset link',
+  networkError: 'Due to a network or server error, your login could not be completed. Please try again or reload this page. ({error})',
+  invalidCodeError: 'Invalid code. Please check and try again.',
+  authenticationError: 'Authentication failed. Please try again. ({error})',
+
+  // Email verification
+  linkEnterCodeHeading: 'Magic Link Verification',
+  linkEnterCodeLabel: 'Click the link in the email sent to {email}, or enter the verification code below.',
+
+  // Social auth
+  socialHeading: 'Sign in with',
+  socialDivider: 'or continue with',
+  socialSignIn: 'Sign in with {provider}',
+
+  // Authenticated view
+  loggedIn: 'You are logged in.',
+  loggedInTime: 'Last login: {time}',
+  loggedInEmail: 'Email: {email}',
+  signOutButton: 'Sign out',
+
+  // MFA
+  mfaFactorListHeading: 'Multi-factor authentication (MFA) tokens',
+  mfaListItemText: '{name} created {date} ({status})',
+  mfaNoFactorsText: 'No MFA tokens',
+  mfaAddFactorLink: 'add a new MFA token',
+  mfaNoDeleteError: 'You cannot delete the last authentication method when MFA is required.',
+  mfaDeleteFactorConfirmation: 'Are you sure you want to delete the {name} multi-factor authentication token?',
+  // MFA required
+  mfaRequired: 'Multi-factor authentication is required for your account. Please set up a token to continue.',
+  // Add MFA
+  mfaAddFactorParagraph: 'Add a multi-factor authentication token to your account.',
+  mfaFriendlyNameLabel: 'Name (for you to identify this token)',
+  mfaAddFactorButton: 'Generate new token',
+  mfaScanQRCode: 'Scan the QR code below in your authentication app:',
+  mfaEnterSecret: 'Or enter the following secret manually:',
+  // MFA Challenge
+  mfaEnterCodeHeading: 'Multi-Factor Authentication',
+  mfaEnterCodeLabel: 'Enter the code from your authentication app:',
+  mfaSelectLabel: 'MFA Code:',
+  // MFA Warning
+  mfaWarningText: 'Warning! You have only ONE multi-factor authentication token saved. '
+  +'If you lose that token, it may be impossible to recover access to your account. '
+  +'It is recommended to add at least one backup token to your account, and save the '
+  +'provided codes in a secure location as recovery keys. To do this, take a screenshot '
+  +'of the QR code or copy the secret key into a secure location.',
 
 }
 
 
 
 // Default translations - only English included in core
-export const defaultTranslations: Record<string, AuthTexts> = {
-  en: {
-
-    cancelButton: 'Cancel',
-    deleteButton: 'Delete',
-    verifiedText: 'verified',
-    unverifiedText: 'unverified',
-    backupText: 'backup #{count}',
-
-    signIn: 'Sign in',
-    emailLabel: 'Email address',
-    passwordLabel: 'Password',
-    sendLink: 'Send link',
-    resetPassword: 'Reset your password',
-    verifyCode: 'Verify code',
-    resendEmail: 'Resend email',
-
-    // Link texts
-    switchToSignUp: "Don't have an account? Sign up",
-    switchToSignIn: 'Do you have an account? Sign in',
-    switchToMagicLink: 'Sign in with an email link',
-    switchToPassword: 'Sign in with a password',
-    goBackToSignIn: 'Go back to sign in',
-
-    // Messages
-    emailLinkSent: 'Login link sent to {email}.',
-    resetPasswordSent: 'Check your email for the password reset link',
-    networkError: 'Due to a network or server error, your login could not be completed. Please try again or reload this page. ({error})',
-    invalidCodeError: 'Invalid code. Please check and try again.',
-    authenticationError: 'Authentication failed. Please try again. ({error})',
-
-    // Email verification
-    linkEnterCodeLabel: 'Click the link in the email sent to {email}, or enter the verification code below.',
-
-    // Social auth
-    socialHeading: 'Sign in with',
-    socialDivider: 'or continue with',
-    socialSignIn: 'Sign in with {provider}',
-
-    // Authenticated view
-    loggedIn: 'You are logged in.',
-    loggedInTime: 'Last login: {time}',
-    loggedInEmail: 'Email: {email}',
-    signOutButton: 'Sign out',
-
-    // MFA
-    mfaFactorListHeading: 'Multi-factor authentication (MFA) tokens',
-    mfaListItemText: '{name} created {date} ({status})',
-    mfaNoFactorsText: 'No MFA tokens',
-    mfaAddFactorLink: 'add a new MFA token',
-    mfaNoDeleteError: 'You cannot delete the last authentication method when MFA is required.',
-    mfaDeleteFactorConfirmation: 'Are you sure you want to delete the {name} multi-factor authentication token?',
-    // MFA required
-    mfaRequired: 'Multi-factor authentication is required for your account. Please set up a token to continue.',
-    // Add MFA
-    mfaAddFactorParagraph: 'Add a multi-factor authentication token to your account.',
-    mfaFriendlyNameLabel: 'Name (for you to identify this token)',
-    mfaAddFactorButton: 'Generate new token',
-    mfaScanQRCode: 'Scan the QR code below in your authentication app:',
-    mfaEnterSecret: 'Or enter the following secret manually:',
-    // MFA Challenge
-    mfaEnterCodeLabel: 'Enter the code from your authentication app:',
-    // MFA Warning
-    mfaWarningText: 'Warning! You have only ONE multi-factor authentication token saved. '
-    +'If you lose that token, it may be impossible to recover access to your account. '
-    +'It is recommended to add at least one backup token to your account, and save the '
-    +'provided codes in a secure location as recovery keys. To do this, take a screenshot '
-    +'of the QR code or copy the secret key into a secure location.',
-
-  }
+export const defaultTranslations: Record<string, Partial<AuthTexts>> = {
+  en
 }
 
 /**
@@ -149,7 +158,7 @@ export const defaultTranslations: Record<string, AuthTexts> = {
  * @param locale - The locale code (e.g., 'de', 'pt', 'ja')
  * @param translations - Complete translation object
  */
-export function addTranslations(locale: string, translations: AuthTexts) {
+export function addTranslations(locale: string, translations: Partial<AuthTexts>) {
   defaultTranslations[locale] = translations
 }
 
@@ -165,7 +174,7 @@ export function addTranslations(locale: string, translations: AuthTexts) {
  * @param template - String template with {key} placeholders
  * @param params - Object with values to substitute
  */
-function interpolate(template: string, params?: Record<string, any>): string {
+function interpolate(template: string, params: Record<string, any>): string {
   if (!params) return template
 
   return template.replace(/\{(\w+)\}/g, (match, key) => {
@@ -173,14 +182,14 @@ function interpolate(template: string, params?: Record<string, any>): string {
   })
 }
 
-export type GetText = (key: string | number | symbol, params?: Record<string, any>) => string
+export type GetText = (key: string | number | symbol, params: Record<string, any>) => string
 
 export function createGetText(
   locale: string = 'en',
-  texts?: Partial<AuthTexts>,
-  t?: (key: string, params?: Record<string, any>) => string
+  texts: Partial<AuthTexts>,
+  t: (key: string, params: Record<string, any>) => string
 ):GetText {
-  return function getText(key: string | number | symbol, params?: Record<string, any>): string {
+  return function getText(key: string | number | symbol, params: Record<string, any>): string {
     const keyStr = String(key)
     let result: string
 
