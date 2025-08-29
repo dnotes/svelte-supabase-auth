@@ -39,35 +39,38 @@
 
     const { error: err } = await supabaseClient.auth.signInWithOtp({ email: $email })
 
-    if (err)
-      messages.add('error', err.message)
-    else {
-      $emailLinkSent = {
-        email: $email,
-        sentAt: new Date(),
-        expiresAt: new Date(Date.now() + $saOptions.auth.email.otp_expiry * 1000)
-      }
+    if (err) messages.add('error', err.message)
+    else $emailLinkSent = {
+      email: $email,
+      sentAt: new Date(),
+      expiresAt: new Date(Date.now() + $saOptions.auth.email.otp_expiry * 1000)
     }
 
     loading = false
   }
 
   async function submitPassword(isSignUp: boolean = false) {
+    if (!$saOptions.auth.email) return
     messages.clear()
     loading = true
 
     if (isSignUp) {
-      const { error: signUpError } = await supabaseClient.auth.signUp({
+      const { error: err } = await supabaseClient.auth.signUp({
         email: $email, password
       })
 
-      if (signUpError) messages.add('error', signUpError.message)
+      if (err) messages.add('error', err.message)
+      else $emailLinkSent = {
+        email: $email,
+        sentAt: new Date(),
+        expiresAt: new Date(Date.now() + $saOptions.auth.email.otp_expiry * 1000)
+      }
     } else {
-      const { error: signInError } = await supabaseClient.auth.signInWithPassword({
+      const { error: err } = await supabaseClient.auth.signInWithPassword({
         email: $email, password
       })
 
-      if (signInError) messages.add('error', signInError.message)
+      if (err) messages.add('error', err.message)
     }
 
     loading = false

@@ -91,7 +91,20 @@ Given('no providers', async (world:World) => {
 When('I sign up with an email link', async (world:World) => {
   world.emailAddress = crypto.randomUUID() + '@example.com'
   await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
+  if (await world.getLocator(world.page, 'Sign in with an email link', 'button').isVisible()) {
+    await world.getLocator(world.page, 'Sign in with an email link', 'button').click()
+  }
   await world.getLocator(world.page, 'Send link', 'button').click()
+})
+
+When('I sign up with a password', async (world:World) => {
+  world.emailAddress = crypto.randomUUID() + '@example.com'
+  await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
+  if (await world.getLocator(world.page, 'Sign in with a password', 'button').isVisible()) {
+    await world.getLocator(world.page, 'Sign in with a password', 'button').click()
+  }
+  await world.getLocator(world.page, 'Password', 'input').fill('password')
+  await world.getLocator(world.page, 'Sign up', 'button').click()
 })
 
 When('I enter the proper code', async(world:World) => {

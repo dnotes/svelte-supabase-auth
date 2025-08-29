@@ -6,7 +6,7 @@ Feature: Basic operation of the default configuration
 
   @mobile
   Scenario: Tests work
-    When I take a screenshot
+    Then the screenshot should match
 
   Scenario: The main fields show
     Then I should see an "Email address" input
@@ -20,12 +20,17 @@ Feature: Basic operation of the default configuration
     Then I should NOT see a "Password" input
     And I should NOT see a "Sign up" button
 
-  Scenario: Creating an account requires email confirmation
-    When I sign up with an email link
+  Scenario Outline: Creating an account requires email verification (<method>)
+    When I sign up with <method>
     Then I should see "Click the link in the email"
     And I should see my email address
     And I should see a "Verify code" button
     And I should have an email with subject "Confirm Your Email"
     When I enter the proper code
     Then I should be signed in
+
+    Examples:
+      | method |
+      | an email link |
+      | a password |
 
