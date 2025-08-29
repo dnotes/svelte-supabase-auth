@@ -5,7 +5,8 @@
   import type { AuthTexts } from '../i18n'
   import InputWrapper from '$lib/elements/InputWrapper.svelte';
   import { messages } from '$lib/messages.svelte';
-  import { signInView } from '$lib/stores.svelte';
+  import { signInView, email } from '$lib/stores.svelte';
+  import { autofocus } from '$lib/utils/autofocus.svelte';
 
   interface Props {
     InputWrapper: typeof InputWrapper
@@ -16,13 +17,12 @@
   let { InputWrapper:Wrapper, supabaseClient, getText }: Props = $props()
 
   let loading = $state(false)
-  let email = $state('')
 
   async function submit() {
     messages.clear()
     loading = true
 
-    const { error: err } = await supabaseClient.auth.resetPasswordForEmail(email)
+    const { error: err } = await supabaseClient.auth.resetPasswordForEmail($email)
 
     if (err)
       messages.add('error', err.message)
@@ -35,7 +35,7 @@
 
 <form onsubmit={(e) => { e.preventDefault(); submit(); }}>
   <Wrapper name="email" label={getText('emailLabel')} icon="mail">
-    <input type="email" name="email" bind:value={email}>
+    <input type="email" name="email" bind:value={$email} use:autofocus>
   </Wrapper>
   <Button block primary size="large" {loading} icon="inbox">
     {getText('resetPassword')}

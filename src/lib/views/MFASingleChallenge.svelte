@@ -5,6 +5,7 @@
   import type { AuthTexts } from '../i18n'
   import { onDestroy, onMount } from 'svelte'
   import { messages } from '../messages.svelte'
+  import { autofocus } from '../utils/autofocus.svelte'
 
   interface Props {
     cancellable?: boolean
@@ -98,9 +99,6 @@
     }
   }
 
-  let el:HTMLInputElement
-  onMount(()=>{el.focus()})
-
   // Cleanup on component destruction
   onDestroy(() => {
     // Clear sensitive state
@@ -122,7 +120,7 @@
       pattern="[0-9]{6}"
       autocomplete="one-time-code"
       disabled={loading}
-      bind:this={el}
+      use:autofocus
     >
   </Wrapper>
 

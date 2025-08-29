@@ -17,3 +17,5 @@ export const saOptions:Writable<SupabaseAuthOptions> = writable()
 
 export type SignInView = 'sign_in' | 'sign_in_with_password' | 'forgotten_password'
 export const signInView:Writable<SignInView> = writable('sign_in')
+
+export const email:Writable<string> = writable('')

@@ -5,7 +5,8 @@
   import type { AuthTexts } from '../i18n'
   import InputWrapper from '$lib/elements/InputWrapper.svelte';
   import { messages } from '$lib/messages.svelte';
-  import { emailLinkSent, saOptions, signInView } from '$lib/stores.svelte';
+  import { emailLinkSent, saOptions, signInView, email } from '$lib/stores.svelte';
+  import { autofocus } from '$lib/utils/autofocus.svelte';
 
   interface Props {
     InputWrapper: typeof InputWrapper
@@ -16,7 +17,6 @@
   let { InputWrapper:Wrapper, supabaseClient, getText }: Props = $props()
 
   let loading = $state(false)
-  let email = $state('')
   let password = $state('')
 
   // Computed properties for auth options
@@ -28,13 +28,13 @@
     messages.clear()
     loading = true
 
-    const { error: err } = await supabaseClient.auth.signInWithOtp({ email })
+    const { error: err } = await supabaseClient.auth.signInWithOtp({ email: $email })
 
     if (err)
       messages.add('error', err.message)
     else {
       $emailLinkSent = {
-        email,
+        email: $email,
         sentAt: new Date(),
         expiresAt: new Date(Date.now() + $saOptions.auth.email.otp_expiry * 1000)
       }
@@ -49,13 +49,13 @@
 
     if (isSignUp) {
       const { error: signUpError } = await supabaseClient.auth.signUp({
-        email, password
+        email: $email, password
       })
 
       if (signUpError) messages.add('error', signUpError.message)
     } else {
       const { error: signInError } = await supabaseClient.auth.signInWithPassword({
-        email, password
+        email: $email, password
       })
 
       if (signInError) messages.add('error', signInError.message)
@@ -92,7 +92,7 @@
   }
 }}>
   <Wrapper name="email" label={getText('emailLabel')} icon="mail" links={emailLinks}>
-    <input type="email" name="email" bind:value={email}>
+    <input type="email" name="email" bind:value={$email} use:autofocus>
   </Wrapper>
 
   {#if usePassword}
