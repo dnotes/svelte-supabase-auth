@@ -10,13 +10,7 @@
   import type { PartialSupabaseAuthOptions, SupabaseAuthOptions } from '$lib/options';
 
   let locale = $state('en')
-
   const authOptions: PartialSupabaseAuthOptions = {
-    auth: {
-      mfa: {
-        required: true,
-      },
-    },
   }
 
 </script>

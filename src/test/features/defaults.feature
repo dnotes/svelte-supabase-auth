@@ -1,12 +1,14 @@
-Feature: Basic operation of the default configuration
+Feature: Basic operation in the default configuration
 
   Background:
     Given the default configuration
     And no providers
 
   @mobile
-  Scenario: Tests work
-    Then the screenshot should match
+  Scenario: Visual regression for login form with no links
+    Then the screenshot "defaults_login-with-link" should match
+    When I click "Sign in with a password"
+    Then the screenshot "defaults_login-with-password" should match
 
   Scenario: The main fields show
     Then I should see an "Email address" input
@@ -27,6 +29,21 @@ Feature: Basic operation of the default configuration
     And I should see a "Verify code" button
     And I should have an email with subject "Confirm Your Email"
     When I enter the proper code
+    Then I should be signed in
+
+    Examples:
+      | method |
+      | an email link |
+      | a password |
+
+  @mobile
+  Scenario: Existing account
+    Given I have an existing account
+    Then the screenshot "defaults_login-with-password" should match
+
+  Scenario Outline: Signing in with <method>
+    Given I have an existing account
+    When I sign in with <method>
     Then I should be signed in
 
     Examples:

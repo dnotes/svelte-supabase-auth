@@ -9,7 +9,7 @@
   import type { AuthTexts } from '../i18n'
   import { messages } from '$lib/messages.svelte';
   import Accordion from '$lib/components/Accordion.svelte';
-  import { needsMFAChallenge, user, saOptions } from '$lib/stores.svelte'
+  import { needsMFAChallenge, user, saOptions, email, emailLinkSent } from '$lib/stores.svelte'
   import { isElevationError } from '$lib/utils/aal2';
 
   interface Props {
@@ -109,7 +109,8 @@
     if (signOutError) {
       messages.add('error', signOutError.message)
     }
-
+    $email = ''
+    $emailLinkSent = null
     loading = false
   }
 

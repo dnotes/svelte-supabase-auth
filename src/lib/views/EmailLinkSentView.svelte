@@ -47,6 +47,7 @@
       messages.add('error', getText('authenticationError', { error: err instanceof Error ? err.message : 'Unknown error' }))
     }
 
+    $emailLinkSent = null
     loading = false
   }
 

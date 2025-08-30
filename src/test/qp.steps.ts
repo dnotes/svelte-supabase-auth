@@ -55,7 +55,7 @@ class World extends PlaywrightWorld {
       return this._getEmailMessages({ subject:test.subject })
     }
     if (test.code) {
-      let code = this?.messages[this?.messages.length - 1]?.Snippet.match(/code: (\d{6})/)?.[1]
+      let code = this?.messages[0]?.Snippet.match(/code:.*(\d{6})/)?.[1]
       if (!code || code === this.latestCode) {
         // wait and try again until we get a new code
         await new Promise(resolve => setTimeout(resolve, 400))
@@ -63,6 +63,21 @@ class World extends PlaywrightWorld {
       }
       this.latestCode = code
     }
+  }
+
+  async ensureLoginMethod(method:'link'|'password') {
+    let str = method === 'link' ? 'Sign in with an email link' : 'Sign in with a password'
+    if (await this.getLocator(this.page, str, 'button').isVisible()) {
+      await this.getLocator(this.page, str, 'button').click()
+    }
+    try {
+      if (method === 'link') await this.expectElement(this.page.getByRole('button', { name:'Send Link' }))
+      else await this.expectElement(this.page.getByRole('button', { name:'Sign in' }))
+    }
+    catch (e) {
+      await this.screenshot()
+    }
+
   }
 
 }
@@ -88,23 +103,51 @@ Given('no providers', async (world:World) => {
   await world.page.goto(world.baseUrl.toString())
 })
 
+Given('I have an existing account', async (world:World) => {
+  world.emailAddress = crypto.randomUUID() + '@example.com'
+  await world.ensureLoginMethod('password')
+  await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
+  await world.getLocator(world.page, 'Password', 'input').fill('password')
+  await world.getLocator(world.page, 'Sign up', 'button').click()
+  await world.emailMessages({ code:true })
+  expect(world.latestCode).not.toBe('')
+  await world.getLocator(world.page, 'Enter code', 'textbox').fill(world.latestCode)
+  await world.getLocator(world.page, 'Verify code', 'button').click()
+  await world.expectText(world.page, 'You are signed in')
+  await world.getLocator(world.page, 'Sign out', 'button').click()
+  await world.expectElement(world.page.getByRole('textbox', { name:'Email address' }))
+})
+
 When('I sign up with an email link', async (world:World) => {
+  await world.ensureLoginMethod('link')
   world.emailAddress = crypto.randomUUID() + '@example.com'
   await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
-  if (await world.getLocator(world.page, 'Sign in with an email link', 'button').isVisible()) {
-    await world.getLocator(world.page, 'Sign in with an email link', 'button').click()
-  }
   await world.getLocator(world.page, 'Send link', 'button').click()
 })
 
 When('I sign up with a password', async (world:World) => {
+  await world.ensureLoginMethod('password')
   world.emailAddress = crypto.randomUUID() + '@example.com'
   await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
-  if (await world.getLocator(world.page, 'Sign in with a password', 'button').isVisible()) {
-    await world.getLocator(world.page, 'Sign in with a password', 'button').click()
-  }
   await world.getLocator(world.page, 'Password', 'input').fill('password')
   await world.getLocator(world.page, 'Sign up', 'button').click()
+})
+
+When('I sign in with an email link', async(world:World) => {
+  await world.ensureLoginMethod('link')
+  await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
+  await world.getLocator(world.page, 'Send link', 'button').click()
+  await world.emailMessages({ code:true })
+  expect(world.latestCode).not.toBe('')
+  await world.getLocator(world.page, 'Enter code', 'textbox').fill(world.latestCode)
+  await world.getLocator(world.page, 'Verify code', 'button').click()
+})
+
+When('I sign in with a password', async(world:World) => {
+  await world.ensureLoginMethod('password')
+  await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
+  await world.getLocator(world.page, 'Password', 'input').fill('password')
+  await world.page.getByRole('button', { name:'Sign in', exact:true }).click()
 })
 
 When('I enter the proper code', async(world:World) => {

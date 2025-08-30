@@ -24,8 +24,8 @@
   let passwordEl:HTMLInputElement|undefined = $state()
   async function focus(el:'email'|'password') {
     await tick()
-    if (el === 'email') emailEl?.focus()
-    else if ($email) passwordEl?.focus()
+    if (el === 'email' || !$email) emailEl?.focus()
+    else passwordEl?.focus()
   }
 
   // Computed properties for auth options
