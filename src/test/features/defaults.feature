@@ -1,4 +1,4 @@
-Feature: Basic operation in the default configuration
+Feature: Default config, basic operations
 
   Background:
     Given the default configuration

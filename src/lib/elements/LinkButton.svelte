@@ -4,12 +4,13 @@
     class?: string
     children: ()=>any
     onclick?: () => void
+    [key: string]: any
   }
 
-  let { block, class:classText, onclick, children }: Props = $props()
+  let { block, class:classText, onclick, children, ...rest }: Props = $props()
 </script>
 
-<button class:block class="{classText}" type="button" onclick={(e) => { e.preventDefault(); onclick?.(); }}>{@render children()}</button>
+<button class:block class="{classText}" type="button" onclick={(e) => { e.preventDefault(); onclick?.(); }} {...rest}>{@render children()}</button>
 
 <style>
   button {

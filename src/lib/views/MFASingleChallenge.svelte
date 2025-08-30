@@ -120,6 +120,7 @@
       pattern="[0-9]{6}"
       autocomplete="one-time-code"
       disabled={loading}
+      aria-label={getText('enterCode')}
       use:autofocus
     >
   </Wrapper>

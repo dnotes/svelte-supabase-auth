@@ -240,7 +240,8 @@
         {:else}
           <ul>
             {#each factors as factor}
-              <li class="flex">
+              {@const factorName = (factor?.friendly_name ?? factor?.factor_type) + (factor.status === 'unverified' ? ' (unverified)' : '')}
+              <li class="flex" aria-label="Multi-factor authenticator {factorName}">
                 <span>
                   {getText('mfaListItemText', {
                     name: factor?.friendly_name ?? factor?.factor_type,
@@ -248,7 +249,11 @@
                     status: getText(`${factor.status}Text`)
                   })}
                 </span>
-                <LinkButton class="danger" onclick={() => deleteFactor(factor)}>
+                <LinkButton
+                  aria-label="Delete multi-factor authenticator {factorName}"
+                  class="danger"
+                  onclick={() => deleteFactor(factor)}
+                >
                   &cross;
                 </LinkButton>
               </li>

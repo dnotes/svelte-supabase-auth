@@ -128,6 +128,11 @@
         {getText('mfaAddFactorButton')}
       </Button>
     </form>
+
+    <LinkButton onclick={oncancel}>
+      Cancel
+    </LinkButton>
+
   {:else}
 
     <div>
@@ -139,7 +144,7 @@
       <p>{getText('mfaEnterSecret')}</p>
       <div class="mfa-secret-container">
         {#if showSecret}
-          <div class="mfa-secret" aria-label="TOTP Secret">{sanitizeSecret(secret)}</div>
+          <div class="mfa-secret" role="textbox" aria-label="TOTP Secret">{sanitizeSecret(secret)}</div>
           <LinkButton onclick={() => showSecret = false}>Hide</LinkButton>
         {:else}
           <div class="mfa-secret-hidden">••••••••••••••••••••••••••••••••</div>
@@ -159,9 +164,6 @@
     />
 
   {/if}
-  <LinkButton onclick={oncancel}>
-    Cancel
-  </LinkButton>
 </div>
 
 <style>
