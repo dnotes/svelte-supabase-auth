@@ -1,4 +1,5 @@
 <script lang="ts">
+
   import Auth from '$lib/Auth.svelte'
   import { supabaseClient } from './supabase'
   import '$lib/i18n/ar'
@@ -25,7 +26,7 @@
     {/each}
   </div>
   <div class="py-6 px-3 m-4 shadow-md rounded-lg bg-stone-200 dark:bg-stone-800">
-    <Auth {supabaseClient} {locale} providers={['apple', 'google', 'github']} {authOptions}>
+    <Auth {supabaseClient} {locale} providers={['google', 'github']} {authOptions}>
     </Auth>
   </div>
 </div>
