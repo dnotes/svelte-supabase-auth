@@ -30,3 +30,9 @@ verify_enabled = true
 [auth.email]
 enable_signup = true
 enable_confirmations = true
+
+[auth.external.google]
+enabled = true
+client_id = "env(GOOGLE_CLIENT_ID)"
+secret = "env(GOOGLE_SECRET)"
+redirect_uri = "http://localhost:54321/auth/v1/callback"
