@@ -103,7 +103,7 @@ const en:AuthTexts = {
   deleteButton: 'Delete',
   verifiedText: 'verified',
   unverifiedText: 'unverified',
-  backupText: 'backup #{count}',
+  backupText: 'backup {count}',
 
   signIn: 'Sign in',
   signUp: 'Sign up',
