@@ -23,7 +23,7 @@
     if (!$emailLinkSent) return
 
     if (!verificationCode.trim()) {
-      messages.add('error', 'Please enter the verification code')
+      messages.add('error', getText('enterVerificationCode'))
       return
     }
 
@@ -40,7 +40,7 @@
       if (error) {
         messages.add('error', error.message)
       } else {
-        messages.add('success', 'Email verified successfully!')
+        messages.add('success', getText('emailVerifiedSuccess'))
         // The auth state change will be handled by the parent component
       }
     } catch (err) {

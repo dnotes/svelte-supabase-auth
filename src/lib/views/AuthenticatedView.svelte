@@ -207,7 +207,7 @@
   <p class="danger">{getText('networkError')}</p>
 
   <Button block size="medium" {loading} onclick={handleSignOut}>
-    Sign Out
+    {getText('signOutButton')}
   </Button>
 {:else if $needsMFAChallenge}
   <!-- User has MFA factors and needs to complete MFA challenge -->
@@ -276,7 +276,7 @@
           <ul>
             {#each identities as identity}
               {@const email = identity?.identity_data?.email ?? identity?.email ?? ''}
-              <li class="flex" aria-label="Linked account on {identity.provider}">
+              <li class="flex" aria-label={getText('linkedAccountLabel', { provider: identity.provider })}>
                 <span>
                   {identity.provider} ({email})
                   <br>
@@ -287,7 +287,7 @@
                 {#if $saOptions.auth.enable_manual_linking && identities.length > 1}
                   <LinkButton
                     large
-                    aria-label="Delete linked account for {identity.provider} ({email})"
+                    aria-label={getText('deleteLinkedAccountLabel', { provider: identity.provider, email })}
                     class="danger"
                     onclick={() => unlinkIdentity(identity)}
                   >
@@ -320,7 +320,7 @@
           <ul>
             {#each factors as factor}
               {@const factorName = (factor?.friendly_name ?? factor?.factor_type) + (factor.status === 'unverified' ? ' (unverified)' : '')}
-              <li class="flex" aria-label="Multi-factor authenticator {factorName}">
+              <li class="flex" aria-label={getText('mfaTokenLabel', { name: factorName })}>
                 <span>
                   {factor?.friendly_name ?? factor?.factor_type} ({getText(factor.status === 'verified' ? 'verified' : 'unverified')})
                   <br>
@@ -328,7 +328,7 @@
                 </span>
                 <LinkButton
                   large
-                  aria-label="Delete multi-factor authenticator {factorName}"
+                  aria-label={getText('deleteMfaTokenLabel', { name: factorName })}
                   class="danger"
                   onclick={() => deleteFactor(factor)}
                 >

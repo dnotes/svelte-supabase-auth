@@ -79,6 +79,22 @@ export interface AuthTexts {
   providersListHeading: string
   noProviders: string
 
+  // Additional UI strings
+  loadingAuthMethods: string
+  enterValidName: string
+  enterVerificationCode: string
+  emailVerifiedSuccess: string
+  hideSecret: string
+  showSecret: string
+
+  // Aria labels for accessibility
+  linkedAccountLabel: string
+  deleteLinkedAccountLabel: string
+  mfaTokenLabel: string
+  deleteMfaTokenLabel: string
+  qrCodeAlt: string
+  totpSecretLabel: string
+
 }
 
 const en:AuthTexts = {
@@ -161,6 +177,22 @@ const en:AuthTexts = {
   // Providers
   providersListHeading: 'Linked Accounts',
   noProviders: 'No linked accounts',
+
+  // Additional UI strings
+  loadingAuthMethods: 'Loading authentication methods...',
+  enterValidName: 'Please enter a valid name (1-50 characters)',
+  enterVerificationCode: 'Please enter the verification code',
+  emailVerifiedSuccess: 'Email verified successfully!',
+  hideSecret: 'Hide',
+  showSecret: 'Show Secret',
+
+  // Aria labels for accessibility
+  linkedAccountLabel: 'Linked account on {provider}',
+  deleteLinkedAccountLabel: 'Delete linked account for {provider} ({email})',
+  mfaTokenLabel: 'Multi-factor authenticator {name}',
+  deleteMfaTokenLabel: 'Delete multi-factor authenticator {name}',
+  qrCodeAlt: 'QR Code for TOTP setup',
+  totpSecretLabel: 'TOTP Secret',
 
 }
 

@@ -51,7 +51,7 @@
 
   async function startEnrollment() {
     if (!validateFriendlyName(friendlyName)) {
-      messages.add('error', 'Please enter a valid name (1-50 characters)')
+      messages.add('error', getText('enterValidName'))
       return
     }
 
@@ -130,7 +130,7 @@
     </form>
 
     <LinkButton onclick={oncancel}>
-      Cancel
+      {getText('cancelButton')}
     </LinkButton>
 
   {:else}
@@ -138,17 +138,17 @@
     <div>
       <p>{getText('mfaScanQRCode')}</p>
       {#if qrCode}
-        <img src={qrCode} alt="QR Code for TOTP setup" />
+        <img src={qrCode} alt={getText('qrCodeAlt')} />
       {/if}
 
       <p>{getText('mfaEnterSecret')}</p>
       <div class="mfa-secret-container">
         {#if showSecret}
-          <div class="mfa-secret" role="textbox" aria-label="TOTP Secret">{sanitizeSecret(secret)}</div>
-          <LinkButton onclick={() => showSecret = false}>Hide</LinkButton>
+          <div class="mfa-secret" role="textbox" aria-label={getText('totpSecretLabel')}>{sanitizeSecret(secret)}</div>
+          <LinkButton onclick={() => showSecret = false}>{getText('hideSecret')}</LinkButton>
         {:else}
           <div class="mfa-secret-hidden">••••••••••••••••••••••••••••••••</div>
-          <LinkButton onclick={() => showSecret = true}>Show Secret</LinkButton>
+          <LinkButton onclick={() => showSecret = true}>{getText('showSecret')}</LinkButton>
         {/if}
       </div>
     </div>

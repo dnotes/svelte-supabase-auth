@@ -55,7 +55,7 @@
 <div>
   <h2>{getText('mfaEnterCodeHeading')}</h2>
   {#await factorsPromise}
-    <p>Loading authentication methods...</p>
+    <p>{getText('loadingAuthMethods')}</p>
   {:then factors}
     {#if factors.length > 1}
       <Wrapper name="factor-select" label={getText('mfaSelectLabel')}>
