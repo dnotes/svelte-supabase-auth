@@ -10,10 +10,11 @@
     socialLayout: 'vertical' | 'horizontal'
     socialButtonSize: 'tiny' | 'small' | 'medium' | 'large'
     socialColors: boolean
+    isLinking?: boolean
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 
-  let { supabaseClient, providers, socialLayout, socialButtonSize, socialColors, getText }: Props = $props()
+  let { supabaseClient, providers, socialLayout, socialButtonSize, socialColors, isLinking, getText }: Props = $props()
 
   let loading = $state(false)
 
@@ -55,9 +56,13 @@
   async function handleProviderSignIn(provider: Provider) {
     loading = true
 
-    const { error: signInError } = await supabaseClient.auth.signInWithOAuth({ provider })
-    if (signInError) messages.add('error', signInError.message)
-
+    if (isLinking) {
+      const { error: linkError } = await supabaseClient.auth.linkIdentity({ provider })
+      if (linkError) messages.add('error', linkError.message)
+    } else {
+      const { error: signInError } = await supabaseClient.auth.signInWithOAuth({ provider })
+      if (signInError) messages.add('error', signInError.message)
+    }
     loading = false
   }
 </script>
@@ -81,13 +86,10 @@
         onclick={() => handleProviderSignIn(provider)}
       >
         {#if socialLayout == 'vertical'}
-          {getText('socialSignIn', {provider: providerName})}
+          {getText(isLinking ? 'socialLinking' : 'socialSignIn', {provider: providerName})}
         {/if}
       </Button>
     {/each}
-  </div>
-  <div role="separator" class="divider flex">
-    <span>{getText('socialDivider')}</span>
   </div>
 {/if}
 
@@ -98,28 +100,6 @@
 
   .providers.horizontal {
     flex-direction: row;
-  }
-
-  .divider {
-    color: var(--layout-color);
-    width: 100%;
-    align-items: center;
-    white-space: nowrap;
-    font-size: 80%;
-  }
-
-  .divider span {
-    margin: 1rem;
-  }
-
-  .divider::before, .divider::after {
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    top: 50%;
-    content: '';
-    position: relative;
-    display: inline-block;
-    width: 50%;
   }
 
   .heading {

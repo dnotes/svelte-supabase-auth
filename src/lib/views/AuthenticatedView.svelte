@@ -9,8 +9,11 @@
   import type { AuthTexts } from '../i18n'
   import { messages } from '$lib/messages.svelte';
   import Accordion from '$lib/components/Accordion.svelte';
-  import { needsMFAChallenge, user, saOptions, email, emailLinkSent } from '$lib/stores.svelte'
+  import { needsMFAChallenge, user, saOptions, email, emailLinkSent, socialSettings } from '$lib/stores.svelte'
   import { isElevationError } from '$lib/utils/aal2';
+  import SocialAuthView from './SocialAuthView.svelte';
+
+  type UserIdentityWithEmail = UserIdentity & { email?: string }
 
   interface Props {
     InputWrapper: typeof InputWrapper
@@ -31,7 +34,7 @@
   let showAddMFA = $state(false)
   let showNetworkError = $state(false)
 
-  let identities:(UserIdentity & { email?: string })[] = $state([])
+  let identities:UserIdentityWithEmail[] = $state([])
 
   // Check MFA status when component mounts
   $effect(() => {
@@ -162,7 +165,10 @@
     }
   }
 
-  async function unlinkIdentity(identity:UserIdentity) {
+  async function unlinkIdentity(identity:UserIdentityWithEmail) {
+
+    if (!confirm(getText('socialUnlinkIdentityConfirmation', { provider: identity.provider, email: identity.identity_data?.email ?? identity.email ?? '' }))) return
+
     loading = true
 
     try {
@@ -292,6 +298,15 @@
             {/each}
           </ul>
         {/if}
+        {#if $saOptions.auth.enable_manual_linking}
+          <SocialAuthView
+            {supabaseClient}
+            {providers}
+            {...$socialSettings}
+            isLinking
+            {getText}
+          />
+        {/if}
       </Accordion>
     {/if}
 
@@ -334,6 +349,8 @@
       </Accordion>
     {/if}
 
+    <hr>
+
     <Button
       block
       size="medium"
@@ -350,7 +367,14 @@
   .sA-authenticated-view {
     display: flex;
     flex-direction: column;
-    gap: 1.5em;
+    gap: .5em;
     padding: 1em;
+  }
+  hr {
+    margin: 1em 0;
+    color: var(--layout-color);
+    border-width: 1px;
+    border-style: dashed;
+    opacity: 0.5;
   }
 </style>

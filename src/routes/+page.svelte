@@ -12,6 +12,9 @@
 
   let locale = $state('en')
   const authOptions: PartialSupabaseAuthOptions = {
+    auth: {
+      enable_manual_linking: true,
+    }
   }
 
 </script>

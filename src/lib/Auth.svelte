@@ -4,7 +4,7 @@
   import { type AuthTexts } from './i18n'
   import InputWrapper from './elements/InputWrapper.svelte'
   import { SUPABASE_AUTH_DEFAULTS, type PartialSupabaseAuthOptions, type SupabaseAuthOptions } from './options'
-  import { emailLinkSent, signInView, type SignInView } from './stores.svelte'
+  import { type SignInView } from './stores.svelte'
 
   // Auth component props interface
   export interface AuthProps {
@@ -41,7 +41,7 @@
   import { defaultsDeep } from 'lodash-es'
   import { messages } from './messages.svelte'
   import LinkButton from './elements/LinkButton.svelte';
-  import { user, saOptions } from './stores.svelte'
+  import { user, saOptions, socialSettings, emailLinkSent, signInView } from './stores.svelte'
 
   let {
     supabaseClient,
@@ -62,6 +62,13 @@
   }: AuthProps = $props()
 
   $saOptions = defaultsDeep(authOptions, SUPABASE_AUTH_DEFAULTS) as SupabaseAuthOptions
+
+  $socialSettings = {
+    ...$socialSettings,
+    socialLayout,
+    socialColors,
+    socialButtonSize,
+  }
 
   let loading = $state<boolean>(true)
 
@@ -106,14 +113,17 @@
   {:else if loading}
     <div class="sA-loading"></div>
   {:else}
-    <SocialAuthView
-      {supabaseClient}
-      {providers}
-      {socialLayout}
-      {socialButtonSize}
-      {socialColors}
-      {getText}
-    />
+    {#if providers.length}
+      <SocialAuthView
+        {supabaseClient}
+        {providers}
+        {...$socialSettings}
+        {getText}
+      />
+      <div role="separator" class="divider flex">
+        <span>{getText('socialDivider')}</span>
+      </div>
+    {/if}
 
     {#if $saOptions.auth.email && ($signInView == 'sign_in' || $signInView == 'sign_in_with_password')}
       <EmailAuthView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {getText} />
@@ -189,4 +199,27 @@
   :global(.sA .warning) {
     color: var(--warning-color);
   }
+
+  .divider {
+    color: var(--layout-color);
+    width: 100%;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 80%;
+  }
+
+  .divider span {
+    margin: 1rem;
+  }
+
+  .divider::before, .divider::after {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    top: 50%;
+    content: '';
+    position: relative;
+    display: inline-block;
+    width: 50%;
+  }
+
 </style>

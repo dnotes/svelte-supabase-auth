@@ -25,3 +25,16 @@ export const signInView:Writable<SignInView> = writable('sign_in')
 
 // The email address saved across form components for signing in or signing up
 export const email:Writable<string> = writable('')
+
+export type SocialSettings = {
+  socialLayout: 'vertical' | 'horizontal'
+  socialColors: boolean
+  socialButtonSize: 'tiny' | 'small' | 'medium' | 'large'
+}
+
+// Social settings
+export const socialSettings:Writable<SocialSettings> = writable({
+  socialLayout: 'vertical',
+  socialColors: false,
+  socialButtonSize: 'medium',
+})

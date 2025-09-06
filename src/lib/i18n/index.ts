@@ -43,6 +43,8 @@ export interface AuthTexts {
   // Note: socialSignIn handles both login AND account creation via OAuth
   // Supabase's signInWithOAuth() automatically creates accounts if they don't exist
   socialSignIn: string
+  socialLinking: string
+  socialUnlinkIdentityConfirmation: string
 
   // Authenticated view
   signedIn: string
@@ -119,6 +121,8 @@ const en:AuthTexts = {
   socialHeading: 'Sign in with',
   socialDivider: 'or continue with',
   socialSignIn: 'Sign in with {provider}',
+  socialLinking: 'Link {provider} account',
+  socialUnlinkIdentityConfirmation: 'Are you sure you want to unlink the {provider} account for the email {email}?',
 
   // Authenticated view
   signedIn: 'You are signed in.',
