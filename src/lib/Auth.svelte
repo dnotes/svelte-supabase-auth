@@ -96,6 +96,7 @@
       InputWrapper={Wrapper ?? InputWrapper}
       {supabaseClient}
       {signedInAs}
+      {providers}
       {getText}
       {locale}
       {userInfo}

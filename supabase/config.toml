@@ -21,11 +21,11 @@ port = 54324
 enabled = true
 site_url = "http://localhost:5173"
 enable_signup = true
+enable_manual_linking = true
 
 [auth.mfa.totp]
 enroll_enabled = true
 verify_enabled = true
-
 
 [auth.email]
 enable_signup = true

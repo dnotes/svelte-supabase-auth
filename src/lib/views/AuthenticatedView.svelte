@@ -5,7 +5,7 @@
   import AddMFAView from './AddMFAView.svelte'
   import LinkButton from '../elements/LinkButton.svelte'
   import InputWrapper from '../elements/InputWrapper.svelte'
-  import type { Factor, SupabaseClient, User } from '@supabase/supabase-js'
+  import type { Factor, Provider, SupabaseClient, User, UserIdentity } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
   import { messages } from '$lib/messages.svelte';
   import Accordion from '$lib/components/Accordion.svelte';
@@ -16,12 +16,13 @@
     InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
     locale?: string
+    providers?: Provider[]
     signedInAs?: Snippet<[User|null]>|undefined
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
     userInfo?: Snippet<[User|null]>
   }
 
-  let { InputWrapper: Wrapper, supabaseClient, signedInAs, getText, locale, userInfo }: Props = $props()
+  let { InputWrapper: Wrapper, supabaseClient, signedInAs, providers, getText, locale, userInfo }: Props = $props()
 
   let loading = $state(false)
   let mfaRequired = $state(false)
@@ -30,12 +31,19 @@
   let showAddMFA = $state(false)
   let showNetworkError = $state(false)
 
-  const time = $derived($user?.last_sign_in_at ? new Date($user?.last_sign_in_at).toLocaleString(locale) : '')
+  let identities:(UserIdentity & { email?: string })[] = $state([])
 
   // Check MFA status when component mounts
   $effect(() => {
     checkMFAStatus()
+    getIdentities()
   })
+
+  async function getIdentities() {
+    const { data, error } = await supabaseClient.auth.getUserIdentities()
+    if (error) throw error
+    identities = data.identities
+  }
 
   async function checkMFAStatus() {
     if (!$user || $user.is_anonymous) {
@@ -154,11 +162,30 @@
     }
   }
 
-  function formatDate(dateStr: string): string {
-    return new Date(dateStr).toLocaleDateString(locale, {
+  async function unlinkIdentity(identity:UserIdentity) {
+    loading = true
+
+    try {
+      const { error: unlinkError } = await supabaseClient.auth.unlinkIdentity(identity)
+      if (unlinkError) throw unlinkError
+    } catch (err) {
+      messages.add('error', err instanceof Error ? err.message : 'Failed to unlink identity')
+    } finally {
+      await getIdentities()
+      loading = false
+    }
+
+  }
+
+  function formatDate(dateStr?:string, asTime:boolean=false): string {
+    if (!dateStr) return ''
+    return new Date(dateStr).toLocaleString(locale, {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
+      hour: asTime ? 'numeric' : undefined,
+      minute: asTime ? '2-digit' : undefined,
+      second: asTime ? '2-digit' : undefined,
     })
   }
 
@@ -217,11 +244,14 @@
       {:else}
         <p dir="auto">
           {getText('signedIn')}
-          {#if $user?.last_sign_in_at}
-            <br/>{getText('signedInTime', { time })}
-          {/if}
           {#if $user?.email}
             <br/>{getText('signedInEmail', { email: $user?.email ?? ''})}
+          {/if}
+          {#if $user?.created_at}
+            <br/>{getText('createdTime', { time: formatDate($user?.created_at, true) })}
+          {/if}
+          {#if $user?.last_sign_in_at}
+            <br/>{getText('signedInTime', { time: formatDate($user?.last_sign_in_at, true) })}
           {/if}
         </p>
       {/if}
@@ -229,6 +259,40 @@
 
     {#if userInfo}
       {@render userInfo($user)}
+    {/if}
+
+    <!-- External Providers List -->
+    {#if providers?.length}
+      <Accordion title={getText('providersListHeading') + ` (${identities?.length ?? '0'})`}>
+        {#if identities.length === 0}
+          <p>{getText('noProviders')}</p>
+        {:else}
+          <ul>
+            {#each identities as identity}
+              {@const email = identity?.identity_data?.email ?? identity?.email ?? ''}
+              <li class="flex" aria-label="Linked account on {identity.provider}">
+                <span>
+                  {identity.provider} ({email})
+                  <br>
+                  {getText('createdTime', { time: formatDate(identity?.created_at, true) })}
+                  <br>
+                  {getText('signedInTime', { time: formatDate(identity?.last_sign_in_at, true) })}
+                </span>
+                {#if $saOptions.auth.enable_manual_linking && identities.length > 1}
+                  <LinkButton
+                    large
+                    aria-label="Delete linked account for {identity.provider} ({email})"
+                    class="danger"
+                    onclick={() => unlinkIdentity(identity)}
+                  >
+                    &cross;
+                  </LinkButton>
+                {/if}
+              </li>
+            {/each}
+          </ul>
+        {/if}
+      </Accordion>
     {/if}
 
     <!-- MFA Factors List -->
@@ -243,13 +307,12 @@
               {@const factorName = (factor?.friendly_name ?? factor?.factor_type) + (factor.status === 'unverified' ? ' (unverified)' : '')}
               <li class="flex" aria-label="Multi-factor authenticator {factorName}">
                 <span>
-                  {getText('mfaListItemText', {
-                    name: factor?.friendly_name ?? factor?.factor_type,
-                    date: formatDate(factor.created_at),
-                    status: getText(`${factor.status}Text`)
-                  })}
+                  {factor?.friendly_name ?? factor?.factor_type} ({getText(factor.status === 'verified' ? 'verified' : 'unverified')})
+                  <br>
+                  {getText('createdTime', { time: formatDate(factor.created_at, true) })}
                 </span>
                 <LinkButton
+                  large
                   aria-label="Delete multi-factor authenticator {factorName}"
                   class="danger"
                   onclick={() => deleteFactor(factor)}

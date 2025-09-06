@@ -1,16 +1,17 @@
 <script lang="ts">
   interface Props {
     block?: boolean
+    large?: boolean
     class?: string
     children: ()=>any
     onclick?: () => void
     [key: string]: any
   }
 
-  let { block, class:classText, onclick, children, ...rest }: Props = $props()
+  let { block, large, class:classText, onclick, children, ...rest }: Props = $props()
 </script>
 
-<button class:block class="{classText}" type="button" onclick={(e) => { e.preventDefault(); onclick?.(); }} {...rest}>{@render children()}</button>
+<button class:block class:large class="{classText}" type="button" onclick={(e) => { e.preventDefault(); onclick?.(); }} {...rest}>{@render children()}</button>
 
 <style>
   button {
@@ -23,5 +24,9 @@
   button.block {
     width: 100%;
     text-align: center;
+  }
+  button.large {
+    font-size: 160%;
+    line-height: 1.1em;
   }
 </style>

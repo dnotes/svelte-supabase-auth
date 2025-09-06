@@ -46,13 +46,15 @@ export interface AuthTexts {
 
   // Authenticated view
   signedIn: string
+  createdTime: string
   signedInTime: string
   signedInEmail: string
   signOutButton: string
 
   // MFA
   mfaFactorListHeading: string
-  mfaListItemText: string
+  verified: string
+  unverified: string
   mfaNoFactorsText: string
   mfaWarningText: string
   mfaAddFactorLink: string
@@ -70,6 +72,10 @@ export interface AuthTexts {
   mfaSelectLabel: string
   mfaEnterCodeHeading: string
   mfaEnterCodeLabel: string
+
+  // Providers
+  providersListHeading: string
+  noProviders: string
 
 }
 
@@ -116,13 +122,15 @@ const en:AuthTexts = {
 
   // Authenticated view
   signedIn: 'You are signed in.',
-  signedInTime: 'Last signin: {time}',
+  signedInTime: 'Last signed in: {time}',
   signedInEmail: 'Email: {email}',
+  createdTime: 'Created: {time}',
   signOutButton: 'Sign out',
 
   // MFA
   mfaFactorListHeading: 'Multi-factor authentication (MFA) tokens',
-  mfaListItemText: '{name} created {date} ({status})',
+  verified: 'verified',
+  unverified: 'unverified',
   mfaNoFactorsText: 'No MFA tokens',
   mfaAddFactorLink: 'add a new MFA token',
   mfaNoDeleteError: 'You cannot delete the last authentication method when MFA is required.',
@@ -145,6 +153,10 @@ const en:AuthTexts = {
   +'It is recommended to add at least one backup token to your account, and save the '
   +'provided codes in a secure location as recovery keys. To do this, take a screenshot '
   +'of the QR code or copy the secret key into a secure location.',
+
+  // Providers
+  providersListHeading: 'Linked Accounts',
+  noProviders: 'No linked accounts',
 
 }
 
@@ -184,21 +196,21 @@ function interpolate(template: string, params: Record<string, any>): string {
   })
 }
 
-export type GetText = (key: string | number | symbol, params: Record<string, any>) => string
+export type GetText = (key: string | number | symbol, params?: Record<string, any>) => string
 
 export function createGetText(
   locale: string = 'en',
   texts: Partial<AuthTexts> = defaultTranslations,
   t?: (key: string, params: Record<string, any>) => string
 ):GetText {
-  return function getText(key: string | number | symbol, params: Record<string, any>): string {
+  return function getText(key: string | number | symbol, params?: Record<string, any>): string {
     const keyStr = String(key)
     let result: string
 
     // Priority 1: User-provided t() function (existing i18n)
     if (t) {
       try {
-        result = t(`auth.${keyStr}`, params)
+        result = t(`auth.${keyStr}`, params??{})
         // Only use if it's not the same as the key (indicates translation found)
         if (result !== `auth.${keyStr}`) {
           return result // External i18n handles its own interpolation
@@ -211,26 +223,26 @@ export function createGetText(
     // Priority 2: User text overrides
     if (texts && texts[keyStr as keyof AuthTexts]) {
       result = texts[keyStr as keyof AuthTexts]!
-      return interpolate(result, params)
+      return interpolate(result, params??{})
     }
 
     // Priority 3: Built-in translations based on locale
     if (defaultTranslations[locale] && defaultTranslations[locale][keyStr as keyof AuthTexts]) {
       result = defaultTranslations[locale][keyStr as keyof AuthTexts]!
-      return interpolate(result, params)
+      return interpolate(result, params??{})
     }
 
     // Priority 3.5: Language fallback - try base language code (first 2 characters)
     const baseLanguage = locale.substring(0, 2)
     if (baseLanguage !== locale && defaultTranslations[baseLanguage] && defaultTranslations[baseLanguage][keyStr as keyof AuthTexts]) {
       result = defaultTranslations[baseLanguage][keyStr as keyof AuthTexts]!
-      return interpolate(result, params)
+      return interpolate(result, params??{})
     }
 
     // Priority 4: Fallback to English
     if (defaultTranslations.en[keyStr as keyof AuthTexts]) {
       result = defaultTranslations.en[keyStr as keyof AuthTexts]!
-      return interpolate(result, params)
+      return interpolate(result, params??{})
     }
 
     // Ultimate fallback: return the key itself
