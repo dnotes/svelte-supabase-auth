@@ -15,18 +15,33 @@ export const chineseTranslations: AuthTexts = {
   signIn: '登录',
   signUp: '注册',
   emailLabel: '邮箱地址',
-  passwordLabel: '密码',
+  pwLabel: '密码短语',
+  pwConfirmLabel: '确认密码短语',
   sendLink: '发送链接',
-  resetPassword: '重置密码',
+  resetPassword: '重置密码短语',
+
+  // Password confirmation
+  pwLength: '密码短语必须至少包含 {min} 个字符，优选至少 15 个。',
+  pwAddLetter: '考虑通过添加字母来增加复杂性。',
+  pwAddNumber: '考虑通过添加数字来增加复杂性。',
+  pwAddSpecial: '考虑通过添加特殊字符来增加复杂性。',
+  pwAddSpace: '考虑使用包含空格的密码短语。',
+  pwBreached: '您的密码短语在至少 1 次数据泄露中被发现。({count})',
+  pwRepetitive: '您的密码短语应包含更多独特字符。',
+  pwDomain: '您的密码短语包含特定站点文本。',
+  pwSignupConfirm: '您的密码短语有以下问题；您确定要注册吗？按“取消”来更改您的密码短语。',
+  pwBreachedLabel: '泄露检查',
+  pwRepetitiveLabel: '重复检查',
+  pwDomainLabel: '站点特定术语检查',
 
   // Link texts
   switchToMagicLink: '使用魔法链接登录',
-  switchToPassword: '使用密码登录',
+  switchToPassword: '使用密码短语登录',
   goBackToSignIn: '返回登录',
 
   // Messages
   emailLinkSent: '登录链接已发送至 {email}。',
-  resetPasswordSent: '请查看您的邮箱获取密码重置链接',
+  resetPasswordSent: '请查看您的邮箱获取密码短语重置链接',
   networkError: '由于网络或服务器错误，无法完成您的登录。请重试或刷新此页面。({error})',
   invalidCodeError: '代码无效。请检查后重试。',
   authenticationError: '身份验证失败。请重试。({error})',
@@ -48,6 +63,10 @@ export const chineseTranslations: AuthTexts = {
   signedInTime: '上次登录：{time}',
   signedInEmail: '邮箱：{email}',
   signOutButton: '退出登录',
+  accountSecurityHeading: '账户安全',
+  changeEmail: '更改邮箱',
+  changePassword: '更改密码短语',
+  deleteAccount: '删除账户',
 
   // MFA
   mfaFactorListHeading: '多因素身份验证令牌',
@@ -92,8 +111,8 @@ export const chineseTranslations: AuthTexts = {
   deleteLinkedAccountLabel: '删除 {provider} 的关联账户 ({email})',
   mfaTokenLabel: '多因素身份验证器 {name}',
   deleteMfaTokenLabel: '删除多因素身份验证器 {name}',
-  qrCodeAlt: '时间密码设置二维码',
-  totpSecretLabel: '时间密码密钥',
+  qrCodeAlt: '时间密码短语设置二维码',
+  totpSecretLabel: '时间密码短语密钥',
 }
 
 // Auto-register when imported

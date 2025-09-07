@@ -14,18 +14,33 @@ export const spanishTranslations: AuthTexts = {
   signIn: 'Iniciar sesión',
   signUp: 'Registrarse',
   emailLabel: 'Dirección de correo electrónico',
-  passwordLabel: 'Contraseña',
+  pwLabel: 'Frase de contraseña',
+  pwConfirmLabel: 'Confirmar frase de contraseña',
   sendLink: 'Enviar enlace',
-  resetPassword: 'Restablecer contraseña',
+  resetPassword: 'Restablecer frase de contraseña',
+
+  // Password confirmation
+  pwLength: 'Las frases de contraseña deben tener al menos {min} caracteres, preferiblemente al menos 15.',
+  pwAddLetter: 'Considera aumentar la complejidad agregando letras.',
+  pwAddNumber: 'Considera aumentar la complejidad agregando números.',
+  pwAddSpecial: 'Considera aumentar la complejidad agregando caracteres especiales.',
+  pwAddSpace: 'Considera usar una frase de contraseña que incluya espacios.',
+  pwBreached: 'Tu frase de contraseña fue encontrada en al menos 1 filtración de datos. ({count})',
+  pwRepetitive: 'Tu frase de contraseña debería contener más caracteres únicos.',
+  pwDomain: 'Tu frase de contraseña incluye texto específico del sitio.',
+  pwSignupConfirm: 'Tu frase de contraseña tiene los siguientes problemas; ¿estás seguro de que quieres registrarte? Presiona "Cancelar" para cambiar tu frase de contraseña.',
+  pwBreachedLabel: 'Verificación de filtraciones',
+  pwRepetitiveLabel: 'Verificación de repetición',
+  pwDomainLabel: 'Verificación de términos específicos del sitio',
 
   // Link texts
   switchToMagicLink: 'Iniciar sesión con enlace mágico',
-  switchToPassword: 'Iniciar sesión con contraseña',
+  switchToPassword: 'Iniciar sesión con frase de contraseña',
   goBackToSignIn: 'Volver a iniciar sesión',
 
   // Messages
   emailLinkSent: 'Enlace de inicio enviado a {email}.',
-  resetPasswordSent: 'Revisa tu correo electrónico para el enlace de restablecimiento de contraseña',
+  resetPasswordSent: 'Revisa tu correo electrónico para el enlace de restablecimiento de frase de contraseña',
   networkError: 'Debido a un error de red o servidor, no se pudo completar tu inicio de sesión. Inténtalo de nuevo o recarga esta página. ({error})',
   invalidCodeError: 'Código inválido. Verifica e inténtalo de nuevo.',
   authenticationError: 'Falló la autenticación. Inténtalo de nuevo. ({error})',
@@ -47,6 +62,10 @@ export const spanishTranslations: AuthTexts = {
   signedInTime: 'Último acceso: {time}',
   signedInEmail: 'Correo: {email}',
   signOutButton: 'Cerrar sesión',
+  accountSecurityHeading: 'Seguridad de la cuenta',
+  changeEmail: 'Cambiar correo electrónico',
+  changePassword: 'Cambiar frase de contraseña',
+  deleteAccount: 'Eliminar cuenta',
 
   // MFA
   mfaFactorListHeading: 'Tokens de autenticación multifactor',

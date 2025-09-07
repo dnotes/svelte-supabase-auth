@@ -15,18 +15,33 @@ export const arabicTranslations: AuthTexts = {
   signIn: 'تسجيل الدخول',
   signUp: 'إنشاء حساب',
   emailLabel: 'عنوان البريد الإلكتروني',
-  passwordLabel: 'كلمة المرور',
+  pwLabel: 'عبارة المرور',
+  pwConfirmLabel: 'تأكيد عبارة المرور',
   sendLink: 'إرسال الرابط',
-  resetPassword: 'إعادة تعيين كلمة المرور',
+  resetPassword: 'إعادة تعيين عبارة المرور',
+
+  // Password confirmation
+  pwLength: 'يجب أن تحتوي عبارات المرور على {min} حرف على الأقل، ويفضل 15 حرف على الأقل.',
+  pwAddLetter: 'فكر في زيادة التعقيد بإضافة أحرف.',
+  pwAddNumber: 'فكر في زيادة التعقيد بإضافة أرقام.',
+  pwAddSpecial: 'فكر في زيادة التعقيد بإضافة رموز خاصة.',
+  pwAddSpace: 'فكر في استخدام عبارة مرور تتضمن مسافات.',
+  pwBreached: 'تم العثور على عبارة المرور الخاصة بك في تسريب واحد على الأقل من البيانات. ({count})',
+  pwRepetitive: 'يجب أن تحتوي عبارة المرور على أحرف فريدة أكثر.',
+  pwDomain: 'تتضمن عبارة المرور نص خاص بالموقع.',
+  pwSignupConfirm: 'تحتوي عبارة المرور على المشاكل التالية؛ هل أنت متأكد من أنك تريد التسجيل؟ اضغط "إلغاء" لتغيير عبارة المرور.',
+  pwBreachedLabel: 'فحص التسريب',
+  pwRepetitiveLabel: 'فحص التكرار',
+  pwDomainLabel: 'فحص المصطلحات الخاصة بالموقع',
 
   // Link texts
   switchToMagicLink: 'تسجيل الدخول باستخدام رابط سحري',
-  switchToPassword: 'تسجيل الدخول باستخدام كلمة المرور',
+  switchToPassword: 'تسجيل الدخول باستخدام عبارة المرور',
   goBackToSignIn: 'العودة إلى تسجيل الدخول',
 
   // Messages
   emailLinkSent: 'تم إرسال رابط تسجيل الدخول إلى {email}.',
-  resetPasswordSent: 'تحقق من بريدك الإلكتروني لرابط إعادة تعيين كلمة المرور',
+  resetPasswordSent: 'تحقق من بريدك الإلكتروني لرابط إعادة تعيين عبارة المرور',
   networkError: 'بسبب خطأ في الشبكة أو الخادم، لم يتمكن من إكمال تسجيل دخولك. يرجى المحاولة مرة أخرى أو إعادة تحميل هذه الصفحة. ({error})',
   invalidCodeError: 'رمز غير صالح. يرجى التحقق والمحاولة مرة أخرى.',
   authenticationError: 'فشل في المصادقة. يرجى المحاولة مرة أخرى. ({error})',
@@ -48,6 +63,10 @@ export const arabicTranslations: AuthTexts = {
   signedInTime: 'آخر تسجيل دخول: {time}',
   signedInEmail: 'البريد الإلكتروني: {email}',
   signOutButton: 'تسجيل الخروج',
+  accountSecurityHeading: 'أمان الحساب',
+  changeEmail: 'تغيير البريد الإلكتروني',
+  changePassword: 'تغيير عبارة المرور',
+  deleteAccount: 'حذف الحساب',
 
   // MFA
   mfaFactorListHeading: 'رموز المصادقة متعددة العوامل',
@@ -92,7 +111,7 @@ export const arabicTranslations: AuthTexts = {
   deleteLinkedAccountLabel: 'حذف الحساب المربوط من {provider} ({email})',
   mfaTokenLabel: 'مصادق متعدد العوامل {name}',
   deleteMfaTokenLabel: 'حذف المصادق متعدد العوامل {name}',
-  qrCodeAlt: 'رمز الاستجابة السريعة لإعداد كلمة المرور المؤقتة',
+  qrCodeAlt: 'رمز الاستجابة السريعة لإعداد عبارة المرور المؤقتة',
   totpSecretLabel: 'المفتاح السري المؤقت',
 }
 
