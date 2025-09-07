@@ -20,8 +20,6 @@ export const chineseTranslations: AuthTexts = {
   resetPassword: '重置密码',
 
   // Link texts
-  switchToSignUp: '没有账户？立即注册',
-  switchToSignIn: '已有账户？立即登录',
   switchToMagicLink: '使用魔法链接登录',
   switchToPassword: '使用密码登录',
   goBackToSignIn: '返回登录',

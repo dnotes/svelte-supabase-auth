@@ -19,8 +19,6 @@ export const spanishTranslations: AuthTexts = {
   resetPassword: 'Restablecer contraseña',
 
   // Link texts
-  switchToSignUp: '¿No tienes una cuenta? Regístrate',
-  switchToSignIn: '¿Ya tienes una cuenta? Inicia sesión',
   switchToMagicLink: 'Iniciar sesión con enlace mágico',
   switchToPassword: 'Iniciar sesión con contraseña',
   goBackToSignIn: 'Volver a iniciar sesión',

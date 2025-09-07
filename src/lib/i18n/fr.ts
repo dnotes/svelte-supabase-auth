@@ -20,8 +20,6 @@ export const frenchTranslations: AuthTexts = {
   resetPassword: 'Réinitialiser le mot de passe',
 
   // Link texts
-  switchToSignUp: "Vous n'avez pas de compte ? Inscrivez-vous",
-  switchToSignIn: 'Vous avez déjà un compte ? Connectez-vous',
   switchToMagicLink: 'Se connecter avec un lien magique',
   switchToPassword: 'Se connecter avec un mot de passe',
   goBackToSignIn: 'Retour à la connexion',

@@ -20,8 +20,6 @@ export const arabicTranslations: AuthTexts = {
   resetPassword: 'إعادة تعيين كلمة المرور',
 
   // Link texts
-  switchToSignUp: 'ليس لديك حساب؟ أنشئ حساباً',
-  switchToSignIn: 'لديك حساب بالفعل؟ سجل دخولك',
   switchToMagicLink: 'تسجيل الدخول باستخدام رابط سحري',
   switchToPassword: 'تسجيل الدخول باستخدام كلمة المرور',
   goBackToSignIn: 'العودة إلى تسجيل الدخول',
