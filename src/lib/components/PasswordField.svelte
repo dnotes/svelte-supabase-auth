@@ -132,9 +132,9 @@
   <input type="{showPassword ? 'text' : 'password'}" name="pw" bind:value oninput={handleInput}>
   <button type="button" onclick={() => showPassword = !showPassword}>
     {#if showPassword}
-      <EyeOff />
-    {:else}
       <Eye />
+    {:else}
+      <EyeOff />
     {/if}
   </button>
 </div>
