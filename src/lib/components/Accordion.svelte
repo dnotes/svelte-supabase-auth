@@ -43,6 +43,7 @@
     flex: 1;
     flex-direction: column;
     transition: height 0.3s ease-in-out;
+    margin: var(--flex-gap) 0;
   }
   div.hidden {
     height:0 !important;

@@ -11,9 +11,15 @@
   import type { PartialSupabaseAuthOptions, SupabaseAuthOptions } from '$lib/options';
 
   let locale = $state('en')
-  const authOptions: PartialSupabaseAuthOptions = {
-    auth: {
-      enable_manual_linking: true,
+
+  // @ts-ignore
+  import config from '../../supabase/config.toml'
+  const authOptions:PartialSupabaseAuthOptions = {
+    auth: config?.auth,
+    passwordPolicy: {
+      minLength: 8,
+      goodLength: 12,
+      requiredCharacters: "",
     }
   }
 

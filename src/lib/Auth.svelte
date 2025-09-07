@@ -51,7 +51,7 @@
     socialColors = false,
     socialButtonSize = 'medium',
     providers = [],
-    initialView = 'sign_in',
+    initialView = 'sign_in_with_password',
     signedInAs,
     userInfo,
     InputWrapper:Wrapper,
@@ -155,11 +155,11 @@
     --input-padding: 5px 3px 5px 35px;
     --link-color: blue;
     --layout-color: #ccc;
-    --primary-color: rgba(101, 217, 165);
+    --primary-color: hsl(141, 71%, 48%);
     --primary-text-color: white;
-    --danger-color: rgba(245, 101, 101);
-    --warning-color: rgba(255, 202, 40);
-    --success-color: rgba(101, 217, 165);
+    --danger-color: hsl(358, 86%, 58%);
+    --warning-color: hsl(36, 100%, 44%);
+    --success-color: hsl(141, 71%, 48%);
   }
   :global(.sA .message) {
     font-size: 78%;
@@ -179,9 +179,6 @@
   :global(.sA .flex) {
     display: flex;
     gap: var(--flex-gap);
-  }
-  :global(.sA ul) {
-    padding: .5em 0;
   }
   :global(.sA ul li) {
     padding: .5em;

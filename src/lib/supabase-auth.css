@@ -67,6 +67,9 @@
 .sA label:has(input:active) .icon {
   color: inherit;
 }
+.sA button:disabled {
+  opacity: 0.4;
+}
 
 .sA .primary .icon {
   color: var(--primary-text-color);

@@ -8,6 +8,8 @@
   import { emailLinkSent, saOptions, signInView, email } from '$lib/stores.svelte';
   import { autofocus } from '$lib/utils/autofocus.svelte';
   import { tick } from 'svelte';
+  import PasswordField from '$lib/components/PasswordField.svelte';
+  import { isNull } from 'lodash-es';
 
   interface Props {
     InputWrapper: typeof InputWrapper
@@ -27,6 +29,9 @@
     if (el === 'email' || !$email) emailEl?.focus()
     else passwordEl?.focus()
   }
+
+  let issues:Promise<string[]> = $state(new Promise(()=>{}))
+  let feedback = $state(false)
 
   // Computed properties for auth options
   const canSignUp = $derived($saOptions.auth.enable_signup && $saOptions.auth.email && $saOptions.auth.email.enable_signup)
@@ -55,6 +60,23 @@
     loading = true
 
     if (isSignUp) {
+
+      let arr = await issues
+      if (arr.length) {
+        if (!confirm(getText('pwSignupConfirm') + '\n\n- ' + arr.join('\n- '))) {
+          loading = false
+          feedback = true
+          return
+        }
+      }
+
+      if (password.length < $saOptions.passwordPolicy.minLength) {
+        messages.add('error', getText('pwLength', { min: $saOptions.passwordPolicy.minLength }))
+        feedback = true
+        loading = false
+        return
+      }
+
       const { error: err } = await supabaseClient.auth.signUp({
         email: $email, password
       })
@@ -108,8 +130,8 @@
   </Wrapper>
 
   {#if usePassword}
-    <Wrapper name="password" label={getText('passwordLabel')} icon="key" links={resetPasswordLink}>
-      <input type="password" name="password" bind:value={password} bind:this={passwordEl}>
+    <Wrapper name="password" label={getText('pwLabel')} icon="key" links={resetPasswordLink}>
+      <PasswordField {feedback} bind:issues bind:value={password} {getText} />
     </Wrapper>
   {/if}
 

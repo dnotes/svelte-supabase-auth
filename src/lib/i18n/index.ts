@@ -15,13 +15,26 @@ export interface AuthTexts {
   signIn: string
   signUp: string
   emailLabel: string
-  passwordLabel: string
+  pwLabel: string
+  pwConfirmLabel: string
   sendLink: string
   resetPassword: string
 
+  // Password confirmation
+  pwLength: string
+  pwAddLetter: string
+  pwAddNumber: string
+  pwAddSpecial: string
+  pwAddSpace: string
+  pwBreached: string
+  pwRepetitive: string
+  pwDomain: string
+  pwSignupConfirm: string
+  pwBreachedLabel: string
+  pwRepetitiveLabel: string
+  pwDomainLabel: string
+
   // Link texts
-  switchToSignUp: string
-  switchToSignIn: string
   switchToMagicLink: string
   switchToPassword: string
   goBackToSignIn: string
@@ -36,6 +49,12 @@ export interface AuthTexts {
   // Email verification
   linkEnterCodeHeading: string
   linkEnterCodeLabel: string
+
+  // Account security
+  accountSecurityHeading: string
+  changeEmail: string
+  changePassword: string
+  deleteAccount: string
 
   // Social auth
   socialHeading: string
@@ -108,23 +127,36 @@ const en:AuthTexts = {
   signIn: 'Sign in',
   signUp: 'Sign up',
   emailLabel: 'Email address',
-  passwordLabel: 'Password',
   sendLink: 'Send link',
-  resetPassword: 'Reset your password',
+  resetPassword: 'Reset your passphrase',
   verifyCode: 'Verify code',
   enterCode: 'Enter code',
   resendEmail: 'Resend email',
 
+  // Password confirmation
+  pwLabel: 'Passphrase',
+  pwConfirmLabel: 'Confirm passphrase',
+  pwLength: 'Passphrases must be at least {min} characters, preferably at least 15.',
+  pwAddSpace: 'Consider using a passphrase including spaces.',
+  pwAddLetter: 'Consider increasing complexity by adding letters.',
+  pwAddNumber: 'Consider increasing complexity by adding numbers.',
+  pwAddSpecial: 'Conisder increasing complexity by adding special characters.',
+  pwBreached: 'Your passphrase was found in at least 1 data breach. ({count})',
+  pwRepetitive: 'Your passphrase should contain more unique characters.',
+  pwDomain: 'Your passphrase includes site-specific text.',
+  pwSignupConfirm: 'Your passphrase has the following issues; are you sure you want to sign up? Press "Cancel" to change your passphrase.',
+  pwBreachedLabel: 'Breach check',
+  pwRepetitiveLabel: 'Repetitive check',
+  pwDomainLabel: 'Site-specific term check',
+
   // Link texts
-  switchToSignUp: "Don't have an account? Sign up",
-  switchToSignIn: 'Do you have an account? Sign in',
   switchToMagicLink: 'Sign in with an email link',
-  switchToPassword: 'Sign in with a password',
+  switchToPassword: 'Sign in with a passphrase',
   goBackToSignIn: 'Go back to sign in',
 
   // Messages
   emailLinkSent: 'Login link sent to {email}.',
-  resetPasswordSent: 'Check your email for the password reset link',
+  resetPasswordSent: 'Check your email for the passphrase reset link',
   networkError: 'Due to a network or server error, your login could not be completed. Please try again or reload this page. ({error})',
   invalidCodeError: 'Invalid code. Please check and try again.',
   authenticationError: 'Authentication failed. Please try again. ({error})',
@@ -132,6 +164,12 @@ const en:AuthTexts = {
   // Email verification
   linkEnterCodeHeading: 'Magic Link Verification',
   linkEnterCodeLabel: 'Click the link in the email sent to {email}, or enter the verification code below.',
+
+  // Account security
+  accountSecurityHeading: 'Account security',
+  changeEmail: 'Change email',
+  changePassword: 'Change passphrase',
+  deleteAccount: 'Delete account',
 
   // Social auth
   socialHeading: 'Sign in with',
@@ -175,7 +213,7 @@ const en:AuthTexts = {
   +'of the QR code or copy the secret key into a secure location.',
 
   // Providers
-  providersListHeading: 'Linked Accounts',
+  providersListHeading: 'Linked accounts',
   noProviders: 'No linked accounts',
 
   // Additional UI strings
@@ -232,7 +270,7 @@ function interpolate(template: string, params: Record<string, any>): string {
   })
 }
 
-export type GetText = (key: string | number | symbol, params?: Record<string, any>) => string
+export type GetText = (key: keyof AuthTexts, params?: Record<string, any>) => string
 
 export function createGetText(
   locale: string = 'en',

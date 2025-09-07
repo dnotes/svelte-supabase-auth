@@ -55,13 +55,24 @@ export interface SupabaseAuthOptions {
    * set these in the Dashboard at project/[project-name]/auth/providers
    */
   passwordPolicy: {
+
     /**
-     * Minimum password length. Set higher (e.g., 10–12) for stronger security. (Env: GOTRUE_PASSWORD_MIN_LENGTH)
-     * NOTE: You MUST change this to 8 or higher to meet minimum security recommendations, as Supabase's default is 6.
+     * Absolute password length. Set higher (e.g., 10–12) for stronger security. (Env: GOTRUE_PASSWORD_MIN_LENGTH)
+     * NOTE: You MUST change this to 8 or higher to meet minimum security recommendations, as Supabase's default is 6!
      * Change it in your dashboard at project/[project-name]/auth/providers, under the settings for "Email".
-     * @default 6
+     * This defaults to 8 for the UI despite the too-low default for Supabase.
+     * @default 8
      */
     minLength: number;
+
+    /**
+     * Minimum password length considered "good" by the password strength indicator.
+     * NIST recommends 12-15 characters. Note this is NOT a Supabase setting;
+     * it is only for the password strength indicator in the UI.
+     * @default 12
+     */
+    goodLength: number;
+
     /**
      * Colon-separated character sets; password must contain ≥1 from each set.
      * THIS SETTING IS NOT RECOMMENDED, as it REDUCES password strength for actual users.
@@ -70,6 +81,7 @@ export interface SupabaseAuthOptions {
      * @default ""
      */
     requiredCharacters: string;
+
   };
 }
 
@@ -117,7 +129,8 @@ export const SUPABASE_AUTH_DEFAULTS: SupabaseAuthOptions = {
   },
 
   passwordPolicy: {
-    minLength: 6,
+    minLength: 8,
+    goodLength: 12,
     requiredCharacters: "", // empty => no specific sets required
   },
 }

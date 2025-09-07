@@ -32,6 +32,7 @@
   let factors = $state<Factor[]>([])
   let verifiedFactors = $derived(factors.filter(factor => factor.status === 'verified'))
   let showAddMFA = $state(false)
+  let showPasswordChange = $state(false)
   let showNetworkError = $state(false)
 
   let identities:UserIdentityWithEmail[] = $state([])
@@ -170,6 +171,7 @@
     if (!confirm(getText('socialUnlinkIdentityConfirmation', { provider: identity.provider, email: identity.identity_data?.email ?? identity.email ?? '' }))) return
 
     loading = true
+    messages.clear()
 
     try {
       const { error: unlinkError } = await supabaseClient.auth.unlinkIdentity(identity)
@@ -181,6 +183,10 @@
       loading = false
     }
 
+  }
+
+  async function beginPasswordChange() {
+    // TODO: Implement functionality for changing the user's password (or setting one, if there is none).
   }
 
   function formatDate(dateStr?:string, asTime:boolean=false): string {
@@ -212,6 +218,13 @@
 {:else if $needsMFAChallenge}
   <!-- User has MFA factors and needs to complete MFA challenge -->
   <MFAChallengeView bind:processing={$needsMFAChallenge} InputWrapper={Wrapper} {supabaseClient} {getText} />
+{:else if showPasswordChange}
+  <!-- Password Change View -->
+  <!-- <PasswordChangeView
+    InputWrapper={Wrapper}
+    {supabaseClient}
+    {getText}
+  /> -->
 {:else if showAddMFA}
   <!-- Add MFA Factor View -->
   <AddMFAView
@@ -266,6 +279,13 @@
     {#if userInfo}
       {@render userInfo($user)}
     {/if}
+
+    <!-- Account Security -->
+    <Accordion title={getText('accountSecurityHeading')}>
+      <Button block size="medium" onclick={beginPasswordChange}>
+        {getText('changePassword')}
+      </Button>
+    </Accordion>
 
     <!-- External Providers List -->
     {#if providers?.length}

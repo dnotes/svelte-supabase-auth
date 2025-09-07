@@ -2,6 +2,8 @@ import tailwindcss from '@tailwindcss/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { quickpickle, type QuickPickleConfig } from 'quickpickle';
+import Icons from 'unplugin-icons/vite';
+import { ViteToml } from 'vite-plugin-toml';
 
 const qpConfig:Partial<QuickPickleConfig> = {
 
@@ -22,7 +24,18 @@ const qpConfig:Partial<QuickPickleConfig> = {
 
 export default defineConfig({
 	// @ts-ignore
-	plugins: [tailwindcss(), sveltekit(), quickpickle(qpConfig)],
+	plugins: [
+		tailwindcss(),
+		sveltekit(),
+		quickpickle(qpConfig),
+		Icons({ compiler: 'svelte' }),
+		ViteToml(),
+	],
+	server: {
+		fs: {
+			allow: ['./supabase/config.toml'],
+		},
+	},
 	test: {
 		include: ['src/**/*.feature'],
 		setupFiles: ['./src/test/qp.steps.ts'],

@@ -52,6 +52,6 @@
   }
   .input {
     position: relative;
-    display: flex;
+    display: block;
   }
 </style>

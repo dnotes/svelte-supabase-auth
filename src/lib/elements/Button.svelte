@@ -6,7 +6,7 @@
     submit?: boolean
     block?: boolean
     primary?: boolean
-    shadow?: boolean
+    disabled?: boolean
     size?: 'tiny' | 'small' | 'medium' | 'large'
     loading?: boolean
     icon?: string | null
@@ -19,7 +19,7 @@
     submit = false,
     block = false,
     primary = false,
-    shadow = false,
+    disabled = false,
     size = 'tiny',
     loading = false,
     icon = null,
@@ -33,7 +33,7 @@
   }).join(';'))
 </script>
 
-<button type={submit ? 'submit' : 'button'} class:block class={size} class:primary style={styleString} onclick={onclick} disabled={loading}>
+<button type={submit ? 'submit' : 'button'} class:block class={size} class:primary style={styleString} onclick={onclick} disabled={disabled || loading}>
   {#if icon}
     <span class="icon flex">
       <Icon name={icon} size=21/>

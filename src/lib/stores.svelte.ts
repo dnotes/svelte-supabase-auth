@@ -21,7 +21,7 @@ export const saOptions:Writable<SupabaseAuthOptions> = writable()
 
 // The current sign in view
 export type SignInView = 'sign_in' | 'sign_in_with_password' | 'forgotten_password'
-export const signInView:Writable<SignInView> = writable('sign_in')
+export const signInView:Writable<SignInView> = writable('sign_in_with_password')
 
 // The email address saved across form components for signing in or signing up
 export const email:Writable<string> = writable('')
