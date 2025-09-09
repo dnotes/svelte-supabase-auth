@@ -19,6 +19,12 @@ const qpConfig:Partial<QuickPickleConfig> = {
 	worldConfig: {
 		port: 5173, // sets the port
 		slowMo: 100, // turns on "slowMo"
+		screenshotOptions: {
+      mask: [
+        'span.icon',
+      ],
+      maskColor: 'violet',
+		},
 	}
 }
 
@@ -41,6 +47,6 @@ export default defineConfig({
 		setupFiles: ['./src/test/qp.steps.ts'],
 		testTimeout: 10000,
 		maxWorkers: 1,
-		maxConcurrency: 1,
+		maxConcurrency: 3,
 	}
 });
