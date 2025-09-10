@@ -22,8 +22,8 @@ importers:
         specifier: ^2.2.382
         version: 2.2.382
       '@quickpickle/playwright':
-        specifier: ^0.13.1
-        version: 0.13.1(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1)(vitest@3.2.4(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1))
+        specifier: 1.0.0
+        version: 1.0.0(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1)(vitest@3.2.4(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1))
       '@storybook/addon-a11y':
         specifier: ^9.1.5
         version: 9.1.5(storybook@9.1.5(@testing-library/dom@10.4.1)(vite@6.3.6(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1)))
@@ -94,8 +94,8 @@ importers:
         specifier: ^0.3.12
         version: 0.3.12
       quickpickle:
-        specifier: ^1.10.0
-        version: 1.10.0(vitest@3.2.4(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1))
+        specifier: ^1.10.1
+        version: 1.10.1(vitest@3.2.4(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1))
       speakeasy:
         specifier: ^2.0.0
         version: 2.0.0
@@ -698,8 +698,8 @@ packages:
     resolution: {integrity: sha512-S+9ANAvUmjutrshV4jZjaiG8XQyuJIZ8a4utWmN/vW1sgQ9IfBnPndwkmQYw53QmouOIytT874u65HEmu6H5jw==}
     engines: {node: '>=18'}
 
-  '@quickpickle/playwright@0.13.1':
-    resolution: {integrity: sha512-wIA+KV9OngDld8x8WsN14bjcKW1jrhoDGIP2XhFTlukYWpAUjsV/GyUOWmvlr8nt0gTmX2vJJJ2QjWrZwVBF7A==}
+  '@quickpickle/playwright@1.0.0':
+    resolution: {integrity: sha512-S51PtzNIoQQP7GFBIkJVe0IjcGsnKYprWNzq9JBwC5Z4KciJZPN2XN1OrL4IsT7GWfP2T3R9GneGdbXxpGRvFQ==}
 
   '@rollup/pluginutils@5.3.0':
     resolution: {integrity: sha512-5EdhGZtnu3V88ces7s53hhfK5KSASnJZv8Lulpc04cWO3REESroJXg73DFsOmgbU2BhwV0E20bu2IDZb3VKW4Q==}
@@ -1762,8 +1762,8 @@ packages:
   quansync@0.2.11:
     resolution: {integrity: sha512-AifT7QEbW9Nri4tAwR5M/uzpBuqfZf+zwaEM/QkzEjj7NBuFD2rBuy0K3dE+8wltbezDV7JMA0WfnCPYRSYbXA==}
 
-  quickpickle@1.10.0:
-    resolution: {integrity: sha512-igno/6PVxEe2SUzOZqSNyHGSsaWB9dfPXcbBblqaxPOXTWtNJo2Lzpo5j07vw9hJDM/DLbOA51pLCm33w9+zxA==}
+  quickpickle@1.10.1:
+    resolution: {integrity: sha512-vpvpKEpPX9M/VirHwxslFToFB4iAg9xR5Mv2Z0nKinVU/sZtub7sloud3kcWqkX3RkuxzP05c3NdSF/5zztvsg==}
     peerDependencies:
       vitest: ^1.0.0 || >=2.0.0
 
@@ -1991,8 +1991,8 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
-  undici@7.15.0:
-    resolution: {integrity: sha512-7oZJCPvvMvTd0OlqWsIxTuItTpJBpU1tcbVl24FMn3xt3+VSunwUasmfPJRE57oNO1KsZ4PgA1xTdAX4hq8NyQ==}
+  undici@7.16.0:
+    resolution: {integrity: sha512-QEg3HPMll0o3t2ourKwOeUAZ159Kn9mx5pnzHRQO8+Wixmh88YdZRiIwat0iNzNNXn0yoEtXJqFpyW7eM8BV7g==}
     engines: {node: '>=20.18.1'}
 
   unenv@2.0.0-rc.19:
@@ -2607,7 +2607,7 @@ snapshots:
 
   '@publint/pack@0.1.2': {}
 
-  '@quickpickle/playwright@0.13.1(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1)(vitest@3.2.4(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1))':
+  '@quickpickle/playwright@1.0.0(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1)(vitest@3.2.4(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1))':
     dependencies:
       '@playwright/test': 1.55.0
       lodash: 4.17.21
@@ -2615,7 +2615,7 @@ snapshots:
       pixelmatch: 6.0.0
       playwright: 1.55.0
       pngjs: 7.0.0
-      quickpickle: 1.10.0(vitest@3.2.4(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1))
+      quickpickle: 1.10.1(vitest@3.2.4(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1))
       vite: 6.3.6(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1)
     transitivePeerDependencies:
       - '@types/node'
@@ -3500,7 +3500,7 @@ snapshots:
       glob-to-regexp: 0.4.1
       sharp: 0.33.5
       stoppable: 1.1.0
-      undici: 7.15.0
+      undici: 7.16.0
       workerd: 1.20250823.0
       ws: 8.18.0
       youch: 4.1.0-beta.10
@@ -3625,7 +3625,7 @@ snapshots:
 
   quansync@0.2.11: {}
 
-  quickpickle@1.10.0(vitest@3.2.4(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1)):
+  quickpickle@1.10.1(vitest@3.2.4(@types/node@20.19.13)(jiti@2.5.1)(lightningcss@1.30.1)):
     dependencies:
       '@a11y-tools/aria-roles': 1.0.0
       '@cucumber/cucumber-expressions': 18.0.1
@@ -3899,7 +3899,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici@7.15.0: {}
+  undici@7.16.0: {}
 
   unenv@2.0.0-rc.19:
     dependencies:
