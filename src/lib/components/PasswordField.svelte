@@ -19,6 +19,7 @@
   interface Props {
     value: string
     issues?: Promise<string[]>
+    validatePassphrase?: () => void
     feedback?: boolean
     getText: GetText
   }
@@ -26,6 +27,7 @@
   let {
     value = $bindable(''),
     issues = $bindable(new Promise<string[]>(()=>{})),
+    validatePassphrase = $bindable(),
     feedback = false,
     getText,
   }:Props = $props()
@@ -55,17 +57,6 @@
     hasSpecial,
   ].filter(Boolean).length / 9)
   const passwordStrengthColor = $derived(passwordStrength >= .75 ? 'var(--success-color)' : passwordStrength >= .5 ? 'var(--warning-color)' : 'var(--danger-color)')
-
-  $inspect([
-    value.length >= 12,
-    value.length >= $saOptions.passwordPolicy.goodLength,
-    (isRepetitive === false ? true : false),
-    (isDomain === false ? true : false),
-    hasLetter,
-    hasSpace,
-    hasNumber,
-    hasSpecial,
-  ])
 
   function checkPassword() {
     if (value.length >= 6) {
@@ -98,6 +89,7 @@
   }
 
   let pwchecking = debounce(checkPassword, 500)
+  validatePassphrase = pwchecking.flush
 
   function handleInput() {
     isBreached = null

@@ -50,13 +50,13 @@ Feature: Default config, MFA
     Examples:
       | method |
       | an email link |
-      | a password |
+      | a passphrase |
 
   Scenario Outline: Signing in with two codes gives you a choice (<method>)
     Given I have an MFA token named "default"
     And I have an MFA token named "backup 1"
     And I am not signed in
-    When I sign in with a password
+    When I sign in with <method>
     Then I should see an MFA challenge
     When for "MFA code:" I select "backup 1"
     And I verify the "backup 1" code
@@ -65,4 +65,4 @@ Feature: Default config, MFA
     Examples:
       | method |
       | an email link |
-      | a password |
+      | a passphrase |

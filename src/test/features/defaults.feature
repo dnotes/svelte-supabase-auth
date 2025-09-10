@@ -5,22 +5,24 @@ Feature: Default config, basic operations
     And no providers
 
   @mobile
-  Scenario: Visual regression for login form with no links
+  Scenario: Visual regression for login form with no providers
+    Then the screenshot "defaults_login-with-passphrase" should match
+    When I click "Sign in with an email link"
     Then the screenshot "defaults_login-with-link" should match
-    When I click "Sign in with a password"
-    Then the screenshot "defaults_login-with-password" should match
 
   Scenario: The main fields show
     Then I should see an "Email address" input
-    And I should see a "Send link" button
-
-  Scenario: The password field shows when requested
-    When I click "Sign in with a password"
-    Then I should see a "Password" input
+    And I should see a "Passphrase" input
+    And I should see a "Sign in" button
     And I should see a "Sign up" button
+
+  Scenario: The passphrase field shows when requested
     When I click "Sign in with an email link"
-    Then I should NOT see a "Password" input
+    Then I should NOT see a "Passphrase" input
     And I should NOT see a "Sign up" button
+    When I click "Sign in with a passphrase"
+    Then I should see a "Passphrase" input
+    And I should see a "Sign up" button
 
   Scenario Outline: Creating an account requires email verification (<method>)
     When I sign up with <method>
@@ -34,12 +36,12 @@ Feature: Default config, basic operations
     Examples:
       | method |
       | an email link |
-      | a password |
+      | a passphrase |
 
   @mobile
   Scenario: Existing account
     Given I have an existing account
-    Then the screenshot "defaults_login-with-password" should match
+    Then the screenshot "defaults_login-with-passphrase" should match
 
   Scenario Outline: Signing in with <method>
     Given I have an existing account
@@ -49,5 +51,5 @@ Feature: Default config, basic operations
     Examples:
       | method |
       | an email link |
-      | a password |
+      | a passphrase |
 

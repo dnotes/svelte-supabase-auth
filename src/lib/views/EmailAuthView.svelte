@@ -9,7 +9,6 @@
   import { autofocus } from '$lib/utils/autofocus.svelte';
   import { tick } from 'svelte';
   import PasswordField from '$lib/components/PasswordField.svelte';
-  import { isNull } from 'lodash-es';
 
   interface Props {
     InputWrapper: typeof InputWrapper
@@ -21,6 +20,7 @@
 
   let loading = $state(false)
   let password = $state('')
+  let validatePassphrase:(()=>void) = $state(()=>{})
 
   let emailEl:HTMLInputElement|undefined = $state()
   let passwordEl:HTMLInputElement|undefined = $state()
@@ -61,6 +61,7 @@
 
     if (isSignUp) {
 
+      await validatePassphrase()
       let arr = await issues
       if (arr.length) {
         if (!confirm(getText('pwSignupConfirm') + '\n\n- ' + arr.join('\n- '))) {
@@ -131,7 +132,7 @@
 
   {#if usePassword}
     <Wrapper name="password" label={getText('pwLabel')} icon="key" links={resetPasswordLink}>
-      <PasswordField {feedback} bind:issues bind:value={password} {getText} />
+      <PasswordField {feedback} bind:issues bind:value={password} bind:validatePassphrase {getText} />
     </Wrapper>
   {/if}
 

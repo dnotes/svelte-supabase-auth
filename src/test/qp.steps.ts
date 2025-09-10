@@ -1,8 +1,8 @@
-import { PlaywrightWorld } from '@quickpickle/playwright/PlaywrightWorld'
+import { PlaywrightWorld, type PlaywrightWorldConfig } from '@quickpickle/playwright/PlaywrightWorld'
 import '@quickpickle/playwright/actions'
 import '@quickpickle/playwright/outcomes'
 import { Given, When, Then, DataTable, setWorldConstructor, After, AfterStep } from 'quickpickle'
-import { expect } from 'playwright/test'
+import { expect, type Locator } from 'playwright/test'
 import speakeasy from 'speakeasy'
 
 type MailTests = {
@@ -10,6 +10,22 @@ type MailTests = {
   code?:boolean
   subject?:string
 }
+
+async function getPassHashParts(passphrase:string):Promise<[string,string]> {
+  if (typeof crypto === 'object' && crypto.subtle) {
+      const msgUint8 = new TextEncoder().encode(passphrase);
+      const hashBuffer = await crypto.subtle.digest('SHA-1', msgUint8);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray
+          .map((byte) => byte.toString(16).padStart(2, '0'))
+          .join('')
+          .toUpperCase();
+      return [hashHex.slice(0, 5), hashHex.slice(5)];
+      /* c8 ignore start */
+  }
+  throw new Error('The Web Crypto API is not available in this environment.');
+}
+
 
 class World extends PlaywrightWorld {
 
@@ -22,13 +38,39 @@ class World extends PlaywrightWorld {
   mfaTokens: Record<string, string> = {}
   data: Record<string, string> = {}
 
+  _passphrase:string = ''
+  _passphraseHashParts:[string,string] = ['','']
+  _passphraseBreaches:number = 0
+
   async init():Promise<void> {
     await super.init()
     // set dialog handling
-    this.page.on('dialog', async dialog => {
+    this.page.on('dialog', dialog => {
       this.dialog = dialog.message()
-      if (!this.info.tags.includes('@dismiss-dialog')) await dialog.accept()
+      if (this.info.tags.includes('@dismiss-dialog')) dialog.dismiss()
+      else dialog.accept()
     })
+    await this.setPassphrase(crypto.randomUUID())
+    this.page.route('https://api.pwnedpassphrases.com', route => {
+      route.fulfill({
+        status: 200,
+        contentType: 'text/plain',
+        body: !this._passphraseBreaches ? '' : `${this.passphraseHashParts[1]}:${this._passphraseBreaches}`,
+      })
+    })
+  }
+
+  get passphrase() {
+    return this._passphrase
+  }
+  get passphraseHashParts() {
+    return this._passphraseHashParts
+  }
+
+  async setPassphrase(passphrase:string, breaches:number = 0) {
+    this._passphrase = passphrase
+    this._passphraseHashParts = await getPassHashParts(this._passphrase) as [string,string]
+    this._passphraseBreaches = breaches
   }
 
   get baseUrl() {
@@ -77,8 +119,8 @@ class World extends PlaywrightWorld {
     }
   }
 
-  async ensureLoginMethod(method:'link'|'password') {
-    let str = method === 'link' ? 'Sign in with an email link' : 'Sign in with a password'
+  async ensureLoginMethod(method:'link'|'passphrase') {
+    let str = method === 'link' ? 'Sign in with an email link' : 'Sign in with a passphrase'
     if (await this.getLocator(this.page, str, 'button').isVisible()) {
       await this.getLocator(this.page, str, 'button').click()
     }
@@ -95,9 +137,9 @@ class World extends PlaywrightWorld {
   async setupAccount(stayLoggedIn:boolean = false):Promise<void> {
     this.messages = []
     this.emailAddress = crypto.randomUUID() + '@example.com'
-    await this.ensureLoginMethod('password')
+    await this.ensureLoginMethod('passphrase')
     await this.getLocator(this.page, 'Email address', 'input').fill(this.emailAddress)
-    await this.getLocator(this.page, 'Password', 'input').fill('password')
+    await this.getLocator(this.page, 'Passphrase', 'input').fill(this.passphrase)
     await this.getLocator(this.page, 'Sign up', 'button').click()
     await this.emailMessages({ code:true })
     expect(this.latestCode).not.toBe('')
@@ -188,6 +230,16 @@ Given('I am not signed in', async (world:World) => {
   await world.expectSignedIn(false)
 })
 
+Given('I enter a new email address', async (world:World) => {
+  world.emailAddress = crypto.randomUUID() + '@example.com'
+  await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
+})
+
+When(`I enter the (pwned )passphrase {string}`, async (world:World, passphrase:string) => {
+  await world.setPassphrase(passphrase, world.info.step?.includes('pwned') ? 1 : 0)
+  await world.getLocator(world.page, 'Passphrase', 'input').fill(world.passphrase)
+})
+
 When('I sign up with an email link', async (world:World) => {
   await world.ensureLoginMethod('link')
   world.emailAddress = crypto.randomUUID() + '@example.com'
@@ -195,11 +247,11 @@ When('I sign up with an email link', async (world:World) => {
   await world.getLocator(world.page, 'Send link', 'button').click()
 })
 
-When('I sign up with a password', async (world:World) => {
-  await world.ensureLoginMethod('password')
+When('I sign up with a passphrase', async (world:World) => {
+  await world.ensureLoginMethod('passphrase')
   world.emailAddress = crypto.randomUUID() + '@example.com'
   await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
-  await world.getLocator(world.page, 'Password', 'input').fill('password')
+  await world.getLocator(world.page, 'Passphrase', 'input').fill(world.passphrase)
   await world.getLocator(world.page, 'Sign up', 'button').click()
 })
 
@@ -213,10 +265,10 @@ When('I sign in with an email link', async(world:World) => {
   await world.getLocator(world.page, 'Verify code', 'button').click()
 })
 
-When('I sign in with a password', async(world:World) => {
-  await world.ensureLoginMethod('password')
+When('I sign in with a passphrase', async(world:World) => {
+  await world.ensureLoginMethod('passphrase')
   await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
-  await world.getLocator(world.page, 'Password', 'input').fill('password')
+  await world.getLocator(world.page, 'Passphrase', 'input').fill(world.passphrase)
   await world.page.getByRole('button', { name:'Sign in', exact:true }).click()
 })
 
@@ -290,8 +342,17 @@ Then('I should see an MFA challenge', async (world:World) => {
   await world.expectElement(world.getLocator(world.page, 'Multi-Factor Authentication', 'heading'))
 })
 
-AfterStep(async (world:World) => {
+Then('I should see a/an/the {string} notification/warning/error/message', async (world:World, text:string) => {
+  await world.expectElement(world.getLocator(world.page, 'p', 'element', text))
+})
+
+Then('I should not/NOT see a/an/the {string} notification/warning/error/message', async (world:World, text:string) => {
+  await world.expectElement(world.getLocator(world.page, 'p', 'element', text), false)
+})
+
+After(async (world:World) => {
   if (world.info.errors.length) {
+    world.worldConfig.screenshotDir = 'errors'
     await world.screenshot()
   }
 })
