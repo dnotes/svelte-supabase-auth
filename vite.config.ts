@@ -13,13 +13,14 @@ const qpConfig:Partial<QuickPickleConfig> = {
 		['chromium','firefox','webkit'],
 		['mobile','tablet','desktop','widescreen'],
 	],
-	stepTimeout: 6000,
+	stepTimeout: 5000,
 
 	// PlaywrightWorld configuration
 	worldConfig: {
 		port: 5173, // sets the port
 		slowMo: 100, // turns on "slowMo"
 		defaultBrowserSize: 'mobile',
+		stepTimeout: 1000,
 		screenshotOptions: {
       mask: [
         'span.icon',

@@ -161,8 +161,9 @@ class World extends PlaywrightWorld {
   async saveTOTP(name:string, secret?:string):Promise<void> {
     if (this.mfaTokens[name]) throw new Error(`MFA token named "${name}" already exists`)
     if (!secret) {
-      let locator = this.getLocator(this.page, 'Show Secret', 'button')
-      if (await locator.isVisible()) await locator.click()
+      let locator = this.getLocator(this.page, 'Show secret', 'link')
+      if (await locator.isVisible({ timeout:200 })) await locator.click()
+      else throw new Error('"Show secret" link not found')
       let token = await this.getLocator(this.page, 'TOTP secret', 'textbox').textContent()
       if (!token) throw new Error('TOTP secret not found')
       this.mfaTokens[name] = token
@@ -177,9 +178,9 @@ class World extends PlaywrightWorld {
   }
 
   async openMFAPanel():Promise<void> {
-    let locator = this.getLocator(this.page, '+ Multi-factor authentication', 'button')
-    if (await locator.isVisible()) await locator.click()
-    await this.expectElement(this.getLocator(this.page, 'add a new MFA token', 'button'))
+    let locator = this.getLocator(this.page, '+ Multi-factor authentication', 'link')
+    if (await locator.isVisible({ timeout:200 })) await locator.click()
+    await this.expectElement(this.getLocator(this.page, 'add a new MFA token', 'link'))
   }
 
 }
@@ -215,12 +216,13 @@ Given('I am signed in with an existing account', async (world:World) => {
 
 Given('I have an MFA token named {string}', async (world:World, name:string) => {
   await world.openMFAPanel()
-  await world.getLocator(world.page, 'add a new MFA token', 'button').click()
+  await world.getLocator(world.page, 'add a new MFA token', 'link').click()
   await world.getLocator(world.page, 'Name', 'input').fill(name)
   await world.getLocator(world.page, 'Generate new token', 'button').click()
   await world.saveTOTP(name)
   await world.getLocator(world.page, 'Enter code', 'textbox').fill(world.getTOTPCode(name))
   await world.getLocator(world.page, 'Verify code', 'button').click()
+  await world.openMFAPanel()
   await world.openMFAPanel()
   await world.expectElement(world.page.getByRole('listitem', { name:`Multi-factor authenticator ${name}` }))
 })
@@ -308,8 +310,8 @@ When('I refresh/reload the page', async(world:World) => {
 
 When('I delete the MFA token named {string}', async(world:World, name:string) => {
   await world.openMFAPanel()
-  await world.getLocator(world.page, `Delete multi-factor authenticator ${name}`, 'button').click()
-  await world.expectElement(world.getLocator(world.page, `Multi-factor authenticator ${name}`, 'button'), false)
+  await world.getLocator(world.page, `Delete multi-factor authenticator ${name}`, 'link').click()
+  await world.expectElement(world.getLocator(world.page, `Multi-factor authenticator ${name}`, 'link'), false)
 })
 
 Then('I should have {int} emails', async (world:World, count:number) => {
@@ -339,10 +341,10 @@ Then('I should see a dialog with {string}', async (world:World, message:string) 
   expect(world.dialog).toContain(message)
 })
 
-Then('I should see a(n) MFA token/factor named {string}', async (world:World, name:string) => {
+Then('I should see a(n) MFA token named {string}', async (world:World, name:string) => {
   await world.expectElement(world.page.getByRole('listitem', { name:`Multi-factor authenticator ${name}` }))
 })
-Then('I should NOT see a(n) MFA token/factor named {string}', async (world:World, name:string) => {
+Then('I should NOT see a(n) MFA token named {string}', async (world:World, name:string) => {
   await world.expectElement(world.page.getByRole('listitem', { name:`Multi-factor authenticator ${name}` }), false)
 })
 

@@ -1,3 +1,4 @@
+@mfa
 Feature: Default config, MFA
 
   Background:
@@ -27,7 +28,7 @@ Feature: Default config, MFA
   Scenario: `I delete the MFA token named {string}`
     Given I have an MFA token named "default"
     Then I should see "Warning! You have only ONE multi-factor authentication token"
-    When I click the "Delete multi-factor authenticator default" button
+    When I click the "Delete multi-factor authenticator default" link
     Then I should see a dialog with "Are you sure you want to delete"
     Then I should NOT see an MFA token named "default"
     Then I should NOT see "Warning! You have only ONE multi-factor authentication token"
