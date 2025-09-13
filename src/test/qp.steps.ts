@@ -129,8 +129,8 @@ class World extends PlaywrightWorld {
 
   async ensureLoginMethod(method:'link'|'passphrase') {
     let str = method === 'link' ? 'Sign in with an email link' : 'Sign in with a passphrase'
-    if (await this.getLocator(this.page, str, 'button').isVisible()) {
-      await this.getLocator(this.page, str, 'button').click()
+    if (await this.getLocator(this.page, str, 'link').isVisible()) {
+      await this.getLocator(this.page, str, 'link').click()
     }
     try {
       if (method === 'link') await this.expectElement(this.page.getByRole('button', { name:'Send Link' }))
@@ -359,11 +359,11 @@ Then('I should see an MFA challenge', async (world:World) => {
 })
 
 Then('I should see a/an/the {string} notification/warning/error/message', async (world:World, text:string) => {
-  await world.expectElement(world.getLocator(world.page, 'p', 'element', text))
+  await world.expectElement(world.getLocator(world.page, 'p,span', 'element', text))
 })
 
 Then('I should not/NOT see a/an/the {string} notification/warning/error/message', async (world:World, text:string) => {
-  await world.expectElement(world.getLocator(world.page, 'p', 'element', text), false)
+  await world.expectElement(world.getLocator(world.page, 'p,span', 'element', text), false)
 })
 
 Then('there should have been {int} request(s) to {string}', async (world:World, count:number, host:string) => {

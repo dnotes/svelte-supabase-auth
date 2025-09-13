@@ -11,7 +11,7 @@
   let { block, large, class:classText, onclick, children, ...rest }: Props = $props()
 </script>
 
-<button class:block class:large class="{classText}" type="button" onclick={(e) => { e.preventDefault(); onclick?.(); }} {...rest}>{@render children()}</button>
+<button role="link" class:block class:large class="{classText}" type="button" onclick={(e) => { e.preventDefault(); onclick?.(); }} {...rest}>{@render children()}</button>
 
 <style>
   button {

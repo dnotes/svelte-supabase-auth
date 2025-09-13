@@ -64,17 +64,8 @@
       await validatePassphrase()
       let arr = await issues
       if (arr.length) {
-        if (!confirm(getText('pwSignupConfirm') + '\n\n- ' + arr.join('\n- '))) {
-          loading = false
-          feedback = true
-          return
-        }
-      }
-
-      if (password.length < $saOptions.passwordPolicy.minLength) {
-        messages.add('error', getText('pwLength', { min: $saOptions.passwordPolicy.minLength }))
-        feedback = true
         loading = false
+        feedback = true
         return
       }
 
@@ -144,10 +135,10 @@
   {:else}
     <!-- Password Flow -->
     <Button submit block primary size="large" {loading} icon="inbox" onclick={() => submitPassword(false)}>
-      {getText('signIn')}
+      {password.trim().length ? getText('signIn') : getText('sendLink')}
     </Button>
 
-    {#if canSignUp}
+    {#if canSignUp && password.trim().length}
       <Button block size="large" {loading} icon="inbox" onclick={() => submitPassword(true)}>
         {getText('signUp')}
       </Button>

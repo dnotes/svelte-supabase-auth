@@ -9,15 +9,14 @@ Feature: Passphrases
     And I enter a new email address
 
 
-  @dismiss-dialog
-  Scenario: Clicking Signup shows a dialog and enables feedback
-    When I enter a passphrase of 6 characters
+  Scenario: Clicking the "Sign up" button shows a dialog and enables feedback
+    When I enter a pwned passphrase of 6 characters
     When I click "Sign up"
-    Then I should see a dialog with "Your passphrase has the following issues"
+    Then I should see an "at least 15 characters" error
+    And I should see a "data breach" error
 
 
-  @dismiss-dialog
-  Scenario: Passphrase are checked against HIBP at signup
+  Scenario: Passphrases are checked against HIBP at signup
 
     "When processing a request to establish or change a password,
     verifiers SHALL compare the prospective secret against a blocklist
@@ -30,7 +29,6 @@ Feature: Passphrases
     And there should have been 1 request to "api.pwnedpasswords.com"
 
 
-  @dismiss-dialog
   Scenario: Passphrases should be 15 characters
 
     "Verifiers and CSPs SHALL require passwords that are used as a single-factor
@@ -43,7 +41,6 @@ Feature: Passphrases
     Then I should NOT see the "at least 15 characters" warning
 
 
-  @dismiss-dialog
   Scenario: Passphrases may be >= 8 characters if MFA is enforced
 
     "Verifiers and CSPs MAY allow passwords that are only used as part of
@@ -65,7 +62,7 @@ Feature: Passphrases
 
     When I enter the passphrase "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890-_"
     And I click the "Sign up" button
-    Then I should be signed in
+    Then I should see the "enter the verification code" message
 
 
   Scenario: Passphrases allow all printing ASCII characters and spaces
@@ -75,7 +72,7 @@ Feature: Passphrases
 
     When I enter the passphrase " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
     And I click the "Sign up" button
-    Then I should be signed in
+    Then I should see the "enter the verification code" message
 
 
   Scenario: Passphrases may contain Unicode characters, which count as a single character
@@ -94,7 +91,7 @@ Feature: Passphrases
     # 15 characters
     When I enter the passphrase "😛🤣➡❖¥©∆𝔂♜🁰🁲அሴ人1"
     And I click the "Sign up" button
-    Then I should be signed in
+    Then I should see the "enter the verification code" message
     # TODO
     # And I should see the "Unicode characters" message
 

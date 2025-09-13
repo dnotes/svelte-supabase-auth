@@ -24,7 +24,6 @@ export interface AuthTexts {
   pwLength: string
   pwBreached: string
   pwUniqueness: string
-  pwSignupConfirm: string
   pwLengthLabel: string
   pwBreachedLabel: string
   pwUniquenessLabel: string
@@ -134,7 +133,6 @@ const en:AuthTexts = {
   pwLength: 'Your passphrase must be at least {min} characters.',
   pwBreached: 'Your passphrase was found in at least 1 data breach. ({count})',
   pwUniqueness: 'Your passphrase should include more unique characters that are not repetitive or related to the site or your personal information.',
-  pwSignupConfirm: 'Your passphrase has the following issues; are you sure you want to sign up? Press "Cancel" to change your passphrase.',
   pwLengthLabel: 'length check',
   pwBreachedLabel: 'breach check',
   pwUniquenessLabel: 'uniqueness check',
