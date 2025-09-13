@@ -1,7 +1,7 @@
 import { PlaywrightWorld, type PlaywrightWorldConfig } from '@quickpickle/playwright/PlaywrightWorld'
 import '@quickpickle/playwright/actions'
 import '@quickpickle/playwright/outcomes'
-import { Given, When, Then, DataTable, setWorldConstructor, After, AfterStep, Before } from 'quickpickle'
+import { Given, When, Then, DataTable, setWorldConstructor, After, Before } from 'quickpickle'
 import { expect, type Locator } from 'playwright/test'
 import speakeasy from 'speakeasy'
 import fs from 'node:fs'
@@ -128,18 +128,10 @@ class World extends PlaywrightWorld {
   }
 
   async ensureLoginMethod(method:'link'|'passphrase') {
-    let str = method === 'link' ? 'Sign in with an email link' : 'Sign in with a passphrase'
-    if (await this.getLocator(this.page, str, 'link').isVisible()) {
-      await this.getLocator(this.page, str, 'link').click()
+    if (method === 'passphrase' && await this.getLocator(this.page, 'Sign in with a passphrase', 'link').isVisible({ timeout:200 })) {
+      await this.getLocator(this.page, 'Sign in with a passphrase', 'link').isVisible({ timeout:200 })
+      await this.expectElement(this.page.getByRole('textbox', { name:'Passphrase' }))
     }
-    try {
-      if (method === 'link') await this.expectElement(this.page.getByRole('button', { name:'Send Link' }))
-      else await this.expectElement(this.page.getByRole('button', { name:'Sign in' }))
-    }
-    catch (e) {
-      await this.screenshot()
-    }
-
   }
 
   async setupAccount(stayLoggedIn:boolean = false):Promise<void> {

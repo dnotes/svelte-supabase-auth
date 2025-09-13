@@ -1,3 +1,4 @@
+@defaults
 Feature: Default config, basic operations
 
   Background:
@@ -13,15 +14,22 @@ Feature: Default config, basic operations
   Scenario: The main fields show
     Then I should see an "Email address" input
     And I should see a "Passphrase" input
-    And I should see a "Sign in" button
-    And I should see a "Sign up" button
 
   Scenario: The passphrase field shows when requested
     When I click "Sign in with an email link"
     Then I should NOT see a "Passphrase" input
-    And I should NOT see a "Sign up" button
     When I click "Sign in with a passphrase"
     Then I should see a "Passphrase" input
+
+  Scenario: The signup button shows only when needed
+    When I enter a new email address
+    And I enter the passphrase ""
+    Then I should see a "Send link" button
+    And I should NOT see a "Sign in" button
+    And I should NOT see a "Sign up" button
+    When I enter the passphrase "1"
+    Then I should NOT see a "Send link" button
+    And I should see a "Sign in" button
     And I should see a "Sign up" button
 
   Scenario Outline: Creating an account requires email verification (<method>)

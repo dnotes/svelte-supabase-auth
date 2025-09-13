@@ -127,7 +127,7 @@
     </Wrapper>
   {/if}
 
-  {#if !usePassword}
+  {#if !usePassword || !password.trim().length}
     <!-- Magic Link Flow -->
     <Button submit block primary size="large" {loading} icon="inbox" onclick={submitMagicLink}>
       {getText('sendLink')}
@@ -135,7 +135,7 @@
   {:else}
     <!-- Password Flow -->
     <Button submit block primary size="large" {loading} icon="inbox" onclick={() => submitPassword(false)}>
-      {password.trim().length ? getText('signIn') : getText('sendLink')}
+      {getText('signIn')}
     </Button>
 
     {#if canSignUp && password.trim().length}
