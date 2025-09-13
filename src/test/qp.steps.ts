@@ -1,9 +1,10 @@
 import { PlaywrightWorld, type PlaywrightWorldConfig } from '@quickpickle/playwright/PlaywrightWorld'
 import '@quickpickle/playwright/actions'
 import '@quickpickle/playwright/outcomes'
-import { Given, When, Then, DataTable, setWorldConstructor, After, AfterStep } from 'quickpickle'
+import { Given, When, Then, DataTable, setWorldConstructor, After, AfterStep, Before } from 'quickpickle'
 import { expect, type Locator } from 'playwright/test'
 import speakeasy from 'speakeasy'
+import fs from 'node:fs'
 
 type MailTests = {
   count?:number
@@ -36,7 +37,8 @@ class World extends PlaywrightWorld {
   latestCode: string = ''
   dialog: string = ''
   mfaTokens: Record<string, string> = {}
-  data: Record<string, string> = {}
+  data: Record<string, any> = {}
+  requests: Record<string, number> = {}
 
   _passphrase:string = ''
   _passphraseHashParts:[string,string] = ['','']
@@ -51,12 +53,18 @@ class World extends PlaywrightWorld {
       else dialog.accept()
     })
     await this.setPassphrase(crypto.randomUUID())
-    this.page.route('https://api.pwnedpassphrases.com', route => {
-      route.fulfill({
-        status: 200,
-        contentType: 'text/plain',
-        body: !this._passphraseBreaches ? '' : `${this.passphraseHashParts[1]}:${this._passphraseBreaches}`,
-      })
+    this.page.route(/\/\/(?!localhost|127\.0\.0\.1)/, (route) => {
+      let host = route.request().url()
+      if (host.match(/^\w+tps?:\/\//)) host = host.replace(/^\w+tps?:\/\//, '').replace(/\/.+$/, '')
+      this.requests[host] = this.requests[host] ? this.requests[host] + 1 : 1
+      if (host.includes('pwned')) {
+        route.fulfill({
+          status: 200,
+          contentType: 'text/plain',
+          body: !this._passphraseBreaches ? '' : `${this.passphraseHashParts[1]}:${this._passphraseBreaches}`,
+        })
+      }
+      else route.continue()
     })
   }
 
@@ -235,6 +243,14 @@ Given('I enter a new email address', async (world:World) => {
   await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
 })
 
+When(`I enter a (pwned )passphrase`, async (world:World) => {
+  await world.setPassphrase(crypto.randomUUID().slice(0, 15), world.info.step?.includes('pwned') ? 1 : 0)
+  await world.getLocator(world.page, 'Passphrase', 'input').fill(world.passphrase)
+})
+When(`I enter a (pwned )passphrase of {int} characters`, async (world:World, length:number) => {
+  await world.setPassphrase(crypto.randomUUID().slice(0, length), world.info.step?.includes('pwned') ? 1 : 0)
+  await world.getLocator(world.page, 'Passphrase', 'input').fill(world.passphrase)
+})
 When(`I enter the (pwned )passphrase {string}`, async (world:World, passphrase:string) => {
   await world.setPassphrase(passphrase, world.info.step?.includes('pwned') ? 1 : 0)
   await world.getLocator(world.page, 'Passphrase', 'input').fill(world.passphrase)
@@ -350,8 +366,20 @@ Then('I should not/NOT see a/an/the {string} notification/warning/error/message'
   await world.expectElement(world.getLocator(world.page, 'p', 'element', text), false)
 })
 
+Then('there should have been {int} request(s) to {string}', async (world:World, count:number, host:string) => {
+  await world.page.waitForTimeout(1000)
+  if (!count) expect(world.requests[host]).toBeFalsy()
+  else expect(world.requests[host]).toBe(count)
+})
+
+Before(async (world:World) => {
+  let path = world.screenshotPath.replace('/'+world.screenshotDir+'/', '/errors/')
+  if (fs.existsSync(path)) fs.unlinkSync(path)
+})
+
 After(async (world:World) => {
   if (world.info.errors.length) {
+    world.info.errors[0].message += '\n\nRequests: ' + JSON.stringify(world.requests, null, 2)
     world.worldConfig.screenshotDir = 'errors'
     await world.screenshot()
   }

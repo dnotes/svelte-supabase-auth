@@ -19,6 +19,7 @@ const qpConfig:Partial<QuickPickleConfig> = {
 	worldConfig: {
 		port: 5173, // sets the port
 		slowMo: 100, // turns on "slowMo"
+		defaultBrowserSize: 'mobile',
 		screenshotOptions: {
       mask: [
         'span.icon',

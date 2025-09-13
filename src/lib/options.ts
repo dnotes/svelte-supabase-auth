@@ -37,7 +37,10 @@ export interface SupabaseAuthOptions {
     mfa: {
       /**
        * Require new users to enroll MFA after account creation. When true, users must set up MFA before accessing the app.
-       * This is ONLY a setting for this UI library, not for Supabase.
+       * This is ONLY a setting for this UI library, not for Supabase; in order for this setting to mean anything, you MUST
+       * also use appropriate database access checks to restrict access based on MFA status, and check for the MFA status
+       * in other sections of your server and front-end code.
+       * @see https://supabase.com/docs/guides/auth/auth-mfa#database
        * @default false
        */
       required: boolean;
@@ -57,10 +60,12 @@ export interface SupabaseAuthOptions {
   passwordPolicy: {
 
     /**
-     * Absolute password length. Set higher (e.g., 10–12) for stronger security. (Env: GOTRUE_PASSWORD_MIN_LENGTH)
-     * NOTE: You MUST change this to 8 or higher to meet minimum security recommendations, as Supabase's default is 6!
+     * Minimum password length. NIST guidelines require 15 characters minimum if used as single-factor auth,
+     * or as low as 8 characters for passwords used as part of a mandatory multi-factor authentication scheme.
+     * NOTE: You MUST change this to meet minimum security recommendations, as Supabase's default is 6!
      * Change it in your dashboard at project/[project-name]/auth/providers, under the settings for "Email".
-     * This defaults to 8 for the UI despite the too-low default for Supabase.
+     * Even though the default for this value is 8 characters, this library will enforce 15 character minimum
+     * unless either mfa.required or ignoreBestPractices is true.
      * @default 8
      */
     minLength: number;
@@ -69,20 +74,28 @@ export interface SupabaseAuthOptions {
      * Minimum password length considered "good" by the password strength indicator.
      * NIST recommends 12-15 characters. Note this is NOT a Supabase setting;
      * it is only for the password strength indicator in the UI.
-     * @default 12
+     * @default 15
      */
     goodLength: number;
 
     /**
      * Colon-separated character sets; password must contain ≥1 from each set.
-     * THIS SETTING IS NOT RECOMMENDED, as it REDUCES password strength for actual users.
-     * (See e.g. NIST 800-63, 3.1.1.2) and leave it empty (the default) to avoid causing issues.
-     * The password strength indicator in the UI is NOT against NIST recommendations.
+     * THIS SETTING IS NOT RECOMMENDED, as it REDUCES password strength in practice.
+     * Leave it empty (the default) to avoid issues.
+     * @see https://pages.nist.gov/800-63-4/sp800-63b/passwords/#appA
      * @default ""
      */
     requiredCharacters: string;
 
   };
+
+  /**
+   * By default, this UI library will attempt to enforce best practices for authentication
+   * from NIST guidelines in publications like 800-63b-4, such as enforcing password length.
+   * If you want to ignore those guidelines, set ignoreBestPractices to true.
+   * @default false
+   */
+  ignoreBestPractices: boolean;
 }
 
 type DeepPartial<T> = T extends object ? {
@@ -130,7 +143,9 @@ export const SUPABASE_AUTH_DEFAULTS: SupabaseAuthOptions = {
 
   passwordPolicy: {
     minLength: 8,
-    goodLength: 12,
+    goodLength: 15,
     requiredCharacters: "", // empty => no specific sets required
   },
+
+  ignoreBestPractices: false,
 }

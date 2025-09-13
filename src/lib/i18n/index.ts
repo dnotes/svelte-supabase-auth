@@ -22,17 +22,12 @@ export interface AuthTexts {
 
   // Password confirmation
   pwLength: string
-  pwAddLetter: string
-  pwAddNumber: string
-  pwAddSpecial: string
-  pwAddSpace: string
   pwBreached: string
-  pwRepetitive: string
-  pwDomain: string
+  pwUniqueness: string
   pwSignupConfirm: string
+  pwLengthLabel: string
   pwBreachedLabel: string
-  pwRepetitiveLabel: string
-  pwDomainLabel: string
+  pwUniquenessLabel: string
 
   // Link texts
   switchToMagicLink: string
@@ -136,18 +131,13 @@ const en:AuthTexts = {
   // Password confirmation
   pwLabel: 'Passphrase',
   pwConfirmLabel: 'Confirm passphrase',
-  pwLength: 'Passphrases must be at least {min} characters, preferably at least 15.',
-  pwAddSpace: 'Consider using a passphrase including spaces.',
-  pwAddLetter: 'Consider increasing complexity by adding letters.',
-  pwAddNumber: 'Consider increasing complexity by adding numbers.',
-  pwAddSpecial: 'Conisder increasing complexity by adding special characters.',
+  pwLength: 'Your passphrase must be at least {min} characters.',
   pwBreached: 'Your passphrase was found in at least 1 data breach. ({count})',
-  pwRepetitive: 'Your passphrase should contain more unique characters.',
-  pwDomain: 'Your passphrase includes site-specific text.',
+  pwUniqueness: 'Your passphrase should include more unique characters that are not repetitive or related to the site or your personal information.',
   pwSignupConfirm: 'Your passphrase has the following issues; are you sure you want to sign up? Press "Cancel" to change your passphrase.',
-  pwBreachedLabel: 'Breach check',
-  pwRepetitiveLabel: 'Repetitive check',
-  pwDomainLabel: 'Site-specific term check',
+  pwLengthLabel: 'length check',
+  pwBreachedLabel: 'breach check',
+  pwUniquenessLabel: 'uniqueness check',
 
   // Link texts
   switchToMagicLink: 'Sign in with an email link',
