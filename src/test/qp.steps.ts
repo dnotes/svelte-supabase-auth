@@ -35,6 +35,7 @@ class World extends PlaywrightWorld {
   emailAddress: string = ''
   messages: any[] = []
   latestCode: string = ''
+  latestLink: string = ''
   dialog: string = ''
   mfaTokens: Record<string, string> = {}
   data: Record<string, any> = {}
@@ -92,13 +93,35 @@ class World extends PlaywrightWorld {
   }
 
   async emailMessages(test:MailTests):Promise<void> {
+
+    // If we're testing for a certain number of messages
     if (test.count && this.messages.length < test.count) await this._getEmailMessages({ count:test.count })
+
+    // If we're testing for a certain subject
     if (test.subject && !this.messages.some((m:any) => m.Subject.includes(test.subject))) await this._getEmailMessages({ subject:test.subject })
+
+    // If we're getting an email code
     if (test.code) {
       let code = this?.messages[this?.messages.length - 1]?.Snippet.match(/code: (\d{6})/)?.[1] ?? ''
+
+      // get new messages if there is no code in the most recent message OR if the code is the same as the last one
       if (!code || code === this.latestCode) await this._getEmailMessages({ code:true })
+
+      // otherwise, set the latestCode and the latestLink
       else this.latestCode = code
     }
+  }
+
+  async followEmailLink():Promise<void> {
+    let url = this.page.url().replace(/^https?:\/\//, '')
+    this.page.goto(this.latestLink)
+    await this.page.waitForURL((navigated) => navigated.toString().includes(url), { timeout:1000 })
+  }
+
+  async _getEmailLink(id:string):Promise<void> {
+    const response = await fetch(`http://localhost:54324/api/v1/message/${id}`)
+    let data = await response.json()
+    this.latestLink = data.Text.match(/(?<=\( )https?.+?(?= \))/)?.[0] ?? ''
   }
 
   async _getEmailMessages(test:MailTests):Promise<void> {
@@ -124,10 +147,11 @@ class World extends PlaywrightWorld {
         return this._getEmailMessages({ code:true })
       }
       this.latestCode = code
+      await this._getEmailLink(this.messages[0].ID)
     }
   }
 
-  async ensureLoginMethod(method:'link'|'passphrase') {
+  async ensureLoginMethod(method:'link'|'passphrase'|'code') {
     if (method === 'passphrase' && await this.getLocator(this.page, 'Sign in with a passphrase', 'link').isVisible({ timeout:200 })) {
       await this.getLocator(this.page, 'Sign in with a passphrase', 'link').isVisible({ timeout:200 })
       await this.expectElement(this.page.getByRole('textbox', { name:'Passphrase' }))
@@ -250,7 +274,7 @@ When(`I enter the (pwned )passphrase {string}`, async (world:World, passphrase:s
   await world.getLocator(world.page, 'Passphrase', 'input').fill(world.passphrase)
 })
 
-When('I sign up with an email link', async (world:World) => {
+When('I sign up with an email link/code', async (world:World) => {
   await world.ensureLoginMethod('link')
   world.emailAddress = crypto.randomUUID() + '@example.com'
   await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
@@ -265,14 +289,27 @@ When('I sign up with a passphrase', async (world:World) => {
   await world.getLocator(world.page, 'Sign up', 'button').click()
 })
 
-When('I sign in with an email link', async(world:World) => {
-  await world.ensureLoginMethod('link')
+When('I sign in with an email code', async(world:World) => {
+  await world.ensureLoginMethod('code')
   await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
   await world.getLocator(world.page, 'Send link', 'button').click()
   await world.emailMessages({ code:true })
   expect(world.latestCode).not.toBe('')
   await world.getLocator(world.page, 'Enter code', 'textbox').fill(world.latestCode)
   await world.getLocator(world.page, 'Verify code', 'button').click()
+})
+
+When('I sign in with an email link', async(world:World) => {
+  await world.ensureLoginMethod('link')
+  await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
+  await world.getLocator(world.page, 'Send link', 'button').click()
+  await world.emailMessages({ code:true })
+  await world.followEmailLink()
+})
+
+When('I click the link in the email', async(world:World) => {
+  await world.emailMessages({ code:true })
+  await world.followEmailLink()
 })
 
 When('I sign in with a passphrase', async(world:World) => {

@@ -32,7 +32,7 @@ Feature: Default config, basic operations
     And I should see a "Sign in" button
     And I should see a "Sign up" button
 
-  Scenario Outline: Creating an account requires email verification (<method>)
+  Scenario Outline: Creating an account requires email verification: <method>
     When I sign up with <method>
     Then I should see "Click the link in the email"
     And I should see my email address
@@ -43,8 +43,14 @@ Feature: Default config, basic operations
 
     Examples:
       | method |
-      | an email link |
+      | an email code |
       | a passphrase |
+
+  Scenario: Creating an account requires email verification: an email link
+    When I sign up with an email link
+    Then I should see "Click the link in the email"
+    When I click the link in the email
+    Then I should be signed in
 
   @mobile
   Scenario: Existing account
@@ -59,5 +65,6 @@ Feature: Default config, basic operations
     Examples:
       | method |
       | an email link |
+      | an email code |
       | a passphrase |
 

@@ -42,7 +42,12 @@
     messages.clear()
     loading = true
 
-    const { error: err } = await supabaseClient.auth.signInWithOtp({ email: $email })
+    const { error: err } = await supabaseClient.auth.signInWithOtp({
+      email: $email,
+      options: {
+        emailRedirectTo: `${window.location.origin}${window.location.pathname}${window.location.search}`
+      }
+    })
 
     if (err) messages.add('error', err.message)
     else $emailLinkSent = {

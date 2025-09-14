@@ -51,6 +51,7 @@ Feature: Default config, MFA
     Examples:
       | method |
       | an email link |
+      | an email code |
       | a passphrase |
 
   Scenario Outline: Signing in with two codes gives you a choice (<method>)
@@ -66,4 +67,5 @@ Feature: Default config, MFA
     Examples:
       | method |
       | an email link |
+      | an email code |
       | a passphrase |
