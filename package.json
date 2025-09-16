@@ -33,6 +33,7 @@
     }
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.7",
     "@chromatic-com/storybook": "^4.1.1",
     "@iconify/json": "^2.2.382",
     "@quickpickle/playwright": "^1.0",
