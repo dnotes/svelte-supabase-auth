@@ -18,16 +18,16 @@
 
   interface Props {
     value: string
-    issues?: Promise<string[]>
-    validatePassphrase?: () => void
+    validate?: () => void
+    isGood?: boolean
     feedback?: boolean
     getText: GetText
   }
 
   let {
     value = $bindable(''),
-    issues = $bindable(new Promise<string[]>(()=>{})),
-    validatePassphrase = $bindable(),
+    validate = $bindable(),
+    isGood = $bindable(false),
     feedback = $bindable(false),
     getText,
   }:Props = $props()
@@ -35,6 +35,7 @@
   let showPassword = $state(false)
 
   let isBreached:number|null = $state(null)
+  let isNotPwned = $state(false)
 
   let minLength = $derived(
     ( $saOptions.auth.mfa.required || $saOptions.ignoreBestPractices )
@@ -55,36 +56,35 @@
     .length < (minLength * .67) // ensure that at least 2/3 of the passphrase is unique non-domain text
   )
 
-  function checkPassword() {
-    if ([...value].length >= 6) {
-      let promise = feedback
-        ? pwnedPassword(value).then(count => isBreached = count).catch(e => messages.add('error', e.message))
-        : Promise.resolve()
+  async function checkPassword() {
+    isGood = false
+    isNotPwned = false
+    isBreached = null
+    if ([...value].length >= 6 && feedback) {
+      try {
+        isBreached = await pwnedPassword(value)
+      }
+      catch (e:any) {
+        messages.add('error', e.message)
+        return
+      }
 
-      issues = (async () => {
-        let messages:string[] = []
-        await promise.catch(e => messages.push(e.message))
-        await tick()
-        return [
-          isTooShort ? getText('pwLength', { min: minLength }) : false,
-          isBreached ? getText('pwBreached', { count: isBreached }) : false,
-          (isNotUnique && !isTooShort) ? getText('pwUniqueness') : false,
-        ].filter(Boolean) as string[]
-      })()
+      if (!isBreached && !isNotUnique && !isTooShort) {
+        isGood = true
+      }
     }
   }
 
   let pwchecking = debounce(checkPassword, 500)
-  validatePassphrase = async()=>{
+  validate = async()=>{
     feedback = true
     await tick()
-    checkPassword()
-    await issues
+    await checkPassword()
   }
 
   function handleInput() {
     isBreached = null
-    issues = new Promise(()=>{})
+    isGood = false
     pwchecking()
   }
 

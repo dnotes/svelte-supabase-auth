@@ -20,7 +20,8 @@
 
   let loading = $state(false)
   let password = $state('')
-  let validatePassphrase:(()=>void) = $state(()=>{})
+  let validate:(()=>void) = $state(()=>{})
+  let isGood = $state(false)
 
   let emailEl:HTMLInputElement|undefined = $state()
   let passwordEl:HTMLInputElement|undefined = $state()
@@ -66,9 +67,8 @@
 
     if (isSignUp) {
 
-      await validatePassphrase()
-      let arr = await issues
-      if (arr.length) {
+      await validate()
+      if (!isGood) {
         loading = false
         feedback = true
         return
@@ -128,7 +128,7 @@
 
   {#if usePassword}
     <Wrapper name="password" label={getText('pwLabel')} icon="key" links={resetPasswordLink}>
-      <PasswordField {feedback} bind:issues bind:value={password} bind:validatePassphrase {getText} />
+      <PasswordField {feedback} bind:isGood bind:value={password} bind:validate {getText} />
     </Wrapper>
   {/if}
 

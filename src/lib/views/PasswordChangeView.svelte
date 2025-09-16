@@ -21,19 +21,17 @@
     getText,
   }:Props = $props()
 
-  let issues:Promise<string[]> = $state(new Promise(()=>{}))
-  let validatePassphrase = $state(()=>{})
+  let validate = $state(()=>{})
   let loading = $state(false)
   let nonce = $state('')
   let passphrase = $state('')
-
+  let isGood = $state(false)
   async function handleSubmit() {
     messages.clear()
     loading = true
     try {
-      await validatePassphrase()
-      let arr = await issues
-      if (arr.length) {
+      await validate()
+      if (!isGood) {
         loading = false
         return
       }
@@ -67,7 +65,7 @@
     />
   </Wrapper>
   <Wrapper name="password" label={getText('pwLabel')} icon="key">
-    <PasswordField feedback bind:issues bind:validatePassphrase bind:value={passphrase} {getText} />
+    <PasswordField feedback bind:isGood bind:value={passphrase} bind:validate {getText} />
   </Wrapper>
   <Button submit block primary size="large" icon="inbox" {loading}>
     {getText('pwChange')}
