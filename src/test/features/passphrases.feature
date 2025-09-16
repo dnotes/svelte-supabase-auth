@@ -37,7 +37,17 @@ Feature: Passphrases
 
     When I enter the passphrase "svelte-supabase-auth-123456"
     And I click the "Sign up" button
-    Then I should see the "not repetitive or related to the site or your personal information" message
+    Then I should see the "not repetitive or related to the site or your personal information" error
+
+
+  Scenario: Passphrases are checked for repetitiveness
+    When I enter the passphrase "0102030405060708090"
+    And I click the "Sign up" button
+    Then I should see the "not repetitive" error
+    And I should NOT see the "at least 15 characters" error
+    When I enter the passphrase "0102030405060708090a"
+    And I click the "Sign up" button
+    Then I should NOT see the "not repetitive" error
 
 
   Scenario: Passphrases should be 15 characters
