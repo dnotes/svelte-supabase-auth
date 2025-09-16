@@ -1,5 +1,5 @@
 {
-  "name": "supabase-ui-svelte",
+  "name": "svelte-supabase-auth",
   "version": "0.0.1",
   "scripts": {
     "dev": "vite dev",
