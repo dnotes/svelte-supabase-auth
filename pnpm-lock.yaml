@@ -7,13 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      playwright:latest:
-        specifier: link:@quickpickle/playwright:latest
-        version: link:@quickpickle/playwright:latest
-      svelte-feather-icons:
-        specifier: ^3.6.0
-        version: 3.6.0
     devDependencies:
       '@chromatic-com/storybook':
         specifier: ^4.1.1
@@ -87,9 +80,6 @@ importers:
       playwright:
         specifier: ^1.55.0
         version: 1.55.0
-      playwright:0.14.0:
-        specifier: link:@quickpickle/playwright:0.14.0
-        version: link:@quickpickle/playwright:0.14.0
       publint:
         specifier: ^0.3.12
         version: 0.3.12
@@ -1902,18 +1892,11 @@ packages:
       svelte: ^4.0.0 || ^5.0.0-next.0
       typescript: '>=5.0.0'
 
-  svelte-feather-icons@3.6.0:
-    resolution: {integrity: sha512-pdRmJwrYUxTI00uTJvGtrMoWXI56n4iX+7fBuxVG/TdBtnqZ8RlGPPvgXmH9+yGOMvWOF5SbZ7h4I+FiORbs2A==}
-
   svelte2tsx@0.7.42:
     resolution: {integrity: sha512-PSNrKS16aVdAajoFjpF5M0t6TA7ha7GcKbBajD9RG3M+vooAuvLnWAGUSC6eJL4zEOVbOWKtcS2BuY4rxPljoA==}
     peerDependencies:
       svelte: ^3.55 || ^4.0.0-next.0 || ^4.0 || ^5.0.0-next.0
       typescript: ^4.9.4 || ^5.0.0
-
-  svelte@3.59.2:
-    resolution: {integrity: sha512-vzSyuGr3eEoAtT/A6bmajosJZIUWySzY2CzB3w2pgPvnkUjGqlDnsNnA0PMO+mMAhuyMul6C2uuZzY6ELSkzyA==}
-    engines: {node: '>= 8'}
 
   svelte@5.38.7:
     resolution: {integrity: sha512-1ld9TPZSdUS3EtYGQzisU2nhwXoIzNQcZ71IOU9fEmltaUofQnVfW5CQuhgM/zFsZ43arZXS1BRKi0MYgUV91w==}
@@ -3817,18 +3800,12 @@ snapshots:
     transitivePeerDependencies:
       - picomatch
 
-  svelte-feather-icons@3.6.0:
-    dependencies:
-      svelte: 3.59.2
-
   svelte2tsx@0.7.42(svelte@5.38.7)(typescript@5.9.2):
     dependencies:
       dedent-js: 1.0.1
       pascal-case: 3.1.2
       svelte: 5.38.7
       typescript: 5.9.2
-
-  svelte@3.59.2: {}
 
   svelte@5.38.7:
     dependencies:
