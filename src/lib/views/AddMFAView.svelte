@@ -16,8 +16,6 @@
     InputWrapper: typeof InputWrapper
     supabaseClient: SupabaseClient
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
-    onComplete?: () => void
-    onCancel?: () => void
   }
 
   let {
