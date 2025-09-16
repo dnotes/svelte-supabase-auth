@@ -9,11 +9,14 @@
   import { defaultTranslations } from '$lib/i18n/index'
   import { languages } from './languages'
   import type { PartialSupabaseAuthOptions, SupabaseAuthOptions } from '$lib/options';
+  import GearIcon from 'virtual:icons/lucide/settings'
 
   let locale = $state('en')
 
   // @ts-ignore
   import config from '../../supabase/config.toml'
+  import Options from './Options.svelte';
+  import type { Provider } from '@supabase/supabase-js';
   const authOptions:PartialSupabaseAuthOptions = {
     auth: config?.auth,
     passwordPolicy: {
@@ -23,7 +26,16 @@
     }
   }
 
+  let showOptions = $state(false)
+  let providers = $state(['google', 'github']) as Provider[]
+
 </script>
+
+{#if showOptions}
+  <Options bind:providers bind:showOptions />
+{/if}
+
+<button class:hidden={showOptions} class="cursor-pointer fixed top-0 left-0" onclick={() => showOptions = true}><GearIcon width="32" height="32" /></button>
 
 <div class="mx-auto mt-6 w-120 max-w-full p-5">
   <div class="flex justify-end">
@@ -35,7 +47,7 @@
     {/each}
   </div>
   <div class="py-6 px-3 m-4 shadow-md rounded-lg bg-stone-200 dark:bg-stone-800">
-    <Auth {supabaseClient} {locale} providers={['google', 'github']} {authOptions}>
+    <Auth {supabaseClient} {locale} {providers} {authOptions}>
     </Auth>
   </div>
 </div>

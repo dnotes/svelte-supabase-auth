@@ -3,53 +3,20 @@
   import type { Provider, SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
   import { messages } from '$lib/messages.svelte';
+  import { providerList } from '$lib/providers'
 
   interface Props {
     supabaseClient: SupabaseClient
     providers: Provider[]
     socialLayout: 'vertical' | 'horizontal'
     socialButtonSize: 'tiny' | 'small' | 'medium' | 'large'
-    socialColors: boolean
     isLinking?: boolean
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
   }
 
-  let { supabaseClient, providers, socialLayout, socialButtonSize, socialColors, isLinking, getText }: Props = $props()
+  let { supabaseClient, providers, socialLayout, socialButtonSize, isLinking, getText }: Props = $props()
 
   let loading = $state(false)
-
-  const buttonStyles: Partial<Record<Provider, Record<string, string>>> = {
-    google: {
-      'background-color': '#ce4430',
-      color: 'white',
-    },
-    facebook: {
-      'background-color': '#4267B2',
-      color: 'white',
-    },
-    twitter: {
-      'background-color': '#1DA1F2',
-    },
-    gitlab: {
-      'background-color': '#FC6D27',
-    },
-    github: {
-      'background-color': '#333',
-      color: 'white',
-    },
-    bitbucket: {
-      'background-color': '#205081',
-      color: 'white',
-    },
-    azure: {
-      'background-color': '#0072c6',
-      color: 'white',
-    },
-    discord: {
-      'background-color': '#5865F2',
-      color: 'white',
-    }
-  }
 
   const hasProviders = $derived(providers && providers.length > 0)
 
@@ -74,21 +41,26 @@
     </span>
   {/if}
 
-  <div class="providers flex" class:horizontal={socialLayout == 'horizontal'}>
+  <div class="providers flex" class:horizontal={socialLayout === 'horizontal'}>
     {#each providers as provider}
-      {@const providerName = provider.charAt(0).toUpperCase() + provider.slice(1)}
-      <Button
-        block
-        shadow
-        icon={provider}
-        size={socialButtonSize}
-        style={socialColors ? (buttonStyles[provider] || {}) : {}}
-        onclick={() => handleProviderSignIn(provider)}
-      >
-        {#if socialLayout == 'vertical'}
-          {getText(isLinking ? 'socialLinking' : 'socialSignIn', {provider: providerName})}
-        {/if}
-      </Button>
+      {#if socialLayout === 'vertical'}
+        <Button
+          class="provider-{provider}"
+          block
+          icon={provider}
+          size={socialButtonSize}
+          onclick={() => handleProviderSignIn(provider)}
+        >
+          {getText(isLinking ? 'socialLinking' : 'socialSignIn', {provider: providerList[provider]})}
+        </Button>
+      {:else}
+        <Button
+          class="provider-{provider}"
+          icon={provider}
+          size={socialButtonSize}
+          onclick={() => handleProviderSignIn(provider)}
+        />
+      {/if}
     {/each}
   </div>
 {/if}
@@ -100,6 +72,8 @@
 
   .providers.horizontal {
     flex-direction: row;
+    max-width: 100%;
+    flex-wrap: wrap;
   }
 
   .heading {

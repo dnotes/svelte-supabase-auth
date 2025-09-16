@@ -1,26 +1,54 @@
 <script lang="ts">
-  import { KeyIcon, MailIcon, InboxIcon } from 'svelte-feather-icons'
-  import GoogleIcon from '../social-icons/GoogleIcon.svelte'
-  import FacebookIcon from '../social-icons/FacebookIcon.svelte'
-  import TwitterIcon from '../social-icons/TwitterIcon.svelte'
-  import GithubIcon from '../social-icons/GithubIcon.svelte'
-  import GitlabIcon from '../social-icons/GitlabIcon.svelte'
-  import BitbucketIcon from '../social-icons/BitbucketIcon.svelte'
-  import AzureIcon from '../social-icons/AzureIcon.svelte'
-  import DiscordIcon from '../social-icons/DiscordIcon.svelte'
+
+  import key from "virtual:icons/lucide/key"
+  import mail from "virtual:icons/lucide/mail"
+  import inbox from "virtual:icons/lucide/inbox"
+
+  import apple from "virtual:icons/simple-icons/apple"
+  import azure from "virtual:icons/logos/microsoft-icon"
+  import bitbucket from "virtual:icons/logos/bitbucket"
+  import discord from "virtual:icons/logos/discord-icon"
+  import facebook from "virtual:icons/logos/facebook"
+  import figma from "virtual:icons/logos/figma"
+  import fly from "virtual:icons/simple-icons/flydotio"
+  import github from "virtual:icons/logos/github-icon"
+  import gitlab from "virtual:icons/logos/gitlab-icon"
+  import google from "virtual:icons/logos/google-icon"
+  import kakao from "virtual:icons/simple-icons/kakaotalk"
+  import keycloak from "virtual:icons/simple-icons/keycloak"
+  import linkedin from "virtual:icons/logos/linkedin-icon"
+  import notion from "virtual:icons/logos/notion-icon"
+  import slack from "virtual:icons/logos/slack-icon"
+  import spotify from "virtual:icons/logos/spotify-icon"
+  import twitter from "virtual:icons/streamline-logos/x-twitter-logo"
+  import twitch from "virtual:icons/logos/twitch"
+  import workos from "virtual:icons/logos/workos-icon"
+  import zoom from "virtual:icons/logos/zoom-icon"
 
   const map = {
-    mail: MailIcon,
-    key: KeyIcon,
-    inbox: InboxIcon,
-    google: GoogleIcon,
-    facebook: FacebookIcon,
-    twitter: TwitterIcon,
-    github: GithubIcon,
-    gitlab: GitlabIcon,
-    bitbucket: BitbucketIcon,
-    azure: AzureIcon,
-    discord: DiscordIcon,
+    mail,
+    key,
+    inbox,
+    apple,
+    azure,
+    bitbucket,
+    discord,
+    facebook,
+    figma,
+    fly,
+    github,
+    gitlab,
+    google,
+    kakao,
+    keycloak,
+    linkedin,
+    notion,
+    slack,
+    spotify,
+    twitter,
+    twitch,
+    workos,
+    zoom,
   }
 
   interface Props {
@@ -34,5 +62,5 @@
 
 {#if name in map}
   {@const Component = map[name as keyof typeof map]}
-  <Component {size} />
+  <Component width={size} height={size} />
 {/if}

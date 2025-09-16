@@ -12,7 +12,9 @@
     icon?: string | null
     style?: Record<string, string>
     onclick?: () => void
-    children: Snippet
+    children?: Snippet
+    class?: string
+    [key: string]: any
   }
 
   let {
@@ -26,6 +28,8 @@
     style = {},
     onclick,
     children,
+    class:classText,
+    ...rest
   }: Props = $props()
 
   const styleString = $derived(Object.entries(style).map(([key, value]) => {
@@ -33,15 +37,17 @@
   }).join(';'))
 </script>
 
-<button type={submit ? 'submit' : 'button'} class:block class={size} class:primary style={styleString} onclick={onclick} disabled={disabled || loading}>
+<button type={submit ? 'submit' : 'button'} class="{classText} {size}" class:block class:primary style={styleString} onclick={onclick} disabled={disabled || loading} {...rest}>
   {#if icon}
     <span class="icon flex">
-      <Icon name={icon} size=21/>
+      <Icon name={icon} size={size === 'tiny' ? '16' : size === 'small' ? '18' : size === 'medium' ? '21' : '24'} />
     </span>
   {/if}
-  <span>
-    {@render children?.()}
-  </span>
+  {#if children}
+    <span class="{size === 'tiny' ? 'text-xs' : size === 'small' ? 'text-sm' : size === 'medium' ? 'text-base' : 'text-lg'}">
+      {@render children?.()}
+    </span>
+  {/if}
 </button>
 
 <style>
@@ -50,6 +56,7 @@
     gap: 0.5rem;
     align-items: center;
     position: relative;
+    padding: 0.2rem 0.5rem;
   }
 
   button.large {

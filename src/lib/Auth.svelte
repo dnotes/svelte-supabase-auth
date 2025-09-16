@@ -48,7 +48,6 @@
     class: classes = '',
     style = '',
     socialLayout = 'vertical',
-    socialColors = false,
     socialButtonSize = 'medium',
     providers = [],
     initialView = 'sign_in_with_password',
@@ -66,7 +65,6 @@
   $socialSettings = {
     ...$socialSettings,
     socialLayout,
-    socialColors,
     socialButtonSize,
   }
 
