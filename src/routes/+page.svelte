@@ -2,10 +2,10 @@
 
   import Auth from '$lib/Auth.svelte'
   import { supabaseClient } from './supabase'
-  import '$lib/i18n/ar'
-  import '$lib/i18n/es'
-  import '$lib/i18n/fr'
-  import '$lib/i18n/zh'
+  import '$lib/i18n/languages/ar'
+  import '$lib/i18n/languages/es'
+  import '$lib/i18n/languages/fr'
+  import '$lib/i18n/languages/zh'
   import { defaultTranslations } from '$lib/i18n/index'
   import { languages } from './languages'
   import type { PartialSupabaseAuthOptions, SupabaseAuthOptions } from '$lib/options';

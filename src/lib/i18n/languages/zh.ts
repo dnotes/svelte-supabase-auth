@@ -1,4 +1,4 @@
-import { addTranslations, type AuthTexts } from '.'
+import { addTranslations, type AuthTexts } from '..'
 
 export const chineseTranslations: AuthTexts = {
   // Strings
