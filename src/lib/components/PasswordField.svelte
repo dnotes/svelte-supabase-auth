@@ -12,10 +12,6 @@
   import { debounce, escapeRegExp, isNull } from 'lodash-es';
   import { tick } from 'svelte';
 
-  if (import.meta.env.mode !== 'production') {
-    if ($saOptions.passwordPolicy.requiredCharacters.trim()) console.warn('')
-  }
-
   interface Props {
     value: string
     validate?: () => void
