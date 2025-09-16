@@ -30,6 +30,16 @@ Feature: Passphrases
     And there should have been 1 request to "api.pwnedpasswords.com"
 
 
+  Scenario: Passphrases are checked for context-specific words
+
+    "[a blocklist that contains] Context-specific words, such as the name
+    of the service, the username, and derivatives thereof"
+
+    When I enter the passphrase "svelte-supabase-auth-123456"
+    And I click the "Sign up" button
+    Then I should see the "not repetitive or related to the site or your personal information" message
+
+
   Scenario: Passphrases should be 15 characters
 
     "Verifiers and CSPs SHALL require passwords that are used as a single-factor
