@@ -48,9 +48,10 @@
       ...word.split(/[\P{L}&&\P{N}]/v).map(part => part.trim())
     ]
   }).flat().map(escapeRegExp).filter(Boolean))
-  let isNotUnique = $derived([...value
-    .replace(new RegExp(`(?:${domainWords.join('|')})`, 'gi'), '') // remove words related to site or user
-  ].sort().filter((char, index, self) => self.indexOf(char) === index) // remove duplicate characters
+  let uniqueValue = $derived(value.replace(new RegExp(`(?:${domainWords.join('|')})`, 'gi'), ''))
+  let isNotUnique = $derived(
+    [...uniqueValue] // remove words related to site or user
+    .sort().filter((char, index, self) => self.indexOf(char) === index) // remove duplicate characters
     .length < (minLength * .67) // ensure that at least 2/3 of the passphrase is unique non-domain text
   )
 
@@ -124,7 +125,6 @@
       {@render check([...value].length < minLength, getText('pwLengthLabel'))}
       {@render check(isBreached, getText('pwBreachedLabel', { count: isBreached }))}
       {@render check(isNotUnique, getText('pwUniquenessLabel'))}
-      {[...value].length} characters
     </div>
     {#if isTooShort}
       <p class="danger">
