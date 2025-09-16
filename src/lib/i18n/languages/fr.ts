@@ -21,18 +21,14 @@ export const frenchTranslations: AuthTexts = {
   resetPassword: 'Réinitialiser la phrase de passe',
 
   // Password confirmation
-  pwLength: 'Les phrases de passe doivent contenir au moins {min} caractères, de préférence au moins 15.',
-  pwAddLetter: 'Considérez augmenter la complexité en ajoutant des lettres.',
-  pwAddNumber: 'Considérez augmenter la complexité en ajoutant des chiffres.',
-  pwAddSpecial: 'Considérez augmenter la complexité en ajoutant des caractères spéciaux.',
-  pwAddSpace: 'Considérez utiliser une phrase de passe incluant des espaces.',
+  pwLength: 'Votre phrase de passe doit contenir au moins {min} caractères.',
   pwBreached: 'Votre phrase de passe a été trouvée dans au moins 1 fuite de données. ({count})',
-  pwRepetitive: 'Votre phrase de passe devrait contenir plus de caractères uniques.',
-  pwDomain: 'Votre phrase de passe inclut du texte spécifique au site.',
-  pwSignupConfirm: 'Votre phrase de passe a les problèmes suivants ; êtes-vous sûr de vouloir vous inscrire ? Appuyez sur "Annuler" pour changer votre phrase de passe.',
-  pwBreachedLabel: 'Vérification des fuites',
-  pwRepetitiveLabel: 'Vérification de répétition',
-  pwDomainLabel: 'Vérification des termes spécifiques au site',
+  pwUniqueness: 'Votre phrase de passe devrait inclure plus de caractères uniques qui ne sont pas répétitifs ou liés au site ou à vos informations personnelles.',
+  pwLengthLabel: 'vérification de longueur',
+  pwBreachedLabel: 'vérification des fuites',
+  pwUniquenessLabel: 'vérification d\'unicité',
+  pwChange: 'Changer votre phrase de passe',
+  pwChanged: 'Phrase de passe changée avec succès.',
 
   // Link texts
   switchToMagicLink: 'Se connecter avec un lien magique',
@@ -65,7 +61,6 @@ export const frenchTranslations: AuthTexts = {
   signOutButton: 'Se déconnecter',
   accountSecurityHeading: 'Sécurité du compte',
   changeEmail: 'Changer l\'e-mail',
-  changePassword: 'Changer la phrase de passe',
   deleteAccount: 'Supprimer le compte',
 
   // MFA
@@ -101,7 +96,7 @@ export const frenchTranslations: AuthTexts = {
   // Additional UI strings
   loadingAuthMethods: 'Chargement des méthodes d\'authentification...',
   enterValidName: 'Veuillez entrer un nom valide (1-50 caractères)',
-  enterVerificationCode: 'Veuillez entrer le code de vérification',
+  enterVerificationCode: 'Veuillez entrer le code de vérification envoyé à votre e-mail.',
   emailVerifiedSuccess: 'E-mail vérifié avec succès !',
   hideSecret: 'Masquer',
   showSecret: 'Afficher le Secret',

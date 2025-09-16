@@ -21,18 +21,14 @@ export const arabicTranslations: AuthTexts = {
   resetPassword: 'إعادة تعيين عبارة المرور',
 
   // Password confirmation
-  pwLength: 'يجب أن تحتوي عبارات المرور على {min} حرف على الأقل، ويفضل 15 حرف على الأقل.',
-  pwAddLetter: 'فكر في زيادة التعقيد بإضافة أحرف.',
-  pwAddNumber: 'فكر في زيادة التعقيد بإضافة أرقام.',
-  pwAddSpecial: 'فكر في زيادة التعقيد بإضافة رموز خاصة.',
-  pwAddSpace: 'فكر في استخدام عبارة مرور تتضمن مسافات.',
+  pwLength: 'يجب أن تحتوي عبارة المرور على {min} حرف على الأقل.',
   pwBreached: 'تم العثور على عبارة المرور الخاصة بك في تسريب واحد على الأقل من البيانات. ({count})',
-  pwRepetitive: 'يجب أن تحتوي عبارة المرور على أحرف فريدة أكثر.',
-  pwDomain: 'تتضمن عبارة المرور نص خاص بالموقع.',
-  pwSignupConfirm: 'تحتوي عبارة المرور على المشاكل التالية؛ هل أنت متأكد من أنك تريد التسجيل؟ اضغط "إلغاء" لتغيير عبارة المرور.',
+  pwUniqueness: 'يجب أن تتضمن عبارة المرور أحرف فريدة أكثر وليست متكررة أو مرتبطة بالموقع أو معلوماتك الشخصية.',
+  pwLengthLabel: 'فحص الطول',
   pwBreachedLabel: 'فحص التسريب',
-  pwRepetitiveLabel: 'فحص التكرار',
-  pwDomainLabel: 'فحص المصطلحات الخاصة بالموقع',
+  pwUniquenessLabel: 'فحص التفرد',
+  pwChange: 'تغيير عبارة المرور',
+  pwChanged: 'تم تغيير عبارة المرور بنجاح.',
 
   // Link texts
   switchToMagicLink: 'تسجيل الدخول باستخدام رابط سحري',
@@ -65,7 +61,6 @@ export const arabicTranslations: AuthTexts = {
   signOutButton: 'تسجيل الخروج',
   accountSecurityHeading: 'أمان الحساب',
   changeEmail: 'تغيير البريد الإلكتروني',
-  changePassword: 'تغيير عبارة المرور',
   deleteAccount: 'حذف الحساب',
 
   // MFA
@@ -101,7 +96,7 @@ export const arabicTranslations: AuthTexts = {
   // Additional UI strings
   loadingAuthMethods: 'تحميل طرق المصادقة...',
   enterValidName: 'يرجى إدخال اسم صالح (1-50 حرف)',
-  enterVerificationCode: 'يرجى إدخال رمز التحقق',
+  enterVerificationCode: 'يرجى إدخال رمز التحقق المرسل إلى بريدك الإلكتروني.',
   emailVerifiedSuccess: 'تم التحقق من البريد الإلكتروني بنجاح!',
   hideSecret: 'إخفاء',
   showSecret: 'إظهار السر',

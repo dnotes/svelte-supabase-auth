@@ -20,18 +20,14 @@ export const spanishTranslations: AuthTexts = {
   resetPassword: 'Restablecer frase de contraseña',
 
   // Password confirmation
-  pwLength: 'Las frases de contraseña deben tener al menos {min} caracteres, preferiblemente al menos 15.',
-  pwAddLetter: 'Considera aumentar la complejidad agregando letras.',
-  pwAddNumber: 'Considera aumentar la complejidad agregando números.',
-  pwAddSpecial: 'Considera aumentar la complejidad agregando caracteres especiales.',
-  pwAddSpace: 'Considera usar una frase de contraseña que incluya espacios.',
+  pwLength: 'Tu frase de contraseña debe tener al menos {min} caracteres.',
   pwBreached: 'Tu frase de contraseña fue encontrada en al menos 1 filtración de datos. ({count})',
-  pwRepetitive: 'Tu frase de contraseña debería contener más caracteres únicos.',
-  pwDomain: 'Tu frase de contraseña incluye texto específico del sitio.',
-  pwSignupConfirm: 'Tu frase de contraseña tiene los siguientes problemas; ¿estás seguro de que quieres registrarte? Presiona "Cancelar" para cambiar tu frase de contraseña.',
-  pwBreachedLabel: 'Verificación de filtraciones',
-  pwRepetitiveLabel: 'Verificación de repetición',
-  pwDomainLabel: 'Verificación de términos específicos del sitio',
+  pwUniqueness: 'Tu frase de contraseña debería incluir más caracteres únicos que no sean repetitivos o relacionados con el sitio o tu información personal.',
+  pwLengthLabel: 'verificación de longitud',
+  pwBreachedLabel: 'verificación de filtraciones',
+  pwUniquenessLabel: 'verificación de singularidad',
+  pwChange: 'Cambiar tu frase de contraseña',
+  pwChanged: 'Frase de contraseña cambiada exitosamente.',
 
   // Link texts
   switchToMagicLink: 'Iniciar sesión con enlace mágico',
@@ -64,7 +60,6 @@ export const spanishTranslations: AuthTexts = {
   signOutButton: 'Cerrar sesión',
   accountSecurityHeading: 'Seguridad de la cuenta',
   changeEmail: 'Cambiar correo electrónico',
-  changePassword: 'Cambiar frase de contraseña',
   deleteAccount: 'Eliminar cuenta',
 
   // MFA
@@ -100,7 +95,7 @@ export const spanishTranslations: AuthTexts = {
   // Additional UI strings
   loadingAuthMethods: 'Cargando métodos de autenticación...',
   enterValidName: 'Por favor ingresa un nombre válido (1-50 caracteres)',
-  enterVerificationCode: 'Por favor ingresa el código de verificación',
+  enterVerificationCode: 'Por favor ingresa el código de verificación enviado a tu correo electrónico.',
   emailVerifiedSuccess: '¡Correo verificado exitosamente!',
   hideSecret: 'Ocultar',
   showSecret: 'Mostrar Secreto',

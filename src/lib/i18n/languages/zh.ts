@@ -21,18 +21,14 @@ export const chineseTranslations: AuthTexts = {
   resetPassword: '重置密码短语',
 
   // Password confirmation
-  pwLength: '密码短语必须至少包含 {min} 个字符，优选至少 15 个。',
-  pwAddLetter: '考虑通过添加字母来增加复杂性。',
-  pwAddNumber: '考虑通过添加数字来增加复杂性。',
-  pwAddSpecial: '考虑通过添加特殊字符来增加复杂性。',
-  pwAddSpace: '考虑使用包含空格的密码短语。',
+  pwLength: '您的密码短语必须至少包含 {min} 个字符。',
   pwBreached: '您的密码短语在至少 1 次数据泄露中被发现。({count})',
-  pwRepetitive: '您的密码短语应包含更多独特字符。',
-  pwDomain: '您的密码短语包含特定站点文本。',
-  pwSignupConfirm: '您的密码短语有以下问题；您确定要注册吗？按“取消”来更改您的密码短语。',
+  pwUniqueness: '您的密码短语应包含更多不重复或与站点或您的个人信息无关的独特字符。',
+  pwLengthLabel: '长度检查',
   pwBreachedLabel: '泄露检查',
-  pwRepetitiveLabel: '重复检查',
-  pwDomainLabel: '站点特定术语检查',
+  pwUniquenessLabel: '独特性检查',
+  pwChange: '更改您的密码短语',
+  pwChanged: '密码短语修改成功。',
 
   // Link texts
   switchToMagicLink: '使用魔法链接登录',
@@ -65,7 +61,6 @@ export const chineseTranslations: AuthTexts = {
   signOutButton: '退出登录',
   accountSecurityHeading: '账户安全',
   changeEmail: '更改邮箱',
-  changePassword: '更改密码短语',
   deleteAccount: '删除账户',
 
   // MFA
@@ -101,7 +96,7 @@ export const chineseTranslations: AuthTexts = {
   // Additional UI strings
   loadingAuthMethods: '正在加载身份验证方法...',
   enterValidName: '请输入有效名称（1-50个字符）',
-  enterVerificationCode: '请输入验证代码',
+  enterVerificationCode: '请输入发送到您邮箱的验证代码。',
   emailVerifiedSuccess: '邮箱验证成功！',
   hideSecret: '隐藏',
   showSecret: '显示密钥',
