@@ -4,6 +4,7 @@ import '@quickpickle/playwright/outcomes'
 import { Given, When, Then, DataTable, setWorldConstructor, After, Before } from 'quickpickle'
 import { expect, type Locator } from 'playwright/test'
 import speakeasy from 'speakeasy'
+import { shuffle } from 'lodash-es'
 import fs from 'node:fs'
 
 type MailTests = {
@@ -53,7 +54,7 @@ class World extends PlaywrightWorld {
       if (this.info.tags.includes('@dismiss-dialog')) dialog.dismiss()
       else dialog.accept()
     })
-    await this.setPassphrase(crypto.randomUUID())
+    await this.setPassphrase(15)
     this.page.route(/\/\/(?!localhost|127\.0\.0\.1)/, (route) => {
       let host = route.request().url()
       if (host.match(/^\w+tps?:\/\//)) host = host.replace(/^\w+tps?:\/\//, '').replace(/\/.+$/, '')
@@ -76,7 +77,8 @@ class World extends PlaywrightWorld {
     return this._passphraseHashParts
   }
 
-  async setPassphrase(passphrase:string, breaches:number = 0) {
+  async setPassphrase(passphrase:string|number, breaches:number = 0) {
+    if (typeof passphrase === 'number') passphrase = shuffle(Array.from({length: passphrase}, (_, i) => String.fromCharCode(33 + i))).join('')
     this._passphrase = passphrase
     this._passphraseHashParts = await getPassHashParts(this._passphrase) as [string,string]
     this._passphraseBreaches = breaches
@@ -272,7 +274,7 @@ Given('I enter a new email address', async (world:World) => {
 })
 
 When(`I enter a (pwned )passphrase of {int} characters`, async (world:World, length:number) => {
-  await world.setPassphrase(crypto.randomUUID().slice(0, length), world.info.step?.includes('pwned') ? 1 : 0)
+  await world.setPassphrase(length, world.info.step?.includes('pwned') ? 1 : 0)
   await world.getLocator(world.page, 'Passphrase', 'input').fill(world.passphrase)
 })
 When(`I enter the (pwned )passphrase {string}`, async (world:World, passphrase:string) => {
