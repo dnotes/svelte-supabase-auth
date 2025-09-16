@@ -10,6 +10,7 @@ Feature: Passphrases
 
 
   Scenario: Clicking the "Sign up" button shows a dialog and enables feedback
+    Given I should not see an "at least 15 characters" error
     When I enter a pwned passphrase of 6 characters
     When I click "Sign up"
     Then I should see an "at least 15 characters" error
@@ -22,7 +23,7 @@ Feature: Passphrases
     verifiers SHALL compare the prospective secret against a blocklist
     that contains known commonly used, expected, or compromised passwords."
 
-    When I enter a pwned passphrase
+    When I enter a pwned passphrase of 15 characters
     Then there should have been 0 requests to "api.pwnedpasswords.com"
     When I click the "Sign up" button
     Then I should see the "at least 1 data breach" warning
@@ -94,4 +95,14 @@ Feature: Passphrases
     Then I should see the "enter the verification code" message
     # TODO
     # And I should see the "Unicode characters" message
+
+  Scenario: Changing a passphrase
+
+    Given I am signed in with an existing account
+    When I click the "Account security" link
+    And I click the "Change your passphrase" button
+    And I enter the proper code
+    And I enter a passphrase of 15 characters
+    And I click the "Change your passphrase" button
+    Then I should see the "Passphrase changed successfully." message
 

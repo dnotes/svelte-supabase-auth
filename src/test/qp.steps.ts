@@ -207,6 +207,17 @@ class World extends PlaywrightWorld {
     await this.expectElement(this.getLocator(this.page, 'add a new MFA token', 'link'))
   }
 
+  async openPanel(panel:string):Promise<void> {
+    let panels = [
+      'Account security',
+      'Multi-factor authentication (MFA)',
+      'Providers',
+    ]
+    let fullText = panels.find(p => p.match(new RegExp(panel, 'i')))
+    let locator = this.getLocator(this.page, `+ ${fullText}`, 'link')
+    if (await locator.isVisible({ timeout:200 })) await locator.click()
+  }
+
 }
 setWorldConstructor(World)
 
@@ -239,15 +250,14 @@ Given('I am signed in with an existing account', async (world:World) => {
 })
 
 Given('I have an MFA token named {string}', async (world:World, name:string) => {
-  await world.openMFAPanel()
+  await world.openPanel('MFA')
   await world.getLocator(world.page, 'add a new MFA token', 'link').click()
   await world.getLocator(world.page, 'Name', 'input').fill(name)
   await world.getLocator(world.page, 'Generate new token', 'button').click()
   await world.saveTOTP(name)
   await world.getLocator(world.page, 'Enter code', 'textbox').fill(world.getTOTPCode(name))
   await world.getLocator(world.page, 'Verify code', 'button').click()
-  await world.openMFAPanel()
-  await world.openMFAPanel()
+  await world.openPanel('MFA')
   await world.expectElement(world.page.getByRole('listitem', { name:`Multi-factor authenticator ${name}` }))
 })
 
@@ -261,10 +271,6 @@ Given('I enter a new email address', async (world:World) => {
   await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
 })
 
-When(`I enter a (pwned )passphrase`, async (world:World) => {
-  await world.setPassphrase(crypto.randomUUID().slice(0, 15), world.info.step?.includes('pwned') ? 1 : 0)
-  await world.getLocator(world.page, 'Passphrase', 'input').fill(world.passphrase)
-})
 When(`I enter a (pwned )passphrase of {int} characters`, async (world:World, length:number) => {
   await world.setPassphrase(crypto.randomUUID().slice(0, length), world.info.step?.includes('pwned') ? 1 : 0)
   await world.getLocator(world.page, 'Passphrase', 'input').fill(world.passphrase)
@@ -324,11 +330,6 @@ When('I enter the proper code', async(world:World) => {
   await world.emailMessages({ code:true })
   expect(world.latestCode).not.toBe('')
   await world.getLocator(world.page, 'Enter code', 'textbox').fill(world.latestCode)
-  await world.getLocator(world.page, 'Verify code', 'button').click()
-})
-
-When('I open the MFA panel', async(world:World) => {
-  await world.openMFAPanel()
 })
 
 When('I save the TOTP named {string}', async(world:World, name:string) => {
@@ -346,9 +347,13 @@ When('I refresh/reload the page', async(world:World) => {
 })
 
 When('I delete the MFA token named {string}', async(world:World, name:string) => {
-  await world.openMFAPanel()
+  await world.openPanel('MFA')
   await world.getLocator(world.page, `Delete multi-factor authenticator ${name}`, 'link').click()
   await world.expectElement(world.getLocator(world.page, `Multi-factor authenticator ${name}`, 'link'), false)
+})
+
+When('I open the {word} panel', async(world:World, panel:string) => {
+  await world.openPanel(panel)
 })
 
 Then('I should have {int} emails', async (world:World, count:number) => {

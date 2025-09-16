@@ -39,6 +39,7 @@ Feature: Default config, basic operations
     And I should see a "Verify code" button
     And I should have an email with subject "Confirm Your Email"
     When I enter the proper code
+    And I click the "Verify code" button
     Then I should be signed in
 
     Examples:

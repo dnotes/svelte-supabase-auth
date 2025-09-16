@@ -27,6 +27,8 @@ export interface AuthTexts {
   pwLengthLabel: string
   pwBreachedLabel: string
   pwUniquenessLabel: string
+  pwChange: string
+  pwChanged: string
 
   // Link texts
   switchToMagicLink: string
@@ -47,7 +49,6 @@ export interface AuthTexts {
   // Account security
   accountSecurityHeading: string
   changeEmail: string
-  changePassword: string
   deleteAccount: string
 
   // Social auth
@@ -136,6 +137,8 @@ const en:AuthTexts = {
   pwLengthLabel: 'length check',
   pwBreachedLabel: 'breach check',
   pwUniquenessLabel: 'uniqueness check',
+  pwChange: 'Change your passphrase',
+  pwChanged: 'Passphrase changed successfully.',
 
   // Link texts
   switchToMagicLink: 'Sign in with an email link',
@@ -156,7 +159,6 @@ const en:AuthTexts = {
   // Account security
   accountSecurityHeading: 'Account security',
   changeEmail: 'Change email',
-  changePassword: 'Change passphrase',
   deleteAccount: 'Delete account',
 
   // Social auth
@@ -207,7 +209,7 @@ const en:AuthTexts = {
   // Additional UI strings
   loadingAuthMethods: 'Loading authentication methods...',
   enterValidName: 'Please enter a valid name (1-50 characters)',
-  enterVerificationCode: 'Please enter the verification code',
+  enterVerificationCode: 'Please enter the verification code sent to your email.',
   emailVerifiedSuccess: 'Email verified successfully!',
   hideSecret: 'Hide',
   showSecret: 'Show Secret',

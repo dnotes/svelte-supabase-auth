@@ -12,6 +12,7 @@
   import { needsMFAChallenge, user, saOptions, email, emailLinkSent, socialSettings } from '$lib/stores.svelte'
   import { isElevationError } from '$lib/utils/aal2';
   import SocialAuthView from './SocialAuthView.svelte';
+  import PasswordChangeView from './PasswordChangeView.svelte';
 
   type UserIdentityWithEmail = UserIdentity & { email?: string }
 
@@ -187,6 +188,9 @@
 
   async function beginPasswordChange() {
     // TODO: Implement functionality for changing the user's password (or setting one, if there is none).
+    const { data, error } = await supabaseClient.auth.reauthenticate()
+    messages.clear()
+    showPasswordChange = true
   }
 
   function formatDate(dateStr?:string, asTime:boolean=false): string {
@@ -219,12 +223,12 @@
   <!-- User has MFA factors and needs to complete MFA challenge -->
   <MFAChallengeView bind:processing={$needsMFAChallenge} InputWrapper={Wrapper} {supabaseClient} {getText} />
 {:else if showPasswordChange}
-  <!-- Password Change View -->
-  <!-- <PasswordChangeView
+  <PasswordChangeView
+    bind:processing={showPasswordChange}
     InputWrapper={Wrapper}
     {supabaseClient}
     {getText}
-  /> -->
+  />
 {:else if showAddMFA}
   <!-- Add MFA Factor View -->
   <AddMFAView
@@ -233,13 +237,6 @@
     InputWrapper={Wrapper}
     {supabaseClient}
     {getText}
-    onComplete={() => {
-      showAddMFA = false;
-      checkMFAStatus();
-    }}
-    onCancel={() => {
-      showAddMFA = false;
-    }}
   />
 {:else if mfaRequired}
   <!-- User is new and MFA is required - redirect to enrollment -->
@@ -283,7 +280,7 @@
     <!-- Account Security -->
     <Accordion title={getText('accountSecurityHeading')}>
       <Button block size="medium" onclick={beginPasswordChange}>
-        {getText('changePassword')}
+        {getText('pwChange')}
       </Button>
     </Accordion>
 
