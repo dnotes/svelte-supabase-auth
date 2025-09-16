@@ -43,7 +43,9 @@ jobs:
         run: pnpx playwright install --with-deps
 
       - name: Install Supabase CLI
-        run: pnpm install -g supabase
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
 
       - name: Start Supabase
         run: supabase start
