@@ -85,6 +85,14 @@
   color: var(--danger-color);
 }
 
+.sA .warning {
+  color: var(--warning-color);
+}
+
+.sA .success {
+  color: var(--success-color);
+}
+
 /* View-specific styles */
 .sA .divider {
   color: var(--layout-color);
