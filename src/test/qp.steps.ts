@@ -48,6 +48,7 @@ class World extends PlaywrightWorld {
 
   async init():Promise<void> {
     await super.init()
+
     // set dialog handling
     this.page.on('dialog', dialog => {
       this.dialog = dialog.message()

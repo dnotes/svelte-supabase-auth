@@ -8,6 +8,8 @@ Feature: Default config, basic operations
   @mobile
   Scenario: Visual regression for login form with no providers
     Then the screenshot "defaults_login-with-passphrase" should match
+
+  Scenario: Visual regression for login form with link only
     When I click "Sign in with an email link"
     Then the screenshot "defaults_login-with-link" should match
 

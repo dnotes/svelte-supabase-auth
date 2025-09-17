@@ -1,2 +1,24 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
+
+@theme {
+  /* Configure consistent fonts for all environments */
+  --font-family-sans: 'Noto Sans', ui-sans-serif, system-ui, sans-serif;
+
+  /* Standardize focus ring appearance */
+  --color-blue-500: #3b82f6;
+
+  /* Override default focus ring styles */
+  --ring-offset-width: 2px;
+  --ring-width: 2px;
+  --ring-color: var(--color-blue-500);
+}
+
+/* Ensure consistent focus styling across all browsers */
+*:focus {
+  @apply ring-2 ring-blue-500 outline-none;
+}
+
+*:focus-visible {
+  @apply ring-2 ring-blue-500 outline-none;
+}
