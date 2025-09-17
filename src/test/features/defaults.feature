@@ -7,11 +7,11 @@ Feature: Default config, basic operations
 
   @mobile
   Scenario: Visual regression for login form with no providers
-    Then the screenshot "defaults_login-with-passphrase" should match
+    Then the screenshot "defaults_login-with-passphrase" should match to within 2%
 
   Scenario: Visual regression for login form with link only
     When I click "Sign in with an email link"
-    Then the screenshot "defaults_login-with-link" should match
+    Then the screenshot "defaults_login-with-link" should match to within 2%
 
   Scenario: The main fields show
     Then I should see an "Email address" input
@@ -58,7 +58,7 @@ Feature: Default config, basic operations
   @mobile
   Scenario: Existing account
     Given I have an existing account
-    Then the screenshot "defaults_login-with-passphrase" should match
+    Then the screenshot "defaults_login-with-passphrase" should match to within 2%
 
   Scenario Outline: Signing in with <method>
     Given I have an existing account

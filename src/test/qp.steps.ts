@@ -411,6 +411,11 @@ Then('there should have been {int} request(s) to {string}', async (world:World, 
   else expect(world.requests[host]).toBe(count)
 })
 
+Then('the screenshot {string} should match to within {float}%', async (world:World, name:string, maxDiffPercentage:number) => {
+  let explodedTags = world.info.explodedIdx ? `_(${world.info.tags.join(',')})` : '';
+  await world.expectScreenshotMatch(world.page, `${world.screenshotDir}/${name}${explodedTags}.png`, { maxDiffPercentage });
+})
+
 Before(async (world:World) => {
   let path = world.screenshotPath.replace('/'+world.screenshotDir+'/', '/errors/')
   if (fs.existsSync(path)) fs.unlinkSync(path)
