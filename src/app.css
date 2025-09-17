@@ -3,7 +3,7 @@
 
 @theme {
   /* Configure consistent fonts for all environments */
-  --font-family-sans: 'Noto Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Noto Sans', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
   /* Standardize focus ring appearance */
   --color-blue-500: #3b82f6;
