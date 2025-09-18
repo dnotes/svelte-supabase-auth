@@ -157,13 +157,13 @@
 
       // Refresh MFA status
       await checkMFAStatus()
-    } catch (err) {
+    } catch (err:any) {
       // Additional check for AAL2 errors in catch block
       if (isElevationError(err)) {
         $needsMFAChallenge = 'toElevate'
         return
       }
-      messages.add('error', err instanceof Error ? err.message : 'Failed to remove factor')
+      messages.add('error', getText('error', { error: err?.message ?? '?' }))
     } finally {
       loading = false
     }
@@ -179,8 +179,8 @@
     try {
       const { error: unlinkError } = await supabaseClient.auth.unlinkIdentity(identity)
       if (unlinkError) throw unlinkError
-    } catch (err) {
-      messages.add('error', err instanceof Error ? err.message : 'Failed to unlink identity')
+    } catch (err:any) {
+      messages.add('error', getText('error', { error: err?.message ?? '?' }))
     } finally {
       await getIdentities()
       loading = false

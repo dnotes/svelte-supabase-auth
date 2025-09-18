@@ -44,8 +44,8 @@
       if (error) throw error
       messages.add('success', getText('pwChanged'))
       processing = false
-    } catch (error) {
-      messages.add('error', error instanceof Error ? error.message : 'Failed to change password')
+    } catch (error:any) {
+      messages.add('error', getText('error', { error: error?.message ?? '?' }))
     }
     loading = false
   }

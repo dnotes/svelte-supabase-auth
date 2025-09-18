@@ -47,14 +47,14 @@
       if (challengeError) throw challengeError
       challenge = data
       messages.clear()
-    } catch (err) {
-      messages.add('error', err instanceof Error ? err.message : 'Failed to initialize challenge')
+    } catch (err:any) {
+      messages.add('error', getText('mfaChallengeNotInitialized'))
     }
   }
 
   async function verifyCode(isRetry = false) {
     if (!challenge) {
-      messages.add('error', 'Challenge not initialized')
+      messages.add('error', getText('mfaChallengeNotInitialized'))
       return
     }
 

@@ -9,6 +9,7 @@ export const frenchTranslations: AuthTexts = {
   backupText: 'sauvegarde {count}',
   verifyCode: 'Vérifier le code',
   enterCode: 'Entrer le code',
+  enterCodeTitle: 'Entrez exactement 6 chiffres',
   resendEmail: 'Renvoyer l\'e-mail',
 
   // Sign in
@@ -38,6 +39,7 @@ export const frenchTranslations: AuthTexts = {
   // Messages
   emailLinkSent: 'Lien de connexion envoyé à {email}.',
   resetPasswordSent: 'Vérifiez votre e-mail pour le lien de réinitialisation de la phrase de passe',
+  error: 'Une erreur s\'est produite. ({error})',
   networkError: 'En raison d\'une erreur réseau ou serveur, votre connexion n\'a pas pu être complétée. Veuillez réessayer ou recharger cette page. ({error})',
   invalidCodeError: 'Code invalide. Veuillez vérifier et réessayer.',
   authenticationError: 'Échec de l\'authentification. Veuillez réessayer. ({error})',
@@ -62,6 +64,7 @@ export const frenchTranslations: AuthTexts = {
   accountSecurityHeading: 'Sécurité du compte',
   changeEmail: 'Changer l\'e-mail',
   deleteAccount: 'Supprimer le compte',
+  accountDeleted: 'Compte supprimé avec succès.',
 
   // MFA
   mfaFactorListHeading: 'Jetons d\'authentification multifacteur',
@@ -88,6 +91,7 @@ export const frenchTranslations: AuthTexts = {
   mfaSelectLabel: 'Code d\'authentification :',
   mfaEnterCodeHeading: 'Authentification Multifacteur',
   mfaEnterCodeLabel: 'Entrez le code de votre application d\'authentification :',
+  mfaChallengeNotInitialized: 'Défi non initialisé',
 
   // Providers
   providersListHeading: 'Comptes Liés',

@@ -75,12 +75,12 @@
       qrCode = data.totp.qr_code
       secret = data.totp.secret
       showEnrollment = true
-    } catch (err) {
+    } catch (err:any) {
       if (isElevationError(err)) {
         $needsMFAChallenge = 'toElevate'
         return
       }
-      messages.add('error', err instanceof Error ? err.message : 'Failed to start enrollment')
+      messages.add('error', getText('error', { error: err?.message ?? '?' }))
     } finally {
       loading = false
     }

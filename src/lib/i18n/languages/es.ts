@@ -8,6 +8,7 @@ export const spanishTranslations: AuthTexts = {
   backupText: 'respaldo {count}',
   verifyCode: 'Verificar código',
   enterCode: 'Ingresar código',
+  enterCodeTitle: 'Ingresa exactamente 6 dígitos',
   resendEmail: 'Reenviar correo',
 
   // Sign in
@@ -37,6 +38,7 @@ export const spanishTranslations: AuthTexts = {
   // Messages
   emailLinkSent: 'Enlace de inicio enviado a {email}.',
   resetPasswordSent: 'Revisa tu correo electrónico para el enlace de restablecimiento de frase de contraseña',
+  error: 'Ocurrió un error. ({error})',
   networkError: 'Debido a un error de red o servidor, no se pudo completar tu inicio de sesión. Inténtalo de nuevo o recarga esta página. ({error})',
   invalidCodeError: 'Código inválido. Verifica e inténtalo de nuevo.',
   authenticationError: 'Falló la autenticación. Inténtalo de nuevo. ({error})',
@@ -61,6 +63,7 @@ export const spanishTranslations: AuthTexts = {
   accountSecurityHeading: 'Seguridad de la cuenta',
   changeEmail: 'Cambiar correo electrónico',
   deleteAccount: 'Eliminar cuenta',
+  accountDeleted: 'Cuenta eliminada exitosamente.',
 
   // MFA
   mfaFactorListHeading: 'Tokens de autenticación multifactor',
@@ -87,6 +90,7 @@ export const spanishTranslations: AuthTexts = {
   mfaSelectLabel: 'Código de autenticación:',
   mfaEnterCodeHeading: 'Autenticación Multifactor',
   mfaEnterCodeLabel: 'Ingresa el código de tu aplicación de autenticación:',
+  mfaChallengeNotInitialized: 'Desafío no inicializado',
 
   // Providers
   providersListHeading: 'Cuentas Vinculadas',

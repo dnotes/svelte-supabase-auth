@@ -28,7 +28,7 @@
   bind:value
   placeholder="000000"
   inputmode="numeric"
-  title="Enter exactly 6 digits"
+  title="{getText('enterCodeTitle')}"
   required
   use:autofocus
   {...rest}

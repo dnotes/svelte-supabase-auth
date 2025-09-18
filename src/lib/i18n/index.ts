@@ -9,6 +9,7 @@ export interface AuthTexts {
   backupText: string
   verifyCode: string
   enterCode: string
+  enterCodeTitle: string
   resendEmail: string
 
   // Sign in
@@ -90,6 +91,7 @@ export interface AuthTexts {
   mfaSelectLabel: string
   mfaEnterCodeHeading: string
   mfaEnterCodeLabel: string
+  mfaChallengeNotInitialized: string
 
   // Providers
   providersListHeading: string
@@ -128,6 +130,7 @@ const en:AuthTexts = {
   resetPassword: 'Reset your passphrase',
   verifyCode: 'Verify code',
   enterCode: 'Enter code',
+  enterCodeTitle: 'Enter exactly 6 digits',
   resendEmail: 'Resend email',
 
   // Password confirmation
@@ -199,6 +202,8 @@ const en:AuthTexts = {
   mfaEnterCodeHeading: 'Multi-Factor Authentication',
   mfaEnterCodeLabel: 'Enter the code from your authentication app:',
   mfaSelectLabel: 'MFA Code:',
+  mfaChallengeNotInitialized: 'Challenge not initialized. Please try again.',
+
   // MFA Warning
   mfaWarningText: 'Warning! You have only ONE multi-factor authentication token saved. '
   +'If you lose that token, it may be impossible to recover access to your account. '

@@ -9,6 +9,7 @@ export const chineseTranslations: AuthTexts = {
   backupText: '备份 {count}',
   verifyCode: '验证代码',
   enterCode: '输入代码',
+  enterCodeTitle: '请输入恰好6位数字',
   resendEmail: '重新发送邮件',
 
   // Sign in
@@ -38,6 +39,7 @@ export const chineseTranslations: AuthTexts = {
   // Messages
   emailLinkSent: '登录链接已发送至 {email}。',
   resetPasswordSent: '请查看您的邮箱获取密码短语重置链接',
+  error: '发生错误。({error})',
   networkError: '由于网络或服务器错误，无法完成您的登录。请重试或刷新此页面。({error})',
   invalidCodeError: '代码无效。请检查后重试。',
   authenticationError: '身份验证失败。请重试。({error})',
@@ -62,6 +64,7 @@ export const chineseTranslations: AuthTexts = {
   accountSecurityHeading: '账户安全',
   changeEmail: '更改邮箱',
   deleteAccount: '删除账户',
+  accountDeleted: '账户删除成功。',
 
   // MFA
   mfaFactorListHeading: '多因素身份验证令牌',
@@ -88,6 +91,7 @@ export const chineseTranslations: AuthTexts = {
   mfaSelectLabel: '验证代码：',
   mfaEnterCodeHeading: '多因素身份验证',
   mfaEnterCodeLabel: '输入您身份验证应用中的代码：',
+  mfaChallengeNotInitialized: '挑战未初始化',
 
   // Providers
   providersListHeading: '关联账户',

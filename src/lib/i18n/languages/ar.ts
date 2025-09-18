@@ -9,6 +9,7 @@ export const arabicTranslations: AuthTexts = {
   backupText: 'نسخة احتياطية {count}',
   verifyCode: 'التحقق من الرمز',
   enterCode: 'إدخال الرمز',
+  enterCodeTitle: 'أدخل 6 أرقام بالضبط',
   resendEmail: 'إعادة إرسال البريد الإلكتروني',
 
   // Sign in
@@ -38,6 +39,7 @@ export const arabicTranslations: AuthTexts = {
   // Messages
   emailLinkSent: 'تم إرسال رابط تسجيل الدخول إلى {email}.',
   resetPasswordSent: 'تحقق من بريدك الإلكتروني لرابط إعادة تعيين عبارة المرور',
+  error: 'حدث خطأ. ({error})',
   networkError: 'بسبب خطأ في الشبكة أو الخادم، لم يتمكن من إكمال تسجيل دخولك. يرجى المحاولة مرة أخرى أو إعادة تحميل هذه الصفحة. ({error})',
   invalidCodeError: 'رمز غير صالح. يرجى التحقق والمحاولة مرة أخرى.',
   authenticationError: 'فشل في المصادقة. يرجى المحاولة مرة أخرى. ({error})',
@@ -62,6 +64,7 @@ export const arabicTranslations: AuthTexts = {
   accountSecurityHeading: 'أمان الحساب',
   changeEmail: 'تغيير البريد الإلكتروني',
   deleteAccount: 'حذف الحساب',
+  accountDeleted: 'تم حذف الحساب بنجاح.',
 
   // MFA
   mfaFactorListHeading: 'رموز المصادقة متعددة العوامل',
@@ -88,6 +91,7 @@ export const arabicTranslations: AuthTexts = {
   mfaSelectLabel: 'رمز المصادقة:',
   mfaEnterCodeHeading: 'المصادقة متعددة العوامل',
   mfaEnterCodeLabel: 'أدخل الرمز من تطبيق المصادقة الخاص بك:',
+  mfaChallengeNotInitialized: 'لم يتم تهيئة التحدي',
 
   // Providers
   providersListHeading: 'الحسابات المربوطة',
