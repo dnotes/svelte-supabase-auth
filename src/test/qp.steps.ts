@@ -412,6 +412,7 @@ Then('there should have been {int} request(s) to {string}', async (world:World, 
 })
 
 Then('the screenshot {string} should match to within {float}%', async (world:World, name:string, maxDiffPercentage:number) => {
+  await world.page.waitForTimeout(1000)
   let explodedTags = world.info.explodedIdx ? `_(${world.info.tags.join(',')})` : '';
   await world.expectScreenshotMatch(world.page, `${world.screenshotDir}/${name}${explodedTags}.png`, { maxDiffPercentage });
 })
