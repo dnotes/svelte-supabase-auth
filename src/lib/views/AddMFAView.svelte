@@ -108,10 +108,7 @@
 <div>
   {#if !showEnrollment}
 
-    <form onsubmit={(e) => {
-      e.preventDefault()
-      startEnrollment()
-    }}>
+    <form onsubmit={(e) => { e.preventDefault(); startEnrollment() }}>
       <p>{getText('mfaAddFactorParagraph')}</p>
       <Wrapper name="friendly-name" label={getText('mfaFriendlyNameLabel')} icon="user">
         <input type="text" name="friendly-name" bind:value={friendlyName} />

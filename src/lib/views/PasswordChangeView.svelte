@@ -5,6 +5,7 @@
   import Button from '$lib/elements/Button.svelte';
   import { messages } from '$lib/messages.svelte';
   import PasswordField from '$lib/components/PasswordField.svelte';
+  import CodeField from '$lib/components/CodeField.svelte';
   import LinkButton from '$lib/elements/LinkButton.svelte';
 
   interface Props {
@@ -26,6 +27,7 @@
   let nonce = $state('')
   let passphrase = $state('')
   let isGood = $state(false)
+
   async function handleSubmit() {
     messages.clear()
     loading = true
@@ -52,17 +54,10 @@
 
 
 
-<form onsubmit={handleSubmit}>
+<form onsubmit={e => { e.preventDefault(); handleSubmit() }}>
   <p>{getText('enterVerificationCode')}</p>
-  <Wrapper name="nonce" label={getText('enterCode')} icon="key">
-    <input
-      type="text"
-      name="nonce"
-      bind:value={nonce}
-      required
-      inputmode="numeric"
-      title="Enter exactly 6 digits"
-    />
+  <Wrapper name="verification-code" label={getText('enterCode')} icon="key">
+    <CodeField bind:value={nonce} {getText} />
   </Wrapper>
   <Wrapper name="password" label={getText('pwLabel')} icon="key">
     <PasswordField feedback bind:isGood bind:value={passphrase} bind:validate {getText} />

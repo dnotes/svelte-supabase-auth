@@ -1,11 +1,11 @@
 <script lang="ts">
   import Button from '../elements/Button.svelte'
   import InputWrapper from '../elements/InputWrapper.svelte'
+  import CodeField from '../components/CodeField.svelte'
   import type { AuthMFAChallengeResponse, Factor, SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
   import { onDestroy, onMount } from 'svelte'
   import { messages } from '../messages.svelte'
-  import { autofocus } from '../utils/autofocus.svelte'
 
   interface Props {
     cancellable?: boolean
@@ -111,18 +111,7 @@
 
 <form onsubmit={(e) => { e.preventDefault(); verifyCode(); }}>
   <Wrapper name="verification-code" label={getText('mfaEnterCodeLabel')} icon="key">
-    <input
-      type="text"
-      name="verification-code"
-      bind:value={verificationCode}
-      placeholder="000000"
-      maxlength="6"
-      pattern="[0-9]{6}"
-      autocomplete="one-time-code"
-      disabled={loading}
-      aria-label={getText('enterCode')}
-      use:autofocus
-    >
+    <CodeField bind:value={verificationCode} {getText} />
   </Wrapper>
 
   <Button submit block primary size="large" {loading} onclick={verifyCode}>

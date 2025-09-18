@@ -5,8 +5,8 @@
   import Button from '$lib/elements/Button.svelte';
   import { messages } from '$lib/messages.svelte';
   import LinkButton from '$lib/elements/LinkButton.svelte';
+  import CodeField from '$lib/components/CodeField.svelte';
   import { saOptions } from '$lib/stores.svelte';
-  import { autofocus } from '$lib/utils/autofocus.svelte';
   interface Props {
     processing?: boolean
     supabaseClient: SupabaseClient
@@ -24,8 +24,7 @@
   let loading = $state(false)
   let nonce = $state('')
 
-  async function handleSubmit(e:Event) {
-    e.preventDefault()
+  async function handleSubmit() {
     messages.clear()
     loading = true
     const fn = $saOptions.deleteAccountFunction
@@ -58,18 +57,10 @@
 
 
 
-<form onsubmit={handleSubmit}>
+<form onsubmit={e => { e.preventDefault(); handleSubmit() }}>
   <p>{getText('enterVerificationCode')}</p>
-  <Wrapper name="nonce" label={getText('enterCode')} icon="key">
-    <input
-      type="text"
-      name="nonce"
-      bind:value={nonce}
-      required
-      inputmode="numeric"
-      title="Enter exactly 6 digits"
-      use:autofocus
-    />
+  <Wrapper name="verification-code" label={getText('enterCode')} icon="key">
+    <CodeField bind:value={nonce} {getText} />
   </Wrapper>
   <Button submit block danger size="large" {loading}>
     {getText('deleteAccount')}

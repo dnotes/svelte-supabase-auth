@@ -4,6 +4,7 @@
   import type { SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
   import InputWrapper from '$lib/elements/InputWrapper.svelte';
+  import CodeField from '../components/CodeField.svelte';
   import { messages } from '$lib/messages.svelte';
   import { emailLinkSent, saOptions } from '$lib/stores.svelte';
 
@@ -81,24 +82,7 @@
 <div>
   <form onsubmit={(e) => { e.preventDefault(); verifyOTP(); }}>
     <Wrapper name="verification-code" label={getText('linkEnterCodeLabel', { email:$emailLinkSent?.email })} icon="key">
-      <input
-        type="text"
-        name="verification-code"
-        bind:value={verificationCode}
-        placeholder="000000"
-        maxlength="6"
-        autocomplete="one-time-code"
-        inputmode="numeric"
-        aria-label={getText('enterCode')}
-        onpaste={(e) => {
-          // Handle pasted OTP codes
-          const paste = e.clipboardData?.getData('text')
-          if (paste && /^\d{6}$/.test(paste)) {
-            verificationCode = paste
-            e.preventDefault()
-          }
-        }}
-      >
+      <CodeField bind:value={verificationCode} {getText} />
     </Wrapper>
 
     <Button submit block primary size="large" {loading} icon="check">
