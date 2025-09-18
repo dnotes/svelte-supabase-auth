@@ -1,4 +1,4 @@
-@mfa
+@defaults @mfa
 Feature: Default config, MFA
 
   Background:

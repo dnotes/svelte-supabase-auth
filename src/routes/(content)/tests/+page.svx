@@ -1,0 +1,71 @@
+# Workflows and configurations
+
+The following workflows and configurations are handled by the `Auth.svelte` component,
+with the ones that have automated behavioral tests checked.
+
+## Authentication with email
+
+[defaults_email.feature](https://github.com/dnotes/supabase-ui-svelte/blob/main/src/test/features/defaults_email.feature)
+
+- [x] Signup/login with email and passphrase
+- [x] Signup/login with email and magic link
+- [x] Signup/login with email and verification code
+- [ ] Config: Email confirmation not required
+- [ ] Config: Email signup disabled
+- [ ] Config: Email anonymous sign-ins enabled
+- [ ] Config: Email manual linking enabled
+- [ ] Config: OTP length
+
+## Authentication with social providers
+
+*This functionality is fully supported, but it does not yet have automated behavioral tests.*
+
+- [ ] Signup/login with social provider
+- [ ] Adding a social provider to an existing account
+- [ ] Adding an email/password login to an existing social account
+- [ ] Deleting an account created with a social provider
+
+## Multi-factor authentication
+
+[defaults_mfa.feature](https://github.com/dnotes/supabase-ui-svelte/blob/main/src/test/features/defaults_mfa.feature)
+
+- [x] Creating a new factor
+- [x] Deleting a factor
+- [x] Listing factors
+- [x] Signup/login with MFA
+- [x] Multiple factors
+- [x] Choosing a factor at login
+- [ ] Config: MFA required
+- [ ] Config: TOTP enroll disabled
+- [ ] Config: TOTP verify disabled
+
+## Account deletion
+
+[deletion.feature](https://github.com/dnotes/supabase-ui-svelte/blob/main/src/test/features/deletion.feature)
+
+- [x] Deleting an account with a verification code
+- [x] Entering the wrong verification code
+
+## Creating a passphrase
+
+[passphrases.feature](https://github.com/dnotes/supabase-ui-svelte/blob/main/src/test/features/passphrases.feature)
+
+- [x] Checking potential passphrases for uniqueness and context-specific words
+- [x] Checking potential passphrases for breached passwords
+- [x] Ensuring proper length of potential passphrases
+- [x] Ensuring proper character support
+- [ ] Config: Minimum length
+- [ ] Config: Ignore length recommendations
+- [ ] Config: Required characters warning
+
+## Changing a passphrase
+
+[passphrases.feature](https://github.com/dnotes/supabase-ui-svelte/blob/main/src/test/features/passphrases.feature)
+
+- [x] Changing or setting a passphrase for an existing account
+- [ ] Config: Secure password changes not required
+
+## Changing an email address *(not yet supported)*
+
+- [ ] Changing email address
+- [ ] Config: Double confirm changes disabled

@@ -17,7 +17,8 @@
 	<footer class="h-8 flex-shrink-0 flex gap-4 items-center justify-end w-full px-5 text-xs bg-stone-200 dark:bg-stone-800 text-stone-600 dark:text-stone-400">
 		<a href="https://npmjs.com/package/svelte-supabase-auth">Svelte Supabase Auth v{version}</a>
 		<div class="flex-grow"></div>
-		<a href="/">front</a>
+		<a href="/">login</a>
+		<a href="/tests">tests</a>
 		<a href="/privacy">privacy</a>
 		<a href="/terms">terms</a>
 	</footer>

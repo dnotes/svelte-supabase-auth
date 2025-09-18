@@ -1,5 +1,5 @@
-@defaults
-Feature: Default config, basic operations
+@defaults @email
+Feature: Default config, email login
 
   Background:
     Given the default configuration
