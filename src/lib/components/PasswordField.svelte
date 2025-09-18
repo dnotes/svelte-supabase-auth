@@ -34,7 +34,7 @@
   let isNotPwned = $state(false)
 
   let minLength = $derived(
-    ( $saOptions.auth.mfa.required || $saOptions.ignoreBestPractices )
+    ( $saOptions.auth.mfa.required || $saOptions.passwordPolicy.ignoreLengthRecommendations )
     ? Math.max($saOptions.passwordPolicy.minLength, 8) // If we're enforcing MFA or ignoring best practices, use any minimum length
     : Math.max($saOptions.passwordPolicy.minLength, 15) // Otherwise, use a minimum of 15 characters
   )

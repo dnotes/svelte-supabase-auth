@@ -21,7 +21,7 @@
     auth: config?.auth,
     passwordPolicy: {
       minLength: 8,
-      goodLength: 12,
+      ignoreLengthRecommendations: true,
       requiredCharacters: "",
     },
     deleteAccountFunction: 'delete_user_account',

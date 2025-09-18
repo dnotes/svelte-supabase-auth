@@ -71,14 +71,6 @@ export interface SupabaseAuthOptions {
     minLength: number;
 
     /**
-     * Minimum password length considered "good" by the password strength indicator.
-     * NIST recommends 12-15 characters. Note this is NOT a Supabase setting;
-     * it is only for the password strength indicator in the UI.
-     * @default 15
-     */
-    goodLength: number;
-
-    /**
      * Colon-separated character sets; password must contain ≥1 from each set.
      * THIS SETTING IS NOT RECOMMENDED, as it REDUCES password strength in practice.
      * Leave it empty (the default) to avoid issues.
@@ -87,15 +79,16 @@ export interface SupabaseAuthOptions {
      */
     requiredCharacters: string;
 
+    /**
+     * By default, this UI library will attempt to enforce best practices related to password length
+     * from NIST guidelines in publications like 800-63b-4, such as enforcing password length.
+     * If you want to ignore those guidelines, set ignoreLengthRecommendations to true.
+     * @default false
+     */
+    ignoreLengthRecommendations: boolean;
+
   };
 
-  /**
-   * By default, this UI library will attempt to enforce best practices for authentication
-   * from NIST guidelines in publications like 800-63b-4, such as enforcing password length.
-   * If you want to ignore those guidelines, set ignoreBestPractices to true.
-   * @default false
-   */
-  ignoreBestPractices: boolean;
 
   /**
    * The function to use to delete the user account.
@@ -152,11 +145,9 @@ export const SUPABASE_AUTH_DEFAULTS: SupabaseAuthOptions = {
 
   passwordPolicy: {
     minLength: 8,
-    goodLength: 15,
     requiredCharacters: "", // empty => no specific sets required
+    ignoreLengthRecommendations: false,
   },
-
-  ignoreBestPractices: false,
 
   deleteAccountFunction: null,
 }
