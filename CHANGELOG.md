@@ -1,5 +1,11 @@
 # svelte-supabase-auth
 
+## 0.2.0
+
+### Minor Changes
+
+- 907345f: Update important information in README and package.json
+
 ## 0.1.0
 
 ### Minor Changes
