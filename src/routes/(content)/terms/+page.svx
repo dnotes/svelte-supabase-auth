@@ -1,0 +1,32 @@
+# Terms of Use
+
+This is a simple testing app for Supabase authentication, created by David Hunt.
+It is for testing Supabase authentication features provided by the npm package
+[svelte-supabase-auth](https://www.npmjs.com/package/svelte-supabase-auth).
+
+## Using the App
+
+You may:
+
+- Sign up and test authentication features
+- Delete your account anytime
+- Use the app for learning and testing purposes
+- Try to break or hack the app for the purpose of reporting bugs or vulnerabilities
+
+You may not:
+
+- Access or use other people's account data for any purpose other than testing
+- Share inappropriate content (there's nowhere to post content anyway)
+
+## No Warranties
+
+- This is a testing app on a free-tier Supabase plan; it might have bugs or go down sometimes.
+
+## Accounts
+
+- Accounts may be deleted periodically.
+- You can delete your account anytime, which removes all your information from the database.
+
+---
+
+*Last updated: September 18, 2025*

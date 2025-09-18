@@ -1,0 +1,37 @@
+# Privacy Policy
+
+This is a simple testing app for Supabase authentication, created by David Hunt.
+
+## What This App Does
+
+This app is just for testing Supabase authentication features. It doesn't do anything else.
+
+## What Information I Collect
+
+Only what's needed for testing authentication:
+
+- Your email address (if you sign up with email)
+- Basic profile info, including name and avatar (if you use social login with Google or GitHub)
+
+## How I Use Your Information
+
+Your information is used only to allow you to sign in to the app, for testing purposes.
+
+I don't:
+- Share your info with anyone
+- Use it for marketing
+- Track your usage
+- Sell your data
+- Send you emails (other than automated emails for authentication workflows)
+
+## Where Your Data Is Stored
+
+Your information is stored in a Supabase database.
+
+## Deleting Your Data
+
+You can delete your account anytime, which removes all your information from the database.
+
+---
+
+*Last updated: September 17, 2025*
