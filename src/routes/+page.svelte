@@ -1,5 +1,7 @@
 <script lang="ts">
 
+  import type { PartialSupabaseAuthOptions } from '$lib/options';
+  import type { Provider } from '@supabase/supabase-js';
   import Auth from '$lib/Auth.svelte'
   import { supabaseClient } from './supabase'
   import '$lib/i18n/languages/ar'
@@ -8,21 +10,19 @@
   import '$lib/i18n/languages/zh'
   import { defaultTranslations } from '$lib/i18n/index'
   import { languages } from './languages'
-  import type { PartialSupabaseAuthOptions, SupabaseAuthOptions } from '$lib/options';
   import GearIcon from 'virtual:icons/lucide/settings'
+  import Options from './Options.svelte';
 
   let locale = $state('en')
 
-  // @ts-ignore
+  // @ts-ignore Import the Supabase config.toml directly
   import config from '../../supabase/config.toml'
-  import Options from './Options.svelte';
-  import type { Provider } from '@supabase/supabase-js';
+
   const authOptions:PartialSupabaseAuthOptions = {
-    auth: config?.auth,
-    passwordPolicy: {
+    auth: config?.auth, // use the auth config directly from the Supabase config
+    passwordPolicy: { // add our password policy
       minLength: 8,
-      ignoreLengthRecommendations: true,
-      requiredCharacters: "",
+      ignoreLengthRecommendations: true, // enforcing 15 character minimum seems overkill for this application
     },
     deleteAccountFunction: 'delete_user_account',
   }

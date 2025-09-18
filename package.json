@@ -1,6 +1,17 @@
 {
   "name": "svelte-supabase-auth",
   "version": "0.1.0",
+  "description": "A comprehensive, configurable, Svelte-based authentication UI component library for Supabase applications.",
+  "author": "David Hunt",
+  "license": "ISC",
+  "homepage": "https://svelte-supabase-auth.pages.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dnotes/svelte-supabase-auth"
+  },
+  "bugs": {
+    "url": "https://github.com/dnotes/svelte-supabase-auth/issues"
+  },
   "scripts": {
     "dev": "vite dev",
     "build": "vite build && npm run prepack",
