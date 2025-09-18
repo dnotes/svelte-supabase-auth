@@ -6,6 +6,7 @@
     submit?: boolean
     block?: boolean
     primary?: boolean
+    danger?: boolean
     disabled?: boolean
     size?: 'tiny' | 'small' | 'medium' | 'large'
     loading?: boolean
@@ -21,6 +22,7 @@
     submit = false,
     block = false,
     primary = false,
+    danger = false,
     disabled = false,
     size = 'tiny',
     loading = false,
@@ -37,7 +39,7 @@
   }).join(';'))
 </script>
 
-<button type={submit ? 'submit' : 'button'} class="{classText} {size}" class:block class:primary style={styleString} onclick={onclick} disabled={disabled || loading} {...rest}>
+<button type={submit ? 'submit' : 'button'} class="{classText} {size}" class:block class:primary class:danger style={styleString} onclick={onclick} disabled={disabled || loading} {...rest}>
   {#if icon}
     <span class="icon flex">
       <Icon name={icon} size={size === 'tiny' ? '16' : size === 'small' ? '18' : size === 'medium' ? '21' : '24'} />

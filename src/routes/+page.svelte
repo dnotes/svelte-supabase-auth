@@ -23,7 +23,8 @@
       minLength: 8,
       goodLength: 12,
       requiredCharacters: "",
-    }
+    },
+    deleteAccountFunction: 'delete_user_account',
   }
 
   let showOptions = $state(false)

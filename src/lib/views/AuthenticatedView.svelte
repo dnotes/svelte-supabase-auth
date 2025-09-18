@@ -13,6 +13,7 @@
   import { isElevationError } from '$lib/utils/aal2';
   import SocialAuthView from './SocialAuthView.svelte';
   import PasswordChangeView from './PasswordChangeView.svelte';
+  import AccountDeleteView from './AccountDeleteView.svelte';
 
   type UserIdentityWithEmail = UserIdentity & { email?: string }
 
@@ -34,6 +35,7 @@
   let verifiedFactors = $derived(factors.filter(factor => factor.status === 'verified'))
   let showAddMFA = $state(false)
   let showPasswordChange = $state(false)
+  let showAccountDelete = $state(false)
   let showNetworkError = $state(false)
 
   let identities:UserIdentityWithEmail[] = $state([])
@@ -193,6 +195,12 @@
     showPasswordChange = true
   }
 
+  async function beginAccountDelete() {
+    const { data, error } = await supabaseClient.auth.reauthenticate()
+    messages.clear()
+    showAccountDelete = true
+  }
+
   function formatDate(dateStr?:string, asTime:boolean=false): string {
     if (!dateStr) return ''
     return new Date(dateStr).toLocaleString(locale, {
@@ -225,6 +233,13 @@
 {:else if showPasswordChange}
   <PasswordChangeView
     bind:processing={showPasswordChange}
+    InputWrapper={Wrapper}
+    {supabaseClient}
+    {getText}
+  />
+{:else if showAccountDelete}
+  <AccountDeleteView
+    bind:processing={showAccountDelete}
     InputWrapper={Wrapper}
     {supabaseClient}
     {getText}
@@ -282,6 +297,11 @@
       <Button block size="medium" onclick={beginPasswordChange}>
         {getText('pwChange')}
       </Button>
+      {#if $saOptions.deleteAccountFunction}
+        <LinkButton block class="danger" size="medium" onclick={beginAccountDelete}>
+          {getText('deleteAccount')}
+        </LinkButton>
+      {/if}
     </Accordion>
 
     <!-- External Providers List -->

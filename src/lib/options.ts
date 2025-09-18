@@ -96,6 +96,15 @@ export interface SupabaseAuthOptions {
    * @default false
    */
   ignoreBestPractices: boolean;
+
+  /**
+   * The function to use to delete the user account.
+   * This should usually be the name of a Supabase RPC function defined in your database,
+   * however if necessary you can also pass a function that will be called to delete the user account.
+   * @see https://supabase.com/docs/guides/auth/managing-user-data#deleting-users
+   * @default null
+   */
+  deleteAccountFunction: string|null|(()=>Promise<any>)
 }
 
 type DeepPartial<T> = T extends object ? {
@@ -148,4 +157,6 @@ export const SUPABASE_AUTH_DEFAULTS: SupabaseAuthOptions = {
   },
 
   ignoreBestPractices: false,
+
+  deleteAccountFunction: null,
 }

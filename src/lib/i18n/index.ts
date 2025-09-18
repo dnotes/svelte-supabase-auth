@@ -38,6 +38,7 @@ export interface AuthTexts {
   // Messages
   emailLinkSent: string
   resetPasswordSent: string
+  error: string
   networkError: string
   invalidCodeError: string
   authenticationError: string
@@ -50,6 +51,7 @@ export interface AuthTexts {
   accountSecurityHeading: string
   changeEmail: string
   deleteAccount: string
+  accountDeleted: string
 
   // Social auth
   socialHeading: string
@@ -148,6 +150,7 @@ const en:AuthTexts = {
   // Messages
   emailLinkSent: 'Login link sent to {email}.',
   resetPasswordSent: 'Check your email for the passphrase reset link',
+  error: 'An error occurred. ({error})',
   networkError: 'Due to a network or server error, your login could not be completed. Please try again or reload this page. ({error})',
   invalidCodeError: 'Invalid code. Please check and try again.',
   authenticationError: 'Authentication failed. Please try again. ({error})',
@@ -160,6 +163,7 @@ const en:AuthTexts = {
   accountSecurityHeading: 'Account security',
   changeEmail: 'Change email',
   deleteAccount: 'Delete account',
+  accountDeleted: 'Account deleted successfully.',
 
   // Social auth
   socialHeading: 'Sign in with',
