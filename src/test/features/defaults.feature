@@ -71,3 +71,7 @@ Feature: Default config, basic operations
       | an email code |
       | a passphrase |
 
+  Scenario: Invalid email format
+    Given for "Email address" I enter "example@example.com\\"
+    And I click the "Send link" button
+    Then I should see an "email address: invalid format" message
