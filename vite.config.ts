@@ -44,6 +44,11 @@ export default defineConfig({
 			allow: ['./supabase/config.toml', './package.json'],
 		},
 	},
+	ssr: {
+		noExternal: [
+			'hibp'
+		]
+	},
 	test: {
 		include: ['src/**/*.feature'],
 		setupFiles: ['./src/test/qp.steps.ts'],

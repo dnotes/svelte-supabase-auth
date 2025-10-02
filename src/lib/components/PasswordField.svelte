@@ -4,11 +4,14 @@
   import type { GetText } from '$lib/i18n';
   import { pwnedPassword } from 'hibp'
   import { messages } from '$lib/messages.svelte';
-  import Null from 'virtual:icons/tabler/circle-dashed-check'
-  import Good from 'virtual:icons/tabler/circle-check-filled'
-  import Bad from 'virtual:icons/tabler/alert-circle-filled'
-  import Eye from 'virtual:icons/tabler/eye'
-  import EyeOff from 'virtual:icons/tabler/eye-off'
+  import { iconData } from '../elements/iconData.js';
+
+  // Icon helper function
+  function renderIcon(iconKey: string, size: string = "16") {
+    const icon = iconData[iconKey];
+    if (!icon) return '';
+    return `<svg width="${size}" height="${size}" viewBox="${icon.viewBox || '0 0 24 24'}" xmlns="http://www.w3.org/2000/svg">${icon.body}</svg>`;
+  }
   import { debounce, escapeRegExp, isNull } from 'lodash-es';
   import { tick } from 'svelte';
 
@@ -96,11 +99,15 @@
 {#snippet check(val:any, label:string)}
   <div class="pw-check" aria-label={label} title="{label}" role="checkbox" aria-checked={!val}>
     {#if isNull(val)}
-      <Null />
+      {@html renderIcon('circle-dashed-check')}
     {:else if !val}
-      <Good style="color: var(--success-color);" />
+      <span style="color: var(--success-color);">
+        {@html renderIcon('circle-check-filled')}
+      </span>
     {:else}
-      <Bad style="color: var(--danger-color);" />
+      <span style="color: var(--danger-color);">
+        {@html renderIcon('alert-circle-filled')}
+      </span>
     {/if}
   </div>
 {/snippet}
@@ -109,9 +116,9 @@
   <input type="{showPassword ? 'text' : 'password'}" name="pw" bind:value oninput={handleInput}>
   <button type="button" onclick={() => showPassword = !showPassword}>
     {#if showPassword}
-      <Eye />
+      {@html renderIcon('eye')}
     {:else}
-      <EyeOff />
+      {@html renderIcon('eye-off')}
     {/if}
   </button>
 </div>
