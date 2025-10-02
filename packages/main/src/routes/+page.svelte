@@ -16,7 +16,7 @@
   let locale = $state('en')
 
   // @ts-ignore Import the Supabase config.toml directly
-  import config from '../../supabase/config.toml'
+  import config from '../../../../supabase/config.toml'
 
   const authOptions:PartialSupabaseAuthOptions = {
     auth: config?.auth, // use the auth config directly from the Supabase config

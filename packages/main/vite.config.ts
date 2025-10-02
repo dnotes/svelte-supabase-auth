@@ -41,7 +41,7 @@ export default defineConfig({
 	],
 	server: {
 		fs: {
-			allow: ['./supabase/config.toml', './package.json'],
+			allow: ['../../supabase/config.toml', './package.json'],
 		},
 	},
 	ssr: {
