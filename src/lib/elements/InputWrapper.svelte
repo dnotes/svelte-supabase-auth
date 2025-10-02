@@ -4,7 +4,7 @@
   export interface InputWrapperProps {
     name: string
     label: string
-    icon?: string | null
+    icon?: Provider | OtherIcon | null
     children: Snippet<[]>
     links?: Snippet<[]>
   }
@@ -12,6 +12,8 @@
 
 <script lang="ts">
   import Icon from "./Icon.svelte";
+  import type { Provider } from "@supabase/supabase-js";
+  import type { OtherIcon } from "./iconData";
   let { name, label, icon, children, links }: InputWrapperProps = $props()
 </script>
 

@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import Icon from './Icon.svelte'
+  import type { IconData } from './iconData';
 
   interface Props {
     submit?: boolean
@@ -10,7 +11,7 @@
     disabled?: boolean
     size?: 'tiny' | 'small' | 'medium' | 'large'
     loading?: boolean
-    icon?: string | null
+    icon?: keyof IconData | null
     style?: Record<string, string>
     onclick?: () => void
     children?: Snippet

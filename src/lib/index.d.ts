@@ -1,6 +1,7 @@
 import type { Component } from 'svelte'
 import type { AuthTexts } from './i18n'
 import type { AuthProps } from './Auth.svelte'
+import type { Provider } from '@supabase/supabase-js'
 
 // Button component props
 export interface ButtonProps {
@@ -55,13 +56,3 @@ export declare const SocialAuthView: Component<any>
 
 // View exports
 export declare const AuthenticatedView: Component<any>
-
-// Social icon exports
-export declare const AzureIcon: Component<SocialIconProps>
-export declare const BitbucketIcon: Component<SocialIconProps>
-export declare const DiscordIcon: Component<SocialIconProps>
-export declare const FacebookIcon: Component<SocialIconProps>
-export declare const GithubIcon: Component<SocialIconProps>
-export declare const GitlabIcon: Component<SocialIconProps>
-export declare const GoogleIcon: Component<SocialIconProps>
-export declare const TwitterIcon: Component<SocialIconProps>

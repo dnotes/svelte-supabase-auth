@@ -6,14 +6,9 @@
   import { messages } from '$lib/messages.svelte';
   import { iconData } from '../elements/iconData.js';
 
-  // Icon helper function
-  function renderIcon(iconKey: string, size: string = "16") {
-    const icon = iconData[iconKey];
-    if (!icon) return '';
-    return `<svg width="${size}" height="${size}" viewBox="${icon.viewBox || '0 0 24 24'}" xmlns="http://www.w3.org/2000/svg">${icon.body}</svg>`;
-  }
   import { debounce, escapeRegExp, isNull } from 'lodash-es';
   import { tick } from 'svelte';
+  import Icon from '$lib/elements/Icon.svelte';
 
   interface Props {
     value: string
@@ -99,14 +94,14 @@
 {#snippet check(val:any, label:string)}
   <div class="pw-check" aria-label={label} title="{label}" role="checkbox" aria-checked={!val}>
     {#if isNull(val)}
-      {@html renderIcon('circle-dashed-check')}
+      <Icon name="circledashed" />
     {:else if !val}
       <span style="color: var(--success-color);">
-        {@html renderIcon('circle-check-filled')}
+        <Icon name="circlecheck" />
       </span>
     {:else}
       <span style="color: var(--danger-color);">
-        {@html renderIcon('alert-circle-filled')}
+        <Icon name="circlealert" />
       </span>
     {/if}
   </div>
@@ -116,9 +111,9 @@
   <input type="{showPassword ? 'text' : 'password'}" name="pw" bind:value oninput={handleInput}>
   <button type="button" onclick={() => showPassword = !showPassword}>
     {#if showPassword}
-      {@html renderIcon('eye')}
+      <Icon name="eye" />
     {:else}
-      {@html renderIcon('eye-off')}
+      <Icon name="eyeoff" />
     {/if}
   </button>
 </div>

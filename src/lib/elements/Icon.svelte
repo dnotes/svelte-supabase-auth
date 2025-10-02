@@ -1,34 +1,7 @@
 <script lang="ts">
-  import { iconData } from './iconData.js';
-
-  const iconMap = {
-    mail: 'mail',
-    key: 'key',
-    inbox: 'inbox',
-    apple: 'apple',
-    azure: 'microsoft-icon',
-    bitbucket: 'bitbucket',
-    discord: 'discord-icon',
-    facebook: 'facebook',
-    figma: 'figma',
-    fly: 'flydotio',
-    github: 'github-icon',
-    gitlab: 'gitlab-icon',
-    google: 'google-icon',
-    kakao: 'kakaotalk',
-    keycloak: 'keycloak',
-    linkedin: 'linkedin-icon',
-    notion: 'notion-icon',
-    slack: 'slack-icon',
-    spotify: 'spotify-icon',
-    twitter: 'x-twitter-logo',
-    twitch: 'twitch',
-    workos: 'workos-icon',
-    zoom: 'zoom-icon',
-  }
-
+  import { iconData, type IconData } from './iconData.js';
   interface Props {
-    name: string
+    name: keyof IconData
     size?: string
   }
 
@@ -36,17 +9,13 @@
 
 </script>
 
-{#if name in iconMap}
-  {@const iconKey = iconMap[name as keyof typeof iconMap]}
-  {@const icon = iconData[iconKey]}
-  {#if icon}
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox={icon.viewBox || '0 0 24 24'}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {@html icon.body}
-    </svg>
-  {/if}
+{#if iconData[name]}
+  <svg
+    width={size}
+    height={size}
+    viewBox={(iconData as any)[name]?.viewbox ?? '0 0 24 24'}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {@html (iconData as any)[name]?.body ?? iconData[name]}
+  </svg>
 {/if}
