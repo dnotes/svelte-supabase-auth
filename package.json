@@ -1,6 +1,7 @@
 {
   "name": "svelte-supabase-auth",
   "version": "0.0.1",
+  "private": true,
   "description": "A comprehensive, configurable, Svelte-based authentication UI component library for Supabase applications.",
   "scripts": {
     "changeset": "changeset",
@@ -9,8 +10,8 @@
     "build": "pnpm -r build",
     "dev": "pnpm -r dev",
     "playwright-install-ci": "pnpm -r playwright-install-ci",
-    "test:watch": "vitest",
-    "test": "vitest --run --reporter='dot'"
+    "test:watch": "pnpm -r test:watch",
+    "test": "pnpm -r test"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.3",
