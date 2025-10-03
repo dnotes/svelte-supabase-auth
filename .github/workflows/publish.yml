@@ -82,8 +82,8 @@ jobs:
         with:
           name: test-results
           path: |
-            screenshots/
-            errors/
+            packages/main/screenshots/
+            packages/main/errors/
           retention-days: 5
 
   release:
