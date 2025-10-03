@@ -7,11 +7,11 @@
     "changeset": "changeset",
     "changeset:release": "changeset publish",
     "changeset:version": "changeset version",
-    "build": "pnpm -r build",
-    "dev": "pnpm -r dev",
+    "build": "pnpm --filter svelte-supabase-auth build && pnpm --parallel --filter='./packages/*' --filter='!svelte-supabase-auth' build",
+    "preview": "pnpm -r --parallel --filter='./packages/*' preview",
+    "dev": "pnpm -r --parallel --filter='./packages/*' dev",
     "playwright-install-ci": "pnpm -r playwright-install-ci",
-    "test:watch": "pnpm -r test:watch",
-    "test": "pnpm -r test"
+    "test": "pnpm -r --parallel --filter='./packages/*' test"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.3",
