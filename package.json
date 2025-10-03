@@ -7,7 +7,6 @@
     "changeset": "changeset",
     "changeset:release": "changeset publish",
     "changeset:version": "changeset version",
-    "build:site": "pnpm --filter svelte-supabase-auth build",
     "build": "pnpm --filter svelte-supabase-auth build && pnpm --parallel --filter='./packages/*' --filter='!svelte-supabase-auth' build",
     "preview": "pnpm -r --parallel --filter='./packages/*' preview",
     "prepack": "pnpm --filter svelte-supabase-auth prepack",
