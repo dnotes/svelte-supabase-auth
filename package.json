@@ -1,5 +1,5 @@
 {
-  "name": "svelte-supabase-auth",
+  "name": "svelte-supabase-auth-monorepo",
   "version": "0.0.1",
   "private": true,
   "description": "A comprehensive, configurable, Svelte-based authentication UI component library for Supabase applications.",
@@ -9,6 +9,7 @@
     "changeset:version": "changeset version",
     "build": "pnpm --filter svelte-supabase-auth build && pnpm --parallel --filter='./packages/*' --filter='!svelte-supabase-auth' build",
     "preview": "pnpm -r --parallel --filter='./packages/*' preview",
+    "prepack": "pnpm --filter svelte-supabase-auth prepack",
     "dev": "pnpm -r --parallel --filter='./packages/*' dev",
     "playwright-install-ci": "pnpm -r playwright-install-ci",
     "test": "pnpm -r --parallel --filter='./packages/*' test"
