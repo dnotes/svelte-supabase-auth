@@ -1,5 +1,12 @@
 # svelte-supabase-auth
 
+## 0.3.0
+
+### Minor Changes
+
+- 39e59eb: Updated build process
+- 41fcc7c: include all icons as svg
+
 ## 0.2.0
 
 ### Minor Changes
