@@ -51,7 +51,9 @@ jobs:
         run: supabase start
 
       - name: Start the server for all packages
-        run: pnpm preview
+        run: |
+          pnpm preview &
+          echo $! > /tmp/preview.pid
         env:
           PUBLIC_SUPABASE_URL: http://localhost:54321
           PUBLIC_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
@@ -64,6 +66,15 @@ jobs:
         env:
           PUBLIC_SUPABASE_URL: http://localhost:54321
           PUBLIC_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
+
+      - name: Stop preview servers
+        if: always()
+        run: |
+          if [ -f /tmp/preview.pid ]; then
+            kill $(cat /tmp/preview.pid) 2>/dev/null || true
+            rm -f /tmp/preview.pid
+          fi
+          pkill -f 'vite preview' 2>/dev/null || true
 
       - name: Upload test artifacts
         uses: actions/upload-artifact@v4
