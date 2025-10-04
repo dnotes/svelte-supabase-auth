@@ -49,6 +49,7 @@ export default defineConfig({
 			'hibp'
 		]
 	},
+  // @ts-ignore
 	test: {
 		include: ['src/**/*.feature'],
 		setupFiles: ['./src/test/qp.steps.ts'],

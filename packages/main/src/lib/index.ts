@@ -1,5 +1,6 @@
 // Main components
 export { default as Auth, type AuthProps } from './Auth.svelte'
+export { default as AuthCustomElement, type AuthCustomElementProps } from './AuthCustomElement.svelte'
 export { default as Button } from './elements/Button.svelte'
 export { default as Icon } from './elements/Icon.svelte'
 export { default as InputWrapper } from './elements/InputWrapper.svelte'

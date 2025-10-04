@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Auth Web Component Test</title>
+    <style>
+        @import "../main/dist/supabase-auth.css";
+        .container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .config-section {
+            max-width: 300px;
+        }
+
+        @media all and (min-width:800px) {
+            body {
+                display:flex;
+            }
+            .auth-container {
+                flex:1;
+            }
+        }
+
+        .auth-section {
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container config-section">
+        <p>This page demonstrates the use of the Supabase Auth web component in a plain HTML page.</p>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <label for="supabaseUrl">Supabase URL</label>
+            <input type="text" id="supabaseUrl" placeholder="https://your-project.supabase.co" value="http://localhost:54321">
+            <label for="supabaseAnonKey">Supabase Anon Key</label>
+            <input type="text" id="supabaseAnonKey" placeholder="your-anon-key" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0">
+            <button onclick="updateConfig()">Update Configuration</button>
+        </div>
+    </div>
+
+    <div class="container auth-container">
+        <div class="auth-section">
+
+            <supabase-auth
+                id="basicAuth"
+                supabase-url="http://localhost:54321"
+                supabase-anon-key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
+                providers='["google", "github"]'
+                social-layout="vertical"
+                social-button-size="medium"
+                initial-view="sign_in_with_password"
+                locale="en"
+                auth-options='{"auth":{"email":{"enable_signup":true},"mfa":{"required":false}}}'
+            ></supabase-auth>
+
+        </div>
+
+    </div>
+
+    <script type="module">
+        // Import the web component
+        import '../main/dist/supabase-auth-web-component.js';
+
+        // Global functions for the buttons
+        window.updateConfig = function() {
+            const url = document.getElementById('supabaseUrl').value;
+            const key = document.getElementById('supabaseAnonKey').value;
+
+            if (!url || !key) {
+                showError('Please provide both Supabase URL and anon key');
+                return;
+            }
+
+            // Update both auth components
+            const basicAuth = document.getElementById('basicAuth');
+
+            basicAuth.setAttribute('supabase-url', url);
+            basicAuth.setAttribute('supabase-anon-key', key);
+        };
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "test-web-component",
+  "version": "1.0.0",
+  "description": "Test package for the Supabase Auth web component",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 8086",
+    "preview": "vite dev --port 8086"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.3"
+  },
+  "devDependencies": {
+    "vite": "^6.3.6"
+  }
+}

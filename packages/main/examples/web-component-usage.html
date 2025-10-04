@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Auth Web Component Example</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .example {
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            background: #f8f9fa;
+        }
+        .example h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        code {
+            background: #f1f3f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        supabase-auth {
+            max-width: 400px;
+            margin: 1rem 0;
+        }
+        .user-info {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Supabase Auth Web Component</h1>
+    <p>This page demonstrates how to use the Supabase Auth component as a web component in any HTML page.</p>
+
+    <div class="example">
+        <h3>Basic Usage</h3>
+        <p>Include the web component script and use the custom element:</p>
+
+        <pre><code>&lt;script type="module" src="https://unpkg.com/svelte-supabase-auth@latest/web-component"&gt;&lt;/script&gt;
+
+&lt;supabase-auth
+  supabase-url="https://your-project.supabase.co"
+  supabase-anon-key="your-anon-key"
+&gt;&lt;/supabase-auth&gt;</code></pre>
+
+        <supabase-auth
+          id="basic-auth"
+          supabase-url="https://your-project.supabase.co"
+          supabase-anon-key="your-anon-key"
+        ></supabase-auth>
+    </div>
+
+    <div class="example">
+        <h3>With Social Providers</h3>
+        <p>Configure social authentication providers:</p>
+
+        <pre><code>&lt;supabase-auth
+  supabase-url="https://your-project.supabase.co"
+  supabase-anon-key="your-anon-key"
+  providers='["google", "github", "discord"]'
+  social-layout="horizontal"
+  social-button-size="large"
+&gt;&lt;/supabase-auth&gt;</code></pre>
+
+        <supabase-auth
+          id="social-auth"
+          supabase-url="https://your-project.supabase.co"
+          supabase-anon-key="your-anon-key"
+          providers='["google", "github", "discord"]'
+          social-layout="horizontal"
+          social-button-size="large"
+        ></supabase-auth>
+    </div>
+
+    <div class="example">
+        <h3>With Custom Configuration</h3>
+        <p>Customize authentication options and internationalization:</p>
+
+        <pre><code>&lt;supabase-auth
+  supabase-url="https://your-project.supabase.co"
+  supabase-anon-key="your-anon-key"
+  initial-view="sign_in_with_password"
+  locale="es"
+  auth-options='{"auth": {"email": true, "phone": false}}'
+  texts='{"signIn": "Iniciar sesión", "signUp": "Registrarse"}'
+&gt;&lt;/supabase-auth&gt;</code></pre>
+
+        <supabase-auth
+          id="custom-auth"
+          supabase-url="https://your-project.supabase.co"
+          supabase-anon-key="your-anon-key"
+          initial-view="sign_in_with_password"
+          locale="es"
+          auth-options='{"auth": {"email": true, "phone": false}}'
+          texts='{"signIn": "Iniciar sesión", "signUp": "Registrarse"}'
+        ></supabase-auth>
+    </div>
+
+    <div class="example">
+        <h3>Accessing User State</h3>
+        <p>Access the current user state via JavaScript:</p>
+
+        <pre><code>const authElement = document.querySelector('supabase-auth');
+console.log('Current user:', authElement.user);
+
+// Listen for auth state changes
+authElement.addEventListener('auth-state-change', (event) => {
+  console.log('Auth state changed:', event.detail);
+});</code></pre>
+
+        <div id="user-info" class="user-info" style="display: none;">
+          <h4>Current User:</h4>
+          <p id="user-details"></p>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the web component
+        import 'https://unpkg.com/svelte-supabase-auth@latest/web-component';
+
+        // Wait for the component to be defined
+        customElements.whenDefined('supabase-auth').then(() => {
+            const authElement = document.querySelector('#custom-auth');
+            const userInfo = document.getElementById('user-info');
+            const userDetails = document.getElementById('user-details');
+
+            // Function to update user info display
+            function updateUserInfo() {
+                const user = authElement.user;
+                if (user) {
+                    userInfo.style.display = 'block';
+                    userDetails.innerHTML = `
+                        <strong>Email:</strong> ${user.email}<br>
+                        <strong>ID:</strong> ${user.id}<br>
+                        <strong>Created:</strong> ${new Date(user.created_at).toLocaleDateString()}
+                    `;
+                } else {
+                    userInfo.style.display = 'none';
+                }
+            }
+
+            // Listen for auth state changes
+            authElement.addEventListener('auth-state-change', updateUserInfo);
+
+            // Initial check
+            updateUserInfo();
+
+            // Also check periodically in case the event doesn't fire
+            setInterval(updateUserInfo, 1000);
+        });
+    </script>
+</body>
+</html>
+
