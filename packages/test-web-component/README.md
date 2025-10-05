@@ -1,26 +1,26 @@
 # Web Component Test Package
 
-This package provides a simple HTML page for testing the Supabase Auth web component.
+This package provides a simple HTML page for testing the Supabase Auth web component that can be opened directly in a browser without any development server.
 
 ## Setup
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-2. Build the web component from the main package:
+1. Build the web component from the main package:
    ```bash
    cd ../main
    npm run build:web-component
    ```
 
-3. Start the development server:
+2. Copy the built files to this test package:
    ```bash
-   npm run dev
+   npm run build
    ```
 
-4. Open your browser to `http://localhost:3000`
+3. Open `index.html` directly in your browser:
+   - Double-click the `index.html` file, or
+   - Right-click and "Open with" your preferred browser, or
+   - Use `file://` protocol in your browser's address bar
+
+**Note**: The page loads the Supabase client library from a CDN, so you'll need an internet connection for the web component to work properly.
 
 ## Configuration
 

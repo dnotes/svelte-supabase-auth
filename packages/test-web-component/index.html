@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supabase Auth Web Component Test</title>
+    <link rel="stylesheet" href="./supabase-auth.css">
     <style>
-        @import "../main/dist/supabase-auth.css";
         .container {
             max-width: 500px;
             margin: 20px auto;
@@ -62,17 +62,18 @@
 
     </div>
 
-    <script type="module">
-        // Import the web component
-        import '../main/dist/supabase-auth-web-component.js';
-
+    <!-- Load Supabase client library -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Load the web component -->
+    <script src="./supabase-auth-web-component.umd.cjs"></script>
+    <script>
         // Global functions for the buttons
         window.updateConfig = function() {
             const url = document.getElementById('supabaseUrl').value;
             const key = document.getElementById('supabaseAnonKey').value;
 
             if (!url || !key) {
-                showError('Please provide both Supabase URL and anon key');
+                alert('Please provide both Supabase URL and anon key');
                 return;
             }
 
@@ -82,8 +83,6 @@
             basicAuth.setAttribute('supabase-url', url);
             basicAuth.setAttribute('supabase-anon-key', key);
         };
-
-
     </script>
 </body>
 </html>

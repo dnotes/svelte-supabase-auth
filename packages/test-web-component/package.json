@@ -2,15 +2,12 @@
   "name": "test-web-component",
   "version": "1.0.0",
   "description": "Test package for the Supabase Auth web component",
-  "type": "module",
   "scripts": {
-    "dev": "vite --port 8086",
-    "preview": "vite dev --port 8086"
-  },
-  "dependencies": {
-    "@supabase/supabase-js": "^2.57.3"
+    "dev": "npm run build && http-server -p 8086 -a 127.0.0.1 .",
+    "build": "cp ../main/dist/supabase-auth-web-component.umd.cjs ../main/dist/supabase-auth.css ./",
+    "preview": "http-server -p 8086 -a 127.0.0.1 ."
   },
   "devDependencies": {
-    "vite": "^6.3.6"
+    "http-server": "14.1.1"
   }
 }
