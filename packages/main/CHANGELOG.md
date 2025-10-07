@@ -1,5 +1,18 @@
 # svelte-supabase-auth
 
+## 0.4.0
+
+### Minor Changes
+
+- 7c52796: Added a web component
+
+### Patch Changes
+
+- f3a01ee: Fixed web component loading for UMD and ESM
+
+  - added tests for UMD loading with configuration, loaded as a file:// in browser and over html
+  - added tests for ESM loading with injected client, loaded over html
+
 ## 0.3.0
 
 ### Minor Changes
