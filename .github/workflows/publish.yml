@@ -84,6 +84,8 @@ jobs:
           path: |
             packages/main/screenshots/
             packages/main/errors/
+            packages/test-web-component/screenshots/
+            packages/test-svelte/screenshots/
           retention-days: 5
 
   release:
