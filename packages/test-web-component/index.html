@@ -6,6 +6,9 @@
     <title>Supabase Auth Web Component Test</title>
     <link rel="stylesheet" href="./supabase-auth.css">
     <style>
+        * {
+            font-family: Arial, sans-serif;
+        }
         .container {
             max-width: 500px;
             margin: 20px auto;
@@ -14,6 +17,15 @@
         .config-section {
             max-width: 300px;
         }
+
+        .config-section label {
+            font-size: 80%;
+            line-height: 1.2;
+        }
+        .config-section input {
+            width: 100%;
+        }
+
 
         @media all and (min-width:800px) {
             body {
@@ -29,16 +41,32 @@
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
+
+        p {
+            color: hsl(210, 10%, 40%);
+            font-size: 80%;
+        }
+        p span {
+            font-variant: small-caps;
+        }
     </style>
 </head>
 <body>
     <div class="container config-section">
-        <p>This page demonstrates the use of the Supabase Auth web component in a plain HTML page.</p>
+        <p>
+            This page demonstrates the use of the Supabase Auth web component in a plain HTML document.
+            It is configured to use a default local Supabase project. You can set it to interact with
+            your own Supabase instance by updating the configuration below—<span>do so at your own risk</span>.
+        </p>
         <div style="display: flex; flex-direction: column; gap: 10px;">
-            <label for="supabaseUrl">Supabase URL</label>
-            <input type="text" id="supabaseUrl" placeholder="https://your-project.supabase.co" value="http://localhost:54321">
-            <label for="supabaseAnonKey">Supabase Anon Key</label>
-            <input type="text" id="supabaseAnonKey" placeholder="your-anon-key" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0">
+            <label for="supabaseUrl">
+                <div>Supabase URL</div>
+                <input type="text" id="supabaseUrl" placeholder="https://your-project.supabase.co" value="http://localhost:54321">
+            </label>
+            <label for="supabaseAnonKey">
+                <div>Supabase Anon Key</div>
+                <input type="text" id="supabaseAnonKey" placeholder="your-anon-key" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0">
+            </label>
             <button onclick="updateConfig()">Update Configuration</button>
         </div>
     </div>
@@ -50,11 +78,7 @@
                 id="basicAuth"
                 supabase-url="http://localhost:54321"
                 supabase-anon-key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
-                providers='["google", "github"]'
-                social-layout="vertical"
-                social-button-size="medium"
                 initial-view="sign_in_with_password"
-                locale="en"
                 auth-options='{"auth":{"email":{"enable_signup":true},"mfa":{"required":false}}}'
             ></supabase-auth>
 

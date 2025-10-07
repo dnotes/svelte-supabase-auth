@@ -27,7 +27,7 @@ export default defineConfig({
       external: ['@supabase/supabase-js'],
       output: {
         globals: {
-          '@supabase/supabase-js': 'Supabase'
+          '@supabase/supabase-js': 'supabase'
         }
       }
     }

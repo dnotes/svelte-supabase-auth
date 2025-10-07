@@ -3,11 +3,17 @@
   "version": "1.0.0",
   "description": "Test package for the Supabase Auth web component",
   "scripts": {
-    "dev": "npm run build && http-server -p 8086 -a 127.0.0.1 .",
-    "build": "cp ../main/dist/supabase-auth-web-component.umd.cjs ../main/dist/supabase-auth.css ./",
-    "preview": "http-server -p 8086 -a 127.0.0.1 ."
+    "dev": "pnpm build && http-server -p 8086 -a 127.0.0.1",
+    "build": "cp ../main/dist/supabase-auth-web-component.umd.cjs ../main/dist/supabase-auth-web-component.js ../main/dist/supabase-auth.css ./",
+    "preview": "http-server -p 8086 -a 127.0.0.1",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "devDependencies": {
-    "http-server": "14.1.1"
+    "@quickpickle/playwright": "^1.0",
+    "@supabase/supabase-js": "^2.57.3",
+    "http-server": "14.1.1",
+    "quickpickle": "^1.10.1",
+    "vitest": "^3.2.4"
   }
 }

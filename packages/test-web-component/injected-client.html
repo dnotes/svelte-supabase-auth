@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Auth Web Component Test</title>
+    <link rel="stylesheet" href="./supabase-auth.css">
+    <style>
+        * {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .config-section {
+            max-width: 300px;
+        }
+
+        .config-section label {
+            font-size: 80%;
+            line-height: 1.2;
+        }
+        .config-section input {
+            width: 100%;
+        }
+
+
+        @media all and (min-width:800px) {
+            body {
+                display:flex;
+            }
+            .auth-container {
+                flex:1;
+            }
+        }
+
+        .auth-section {
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        p {
+            color: hsl(210, 10%, 40%);
+            font-size: 80%;
+        }
+        p span {
+            font-variant: small-caps;
+        }
+    </style>
+</head>
+<body>
+    <div class="container config-section">
+        <p>
+            This page demonstrates <strong>dependency injection</strong> with the Supabase Auth web component.
+            The component receives a pre-configured Supabase client via the <code>supabaseClient</code> property.
+            This approach allows you to share the same client instance across multiple components and control
+            the client configuration from your application code.
+        </p>
+    </div>
+
+    <div class="container auth-container">
+        <div class="auth-section">
+
+            <supabase-auth
+                id="basicAuth"
+                initial-view="sign_in_with_password"
+                providers='["google", "github"]'
+                auth-options='{"auth":{"email":{"enable_signup":true},"mfa":{"required":false}}}'
+            ></supabase-auth>
+
+        </div>
+
+    </div>
+
+    <!-- Import map for bare specifiers -->
+    <script type="importmap">
+    {
+      "imports": {
+        "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2"
+      }
+    }
+    </script>
+
+    <!-- Load the web component using ESM with import maps -->
+    <script type="module">
+        import { createClient } from '@supabase/supabase-js';
+        import './supabase-auth-web-component.js';
+
+        // Create a shared Supabase client instance
+        let supabaseClient = null;
+
+        function initializeAuth() {
+            // Create a new client instance using the imported createClient
+            supabaseClient = createClient("http://localhost:54321", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0");
+
+            // Inject the client into the web component
+            const basicAuth = document.getElementById('basicAuth');
+            basicAuth.supabaseClient = supabaseClient;
+
+            console.log('Supabase client injected into web component:', supabaseClient);
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', initializeAuth);
+    </script>
+</body>
+</html>
