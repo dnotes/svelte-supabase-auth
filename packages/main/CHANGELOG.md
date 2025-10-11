@@ -1,5 +1,12 @@
 # svelte-supabase-auth
 
+## 0.4.1
+
+### Patch Changes
+
+- 17df1a4: Updating website
+- 9df8f93: fixed page spacing on demo site
+
 ## 0.4.0
 
 ### Minor Changes
