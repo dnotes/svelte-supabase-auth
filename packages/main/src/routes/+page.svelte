@@ -38,7 +38,7 @@
 
 <button class:hidden={showOptions} class="cursor-pointer fixed top-0 left-0" onclick={() => showOptions = true}><GearIcon width="32" height="32" /></button>
 
-<div class="mx-auto w-120 max-w-full p-5">
+<div class="login-wrapper mx-auto w-120 max-w-full p-5">
   <div class="flex justify-end">
     {#each Object.keys(defaultTranslations) as lc}
     <label class="flex items-center px-2 text-xs relative overflow-hidden cursor-pointer {locale == lc ? 'font-bold text-sky-500' : 'text-stone-500'}">
@@ -56,9 +56,9 @@
 <style lang="postcss">
   @reference "tailwindcss";
 
-  @media (min-height: 768px) {
-    div.mx-auto.mt-6 {
-      @apply mt-48;
+  @media (min-height: 800px) {
+    div.login-wrapper {
+      @apply mt-24;
     }
   }
 
