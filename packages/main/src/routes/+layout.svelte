@@ -24,7 +24,7 @@
 	</footer>
 </div>
 
-<style>
+<style lang="postcss">
   @reference "tailwindcss";
 
   footer a {
