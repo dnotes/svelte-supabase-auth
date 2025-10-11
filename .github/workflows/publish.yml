@@ -128,3 +128,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Trigger Cloudflare Pages Deploy Hook
+        if: steps.changesets.outputs.published == 'true'
+        run: |
+          echo "Published package, triggering demo site deployment..."
+          curl -X POST "${{ secrets.CLOUDFLARE_DEPLOY_HOOK_URL }}" \
+            -H "Content-Type: application/json" \
+            --fail-with-body
+          echo "Cloudflare Pages deployment triggered successfully"
+
