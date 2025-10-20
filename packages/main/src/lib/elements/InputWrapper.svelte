@@ -51,9 +51,10 @@
     position: absolute;
     left: 0;
     margin: 6px;
+    z-index: 1;
   }
   .input {
     position: relative;
-    display: block;
+    display: flex;
   }
 </style>

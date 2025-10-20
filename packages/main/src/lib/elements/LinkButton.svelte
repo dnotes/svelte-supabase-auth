@@ -14,7 +14,7 @@
 <button role="link" class:block class:large class="{classText}" type="button" onclick={(e) => { e.preventDefault(); onclick?.(); }} {...rest}>{@render children()}</button>
 
 <style>
-  button {
+  button[role="link"] {
     text-align: match-parent;
     border: none;
     background: none;

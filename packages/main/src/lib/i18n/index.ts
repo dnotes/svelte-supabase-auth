@@ -30,6 +30,7 @@ export interface AuthTexts {
   pwUniquenessLabel: string
   pwChange: string
   pwChanged: string
+  pwToggle: string
 
   // Link texts
   switchToMagicLink: string
@@ -144,6 +145,7 @@ const en:AuthTexts = {
   pwUniquenessLabel: 'uniqueness check',
   pwChange: 'Change your passphrase',
   pwChanged: 'Passphrase changed successfully.',
+  pwToggle: 'show/hide password',
 
   // Link texts
   switchToMagicLink: 'Sign in with an email link',

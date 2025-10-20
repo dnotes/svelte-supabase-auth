@@ -60,6 +60,7 @@
     align-items: center;
     position: relative;
     padding: 0.2rem 0.5rem;
+    cursor: pointer;
   }
 
   button.large {

@@ -9,6 +9,7 @@
   import { debounce, escapeRegExp, isNull } from 'lodash-es';
   import { tick } from 'svelte';
   import Icon from '$lib/elements/Icon.svelte';
+  import LinkButton from '$lib/elements/LinkButton.svelte';
 
   interface Props {
     value: string
@@ -108,14 +109,14 @@
 {/snippet}
 
 <div class="input flex">
-  <input type="{showPassword ? 'text' : 'password'}" name="pw" bind:value oninput={handleInput}>
-  <button type="button" onclick={() => showPassword = !showPassword}>
+  <LinkButton onclick={() => showPassword = !showPassword} style="position:absolute; bottom:109%;" aria-label={getText('pwToggle')}>
     {#if showPassword}
-      <Icon name="eye" />
+      <Icon name="eye" size="14" />
     {:else}
-      <Icon name="eyeoff" />
+      <Icon name="eyeoff" size="14" />
     {/if}
-  </button>
+  </LinkButton>
+  <input type="{showPassword ? 'text' : 'password'}" aria-label={getText('pwLabel')} bind:value oninput={handleInput}>
 </div>
 <div class="pw-strength">
   {#if feedback}
@@ -144,17 +145,9 @@
 
 <style>
   div { position:relative; }
-  div.input { flex-direction: row-reverse; }
-  input {
-    display: inline-block;
-  }
-  button {
-    display: inline-block;
-    position: absolute;
-    border: none;
-    bottom: 100%;
-    color: var(--link-color);
-    padding: 3px;
+  div.input {
+    width: 100%;
+    flex-direction: row-reverse;
   }
   .pw-strength {
     font-size: 80%;

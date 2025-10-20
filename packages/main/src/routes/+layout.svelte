@@ -1,6 +1,5 @@
 <script lang="ts">
 	import '../app.css';
-	import '$lib/supabase-auth.css';
 	import { version } from '../../package.json';
 
 	let { children } = $props();

@@ -167,12 +167,14 @@
   :global(.sA input) {
     display: block;
     width: 100%;
+    flex: 1;
     padding: var(--input-padding);
+    border: 1px solid var(--layout-color);
   }
   :global(.sA form) {
     display: flex;
+    gap: var(--flex-gap);
     flex-direction: column;
-    gap: 1.2rem;
   }
   :global(.sA .flex) {
     display: flex;
@@ -194,6 +196,9 @@
   :global(.sA .warning) {
     color: var(--warning-color);
   }
+  :global(.sA h3) {
+    margin: 0;
+  }
 
   .divider {
     color: var(--layout-color);
@@ -204,7 +209,7 @@
   }
 
   .divider span {
-    margin: 1rem;
+    margin: var(--flex-gap);
   }
 
   .divider::before, .divider::after {

@@ -53,7 +53,7 @@
 </script>
 
 <div>
-  <h2>{getText('mfaEnterCodeHeading')}</h2>
+  <h3>{getText('mfaEnterCodeHeading')}</h3>
   {#await factorsPromise}
     <p>{getText('loadingAuthMethods')}</p>
   {:then factors}
