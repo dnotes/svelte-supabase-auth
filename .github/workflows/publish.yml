@@ -128,18 +128,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Push updated site to demo-site branch
-        if: steps.changesets.outputs.published == 'true'
-        run: |
-          echo "Published package, pushing main contents to demo-site branch..."
-          git config user.email "actions@github.com"
-          git config user.name "GitHub Actions"
-          # Ensure we have the latest refs
-          git fetch origin demo-site || true
-          # Create or reset demo-site to main's latest state
-          git checkout -B demo-site origin/main
-          # Push branch update
-          git push --force-with-lease origin demo-site
-          echo "demo-site branch updated successfully"
-
