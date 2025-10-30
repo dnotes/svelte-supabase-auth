@@ -8,7 +8,7 @@ node_modules
 /.svelte-kit
 /build
 /dist
-/dist-web-component
+/static/webcomponent/supabase*.*
 
 # OS
 .DS_Store

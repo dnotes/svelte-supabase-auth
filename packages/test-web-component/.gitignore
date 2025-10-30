@@ -1,8 +1,0 @@
-node_modules/
-dist/
-.svelte-kit/
-.env
-.env.local
-.env.production
-supabase-config.js
-/supabase-auth*.*

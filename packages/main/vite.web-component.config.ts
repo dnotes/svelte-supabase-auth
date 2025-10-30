@@ -16,7 +16,7 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: 'dist-web-component',
+    outDir: 'static/webcomponent',
     lib: {
       entry: resolve(__dirname, 'src/lib/web-component.ts'),
       name: 'SupabaseAuthWebComponent',

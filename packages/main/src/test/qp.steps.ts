@@ -6,6 +6,7 @@ import { expect, type Locator } from 'playwright/test'
 import speakeasy from 'speakeasy'
 import { shuffle } from 'lodash-es'
 import fs from 'node:fs'
+import path from 'node:path'
 
 type MailTests = {
   count?:number
@@ -272,6 +273,10 @@ Given('I am not signed in', async (world:World) => {
 Given('I enter a new email address', async (world:World) => {
   world.emailAddress = crypto.randomUUID() + '@example.com'
   await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
+})
+
+Given('I load the web component', async (world:PlaywrightWorld) => {
+  await world.page.goto('file://' + path.join(__dirname, '../../static/webcomponent-script-configured.html'))
 })
 
 When(`I enter a (pwned )passphrase of {int} characters`, async (world:World, length:number) => {
