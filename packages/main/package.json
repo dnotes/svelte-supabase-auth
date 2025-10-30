@@ -14,11 +14,10 @@
   },
   "scripts": {
     "dev": "vite dev --port 5173",
-    "build": "vite build && sleep 2s && pnpm prepack:web-component",
+    "build": "vite build && sleep 2s && pnpm prepack",
     "preview": "vite preview --port 5173",
     "prepare": "svelte-kit sync || echo ''",
-    "prepack": "svelte-kit sync && svelte-package && pnpm prepack:web-component && cp ./dist-web-component/*.js ./dist-web-component/*.cjs ./dist/ && publint",
-    "prepack:web-component": "vite build --config vite.web-component.config.ts && cp ./static/webcomponent/*.* ./dist/ && cp ./node_modules/@supabase/supabase-js/dist/umd/supabase.js ./static/webcomponent",
+    "prepack": "svelte-kit sync && svelte-package && vite build --config vite.web-component.config.ts && cp ./static/webcomponent/*.* ./dist/ && cp ./node_modules/@supabase/supabase-js/dist/umd/supabase.js ./static/webcomponent && publint",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "rm -r errors; vitest run",
