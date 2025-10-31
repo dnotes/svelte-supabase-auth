@@ -31,7 +31,6 @@
     else passwordEl?.focus()
   }
 
-  let issues:Promise<string[]> = $state(new Promise(()=>{}))
   let feedback = $state(false)
 
   // Computed properties for auth options
@@ -74,12 +73,12 @@
         return
       }
 
-      const { error: err } = await supabaseClient.auth.signUp({
+      const { data, error: err } = await supabaseClient.auth.signUp({
         email: $email, password
       })
 
-      if (err) messages.add('error', err.message)
-      else $emailLinkSent = {
+      if (err || !data.user) messages.add('error', err?.message ?? getText('error'))
+      else if (!data.session) $emailLinkSent = {
         email: $email,
         sentAt: new Date(),
         expiresAt: new Date(Date.now() + $saOptions.auth.email.otp_expiry * 1000)

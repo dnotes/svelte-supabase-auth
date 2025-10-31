@@ -75,3 +75,20 @@ Feature: Default config, email login
     Given for "Email address" I enter "example@example.com\\"
     And I click the "Send link" button
     Then I should see an "email address: invalid format" message
+
+  @config
+  Rule: Configurations should be handled gracefully
+
+  the component may be configured differently from the server;
+  in such cases, the functionality should still work as the user would expect.
+
+    @email-no-confirm @misconfigurations
+    Scenario: Email confirmation disabled
+
+      the server is configured to require email confirmation
+      but the component is configured NOT to require it
+
+      Given the following configuration:
+        | auth.email.enable_confirmations | false |
+      When I sign up with a passphrase
+      Then I should see "Click the link in the email"
