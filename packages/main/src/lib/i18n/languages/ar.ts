@@ -43,6 +43,7 @@ export const arabicTranslations: AuthTexts = {
   networkError: 'بسبب خطأ في الشبكة أو الخادم، لم يتمكن من إكمال تسجيل دخولك. يرجى المحاولة مرة أخرى أو إعادة تحميل هذه الصفحة. ({error})',
   invalidCodeError: 'رمز غير صالح. يرجى التحقق والمحاولة مرة أخرى.',
   authenticationError: 'فشل في المصادقة. يرجى المحاولة مرة أخرى. ({error})',
+  noAuthMethods: 'لم يتم تفعيل طرق المصادقة.',
 
   // Email verification
   linkEnterCodeHeading: 'التحقق من الرابط السحري',

@@ -42,6 +42,7 @@ export const spanishTranslations: AuthTexts = {
   networkError: 'Debido a un error de red o servidor, no se pudo completar tu inicio de sesión. Inténtalo de nuevo o recarga esta página. ({error})',
   invalidCodeError: 'Código inválido. Verifica e inténtalo de nuevo.',
   authenticationError: 'Falló la autenticación. Inténtalo de nuevo. ({error})',
+  noAuthMethods: 'No se han habilitado métodos de autenticación.',
 
   // Email verification
   linkEnterCodeHeading: 'Verificación de Enlace Mágico',

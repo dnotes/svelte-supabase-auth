@@ -96,7 +96,9 @@
 </script>
 
 <div dir="auto" class="sA {classes}" {style}>
-  {#if $user && !$user.is_anonymous}
+  {#if !$saOptions.auth || $saOptions.auth.enabled === false}
+    <p>{getText('noAuthMethods')}</p>
+  {:else if $user && !$user.is_anonymous}
     <AuthenticatedView
       InputWrapper={Wrapper ?? InputWrapper}
       {supabaseClient}
@@ -106,6 +108,8 @@
       {locale}
       {userInfo}
     />
+  {:else if !providers.length && (!$saOptions.auth.email || $saOptions.auth.email.enabled === false)}
+    <p>{getText('noAuthMethods')}</p>
   {:else if $emailLinkSent}
     <EmailLinkSentView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {getText} />
   {:else if loading}
@@ -123,7 +127,7 @@
       </div>
     {/if}
 
-    {#if $saOptions.auth.email && ($signInView == 'sign_in' || $signInView == 'sign_in_with_password')}
+    {#if $saOptions.auth.email && $saOptions.auth.email.enabled && ($signInView == 'sign_in' || $signInView == 'sign_in_with_password')}
       <EmailAuthView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {getText} />
     {:else if $signInView == 'forgotten_password'}
       <ForgottenPasswordView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {getText}/>

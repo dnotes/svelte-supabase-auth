@@ -7,6 +7,8 @@
  */
 export interface SupabaseAuthOptions {
   auth: {
+    /** Allow/disallow authentication across all providers. Disabling blocks all authentication. @default true */
+    enabled: boolean;
     /** Allow/disallow new user signups across all providers. Disabling blocks all new accounts. @default true */
     enable_signup: boolean;
     /** Allow anonymous sign-ins (no email/phone). Useful for trials/guests; combine with rate limits & CAPTCHA to curb abuse. @default false */
@@ -18,6 +20,8 @@ export interface SupabaseAuthOptions {
      * set this to `null` or `false` to disable the email signup form.
      */
     email: {
+      /** Allow/disallow email authentication. Disabling blocks all email authentication. @default true */
+      enabled: boolean;
       /** Allow signups via email/password. Turning off forces other providers or invites only. @default true */
       enable_signup: boolean;
       /** Require email verification before sign-in. (Hosted projects default to true; local default is false.) @default false */
@@ -108,12 +112,14 @@ export type PartialSupabaseAuthOptions = DeepPartial<SupabaseAuthOptions>
 
 export const SUPABASE_AUTH_DEFAULTS: SupabaseAuthOptions = {
   auth: {
+    enabled: true,
     // --- Sign-up controls ---
     enable_signup: true,
     enable_anonymous_sign_ins: false,
     enable_manual_linking: false,
 
     email: {
+      enabled: true,
       // --- Sign-up controls (email) ---
       enable_signup: true,
       enable_confirmations: false, // require verified email before sign-in

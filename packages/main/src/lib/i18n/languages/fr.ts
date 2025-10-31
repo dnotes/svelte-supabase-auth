@@ -43,6 +43,7 @@ export const frenchTranslations: AuthTexts = {
   networkError: 'En raison d\'une erreur réseau ou serveur, votre connexion n\'a pas pu être complétée. Veuillez réessayer ou recharger cette page. ({error})',
   invalidCodeError: 'Code invalide. Veuillez vérifier et réessayer.',
   authenticationError: 'Échec de l\'authentification. Veuillez réessayer. ({error})',
+  noAuthMethods: 'Aucune méthode d\'authentification n\'a été activée.',
 
   // Email verification
   linkEnterCodeHeading: 'Vérification de Lien Magique',

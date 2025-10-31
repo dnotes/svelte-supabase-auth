@@ -44,6 +44,7 @@ export interface AuthTexts {
   networkError: string
   invalidCodeError: string
   authenticationError: string
+  noAuthMethods: string
 
   // Email verification
   linkEnterCodeHeading: string
@@ -159,6 +160,7 @@ const en:AuthTexts = {
   networkError: 'Due to a network or server error, your login could not be completed. Please try again or reload this page. ({error})',
   invalidCodeError: 'Invalid code. Please check and try again.',
   authenticationError: 'Authentication failed. Please try again. ({error})',
+  noAuthMethods: 'No authentication methods have been enabled.',
 
   // Email verification
   linkEnterCodeHeading: 'Magic Link Verification',

@@ -92,3 +92,71 @@ Feature: Default config, email login
         | auth.email.enable_confirmations | false |
       When I sign up with a passphrase
       Then I should see "Click the link in the email"
+
+    @email-no-signup @misconfigurations
+    Scenario: New email accounts are disabled
+
+      the server is configured to allow email signup
+      but the component is configured NOT to allow new accounts via email
+
+      Given the following configuration:
+        | auth.email.enable_signup | false |
+      When for "Email address" I enter "example@example.com"
+      And for "Passphrase" I enter "this is a new passphrase"
+      Then I should NOT see a "Sign up" button
+
+    @email-no-signup @misconfigurations
+    Scenario: All new accounts are disabled
+
+      the server is configured to allow email signup
+      but the component is configured NOT to allow new accounts
+
+      Given the following configuration:
+        | auth.enable_signup | false |
+      When for "Email address" I enter "example@example.com"
+      And for "Passphrase" I enter "this is a new passphrase"
+      Then I should NOT see a "Sign up" button
+
+    @email-disabled @misconfigurations
+    Scenario: Email authentication is disabled
+
+      the server is configured to allow email authentication,
+      but the component is configured NOT to allow it
+
+      Given the following configuration:
+        | auth.email | false |
+      Then I should NOT see an "Email address" input
+      And I should see "No authentication methods"
+
+    @email-disabled @misconfigurations
+    Scenario: Email authentication is disabled
+
+      the server is configured to allow email authentication,
+      but the component is configured NOT to allow it
+
+      Given the following configuration:
+        | auth.email.enabled | false |
+      Then I should NOT see an "Email address" input
+      And I should see "No authentication methods"
+
+    @auth-disabled @misconfigurations
+    Scenario: Authentication is disabled
+
+      the server is configured to allow authentication,
+      but the component is configured NOT to allow it
+
+      Given the following configuration:
+        | auth | false |
+      Then I should NOT see an "Email address" input
+      Then I should see "No authentication methods"
+
+    @auth-disabled @misconfigurations
+    Scenario: Authentication is disabled
+
+      the server is configured to allow authentication,
+      but the component is configured NOT to allow it
+
+      Given the following configuration:
+        | auth.enabled | false |
+      Then I should NOT see an "Email address" input
+      Then I should see "No authentication methods"

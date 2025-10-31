@@ -43,6 +43,7 @@ export const chineseTranslations: AuthTexts = {
   networkError: '由于网络或服务器错误，无法完成您的登录。请重试或刷新此页面。({error})',
   invalidCodeError: '代码无效。请检查后重试。',
   authenticationError: '身份验证失败。请重试。({error})',
+  noAuthMethods: '未启用任何身份验证方法。',
 
   // Email verification
   linkEnterCodeHeading: '魔法链接验证',
