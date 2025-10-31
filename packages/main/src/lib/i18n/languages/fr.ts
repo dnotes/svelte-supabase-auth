@@ -30,6 +30,7 @@ export const frenchTranslations: AuthTexts = {
   pwUniquenessLabel: 'vérification d\'unicité',
   pwChange: 'Changer votre phrase de passe',
   pwChanged: 'Phrase de passe changée avec succès.',
+  pwToggle: 'afficher ou masquer la phrase de passe',
 
   // Link texts
   switchToMagicLink: 'Se connecter avec un lien magique',

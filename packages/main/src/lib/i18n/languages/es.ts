@@ -29,6 +29,7 @@ export const spanishTranslations: AuthTexts = {
   pwUniquenessLabel: 'verificación de singularidad',
   pwChange: 'Cambiar tu frase de contraseña',
   pwChanged: 'Frase de contraseña cambiada exitosamente.',
+  pwToggle: 'mostrar u ocultar frase de contraseña',
 
   // Link texts
   switchToMagicLink: 'Iniciar sesión con enlace mágico',

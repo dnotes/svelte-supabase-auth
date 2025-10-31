@@ -30,6 +30,7 @@ export const arabicTranslations: AuthTexts = {
   pwUniquenessLabel: 'فحص التفرد',
   pwChange: 'تغيير عبارة المرور',
   pwChanged: 'تم تغيير عبارة المرور بنجاح.',
+  pwToggle: 'إظهار أو إخفاء عبارة المرور',
 
   // Link texts
   switchToMagicLink: 'تسجيل الدخول باستخدام رابط سحري',

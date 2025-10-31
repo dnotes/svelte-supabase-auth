@@ -30,6 +30,7 @@ export const chineseTranslations: AuthTexts = {
   pwUniquenessLabel: '独特性检查',
   pwChange: '更改您的密码短语',
   pwChanged: '密码短语修改成功。',
+  pwToggle: '显示或隐藏密码短语',
 
   // Link texts
   switchToMagicLink: '使用魔法链接登录',
