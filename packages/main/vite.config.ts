@@ -36,7 +36,7 @@ export default defineConfig({
 		tailwindcss(),
 		sveltekit(),
 		quickpickle(qpConfig),
-		Icons({ compiler: 'svelte' }),
+		Icons({ compiler: 'svelte' }) as any,
 		ViteToml(),
 	],
 	server: {
