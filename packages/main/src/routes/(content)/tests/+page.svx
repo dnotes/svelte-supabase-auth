@@ -10,11 +10,11 @@ with the ones that have automated behavioral tests checked.
 - [x] Signup/login with email and passphrase
 - [x] Signup/login with email and magic link
 - [x] Signup/login with email and verification code
-- [ ] Config: Email confirmation not required
-- [ ] Config: Email signup disabled
-- [ ] Config: Email anonymous sign-ins enabled
-- [ ] Config: Email manual linking enabled
-- [ ] Config: OTP length
+- [x] Config: Email confirmation not required
+- [x] Config: Email signup disabled
+- [x] Config: Email provider disabled
+- [x] Config: Auth completely disabled (misconfiguration)
+- [x] Config: No providers enabled (misconfiguration)
 
 ## Authentication with social providers
 
@@ -24,6 +24,29 @@ with the ones that have automated behavioral tests checked.
 - [ ] Adding a social provider to an existing account
 - [ ] Adding an email/password login to an existing social account
 - [ ] Deleting an account created with a social provider
+
+## Manual linking
+
+*This functionality is not fully supported, but it should work in the context of linking social providers 
+to an existing, signed-in account (see above).*
+
+## Anonymous logins
+
+*This functionality is untested and may not work correctly. *
+
+## Alternate server configurations
+
+- [ ] Sign-ups disabled
+- [ ] Required password length
+- [ ] Required password composition (DEPRECATED, as it reduces password strength in real-life usage)
+- [ ] OTP length
+- [ ] OTP expiry
+- [ ] No double confirmation on email changes
+- [ ] Secure password change
+- [ ] Max frequency for outbound auth emails
+- [ ] MFA required
+- [ ] TOTP enroll_enabled
+- [ ] TOTP verify_enabled
 
 ## Multi-factor authentication
 
