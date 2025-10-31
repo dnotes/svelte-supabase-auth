@@ -1,5 +1,19 @@
 # svelte-supabase-auth
 
+## 0.5.0
+
+### Minor Changes
+
+- 829ec96: removed demo site deployment, in favor of having Cloudflare watch the changelog for deployments.
+- 2baf28f: Updated publish workflow to push changes to demo-site branch
+- b7f6c3a: Moved web component and testing to main package
+
+### Patch Changes
+
+- fafea5b: Fixed some CSS affecting the web component
+- 17df1a4: Updating website
+- 9df8f93: fixed page spacing on demo site
+
 ## 0.4.0
 
 ### Minor Changes
