@@ -1,5 +1,22 @@
 # svelte-supabase-auth
 
+## 0.5.1
+
+### Patch Changes
+
+- a431fbc: Handle various configurations where email auth is disabled
+
+  - `auth = false`
+  - `auth.enabled = false`
+  - `auth.email = false`
+  - `auth.email.enabled = false`
+  - `auth.email.enable_signup = false`
+
+- be60303: Fix handling of sign up when email confirmation is not required
+- e5e66ac: Update translations for show/hide passphrase
+- e4c6883: (site) added links to static HTML pages using the supabase-auth custom element
+- 22a28a8: (site) update the list of tests
+
 ## 0.5.0
 
 ### Minor Changes
