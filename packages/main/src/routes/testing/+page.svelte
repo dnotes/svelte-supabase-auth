@@ -11,8 +11,14 @@
   let authOptions = cloneDeep(SUPABASE_AUTH_DEFAULTS)
   if (browser) {
     page.url.searchParams.forEach((v,k) => {
-      if (has(authOptions, k)) set(authOptions, k, v)
+      let value:string|number|boolean
+      if (v === 'true' || v === 'yes') value = true
+      else if (v === 'false' || v === 'no') value = false
+      else if (!isNaN(Number(v))) value = Number(v)
+      else value = v
+      if (has(authOptions, k)) set(authOptions, k, value)
     })
+    console.log(authOptions)
   }
 
 </script>
