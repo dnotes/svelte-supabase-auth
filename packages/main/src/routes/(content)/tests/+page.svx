@@ -69,3 +69,16 @@ with the ones that have automated behavioral tests checked.
 
 - [ ] Changing email address
 - [ ] Config: Double confirm changes disabled
+
+## Web components
+
+The module is available as a web component using the custom element "supabase-auth".
+The javascript for that element can either be [imported] or used as a [script tag].
+
+[imported]: /webcomponent.esm.html
+[script tag]: /webcomponent.umd.html
+
+- [x] ESM web component import
+- [x] UMD web component script
+- [x] inject a Supabase client instance
+- [x] configure with html attributes
