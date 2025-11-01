@@ -12,6 +12,7 @@
     "prepack": "pnpm --filter svelte-supabase-auth prepack",
     "dev": "pnpm -r --parallel --filter='./packages/*' dev",
     "playwright-install-ci": "pnpm -r playwright-install-ci",
+    "test:ci": "pnpm -r --parallel --filter='./packages/*' test -- -t '^(?:(?!@skip-ci).)+$'",
     "test": "pnpm -r --parallel --filter='./packages/*' test"
   },
   "devDependencies": {

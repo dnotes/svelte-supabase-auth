@@ -276,7 +276,7 @@ Given('I enter a new email address', async (world:World) => {
 })
 
 Given('I load the web component', async (world:PlaywrightWorld) => {
-  await world.page.goto('file://' + path.join(__dirname, '../../static/webcomponent.umd.html'))
+  await world.page.goto('file://' + path.join(__dirname, '../../static/webcomponent-umd/index.html'))
 })
 
 When(`I enter a (pwned )passphrase of {int} characters`, async (world:World, length:number) => {

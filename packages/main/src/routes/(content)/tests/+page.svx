@@ -98,8 +98,8 @@ to an existing, signed-in account (see above).*
 The module is available as a web component using the custom element "supabase-auth".
 The javascript for that element can either be [imported] or used as a [script tag].
 
-[imported]: /webcomponent.esm.html
-[script tag]: /webcomponent.umd.html
+[imported]: /webcomponent-esm
+[script tag]: /webcomponent-umd
 
 - [x] ESM web component import
 - [x] UMD web component script
