@@ -1,5 +1,11 @@
 # svelte-supabase-auth
 
+## 0.5.5
+
+### Patch Changes
+
+- 34360dc: fix supabase client type definition to accept any schema
+
 ## 0.5.4
 
 ### Patch Changes
