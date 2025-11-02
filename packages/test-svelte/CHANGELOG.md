@@ -1,5 +1,12 @@
 # test-svelte
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [def4d65]
+  - svelte-supabase-auth@1.0.0
+
 ## 0.0.4
 
 ### Patch Changes
