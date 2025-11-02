@@ -1,5 +1,11 @@
 # svelte-supabase-auth
 
+## 1.0.0
+
+### Major Changes
+
+- def4d65: 1.0 release
+
 ## 0.5.5
 
 ### Patch Changes
