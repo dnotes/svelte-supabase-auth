@@ -1,5 +1,11 @@
 # svelte-supabase-auth
 
+## 0.5.4
+
+### Patch Changes
+
+- 5fd2964: Switched to adapter-static because worker is unnecessary
+
 ## 0.5.3
 
 ### Patch Changes
