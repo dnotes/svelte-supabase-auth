@@ -1,6 +1,6 @@
 import type { Handle } from "@sveltejs/kit";
-import path from "path";
-import fs from "fs/promises";
+import path from "node:path";
+import fs from "node:fs/promises";
 
 export const handle:Handle = async ({ event, resolve }) => {
   // load the webcomponent files from the static directory
