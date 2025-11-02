@@ -8,7 +8,7 @@
 
   // Auth component props interface
   export interface AuthProps {
-    supabaseClient: SupabaseClient
+    supabaseClient: SupabaseClient<any, any, any>
     class?: string
     style?: string
     socialLayout?: 'vertical' | 'horizontal'
