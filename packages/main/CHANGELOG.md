@@ -1,5 +1,11 @@
 # svelte-supabase-auth
 
+## 0.5.2
+
+### Patch Changes
+
+- 2c6c129: (site) Try again to make the web component examples available.
+
 ## 0.5.1
 
 ### Patch Changes
