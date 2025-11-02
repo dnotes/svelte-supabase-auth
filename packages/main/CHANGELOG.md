@@ -1,5 +1,11 @@
 # svelte-supabase-auth
 
+## 0.5.3
+
+### Patch Changes
+
+- 02e459b: (site) fix imports for cloudflare deploy
+
 ## 0.5.2
 
 ### Patch Changes
