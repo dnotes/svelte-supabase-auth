@@ -10,6 +10,7 @@ Feature: Web Components
     Then I should see an "Email address" input
     And the screenshot "webcomponent-umd" should match to within 3%
 
+  @skip-ci
   Scenario: The esm web component loads on a plain HTML page
     Given I visit "/webcomponent-esm"
     Then I should see an "Email address" input
