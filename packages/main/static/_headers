@@ -1,0 +1,7 @@
+/*
+  X-Frame-Options: DENY
+
+/webcomponent/*.js
+  Content-Type: application/javascript; charset=utf-8
+  X-Content-Type-Options: nosniff
+  Cache-Control: public, max-age=3600, must-revalidate
