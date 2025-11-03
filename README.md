@@ -4,5 +4,4 @@ This is the monorepo for development of svelte-supabase-auth, an out-of-the-box 
 
 Please see the [main package] for details.
 
-[main package readme]:
-https://github.com/dnotes/svelte-supabase-auth/tree/main/packages/main
+[main package]: https://github.com/dnotes/svelte-supabase-auth/tree/main/packages/main

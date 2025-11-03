@@ -37,7 +37,7 @@
   <Options bind:providers bind:showOptions />
 {/if}
 
-<button class:hidden={showOptions} class="cursor-pointer fixed top-0 left-0" onclick={() => showOptions = true}><GearIcon width="32" height="32" /></button>
+<button class:hidden={showOptions} class="cursor-pointer fixed top-2 left-2" onclick={() => showOptions = true}><GearIcon width="32" height="32" /></button>
 
 <div class="login-wrapper mx-auto w-120 max-w-full p-5">
   <div class="flex justify-end">
@@ -50,6 +50,20 @@
   </div>
   <div class="py-6 px-3 m-4 shadow-md rounded-lg bg-stone-200 dark:bg-stone-800">
     <Auth {supabaseClient} {locale} {providers} {authOptions}>
+      {#snippet signedInAs(user)}
+        <div class="prose prose-sm prose-stone dark:prose-invert prose-p:leading-tight">
+          <h2>You are signed in!</h2>
+          <p>
+            You are signed in as {user?.email}, an account created on 
+            {user?.created_at ? new Date(user?.created_at).toLocaleDateString() : '[unknown date]'}.
+          </p>
+          <p>
+            To see more information about Svelte Supabase Auth, the all-in-one front-end solution 
+            for Supabase authentication, visit the <a href="/about">about</a> page or try out the 
+            default functionality provided in the sections below.
+          </p>
+        </div>
+      {/snippet}
     </Auth>
   </div>
 </div>

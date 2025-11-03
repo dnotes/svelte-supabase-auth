@@ -1,7 +1,12 @@
-# Workflows and configurations
+# About svelte-supabase-auth
 
-The following workflows and configurations are handled by the `Auth.svelte` component,
-with the ones that have automated behavioral tests checked.
+Svelte Supabase Auth is a Svelte-built web component that aims to provide all necessary
+functionality for Supabase authentication and user management with minimal configuration.
+It is available as a Svelte component or a web component implementing a custom element named
+`<supabase-auth>`. For usage instructions, please see the pages on [GitHub] or [NPM].
+
+The following workflows and configurations are handled by the component.
+Those that have automated behavioral tests are checked.
 
 ## Authentication with email
 
@@ -95,11 +100,13 @@ to an existing, signed-in account (see above).*
 
 ## Web components
 
-The module is available as a web component using the custom element "supabase-auth".
-The javascript for that element can either be [imported] or used as a [script tag].
+The module is available as a web component using the custom element `<supabase-auth>`.
+The javascript for that element can either be imported or used as a [script tag].
 
 [imported]: /webcomponent-esm
 [script tag]: /webcomponent-umd
+[GitHub]: https://github.com/dnotes/svelte-supabase-auth/tree/main/packages/main
+[NPM]: https://npmjs.com/package/svelte-supabase-auth
 
 - [x] ESM web component import
 - [x] UMD web component script
