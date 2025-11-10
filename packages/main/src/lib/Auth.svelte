@@ -15,10 +15,10 @@
     socialColors?: boolean
     socialButtonSize?: 'tiny' | 'small' | 'medium' | 'large'
     providers?: Provider[]
-    signedInAs?: Snippet<[User|null]>
-    userInfo?: Snippet<[User|null]>
     authOptions?: PartialSupabaseAuthOptions
     initialView?: SignInView
+    children?: Snippet<[]>
+    user: User | null
 
     // Components
     InputWrapper?: typeof InputWrapper
@@ -41,7 +41,7 @@
   import { defaultsDeep } from 'lodash-es'
   import { messages } from './messages.svelte'
   import LinkButton from './elements/LinkButton.svelte';
-  import { user, saOptions, socialSettings, emailLinkSent, signInView } from './stores.svelte'
+  import { user as userStore, saOptions, socialSettings, emailLinkSent, signInView } from './stores.svelte'
 
   let {
     supabaseClient,
@@ -51,13 +51,13 @@
     socialButtonSize = 'medium',
     providers = [],
     initialView = 'sign_in_with_password',
-    signedInAs,
-    userInfo,
     InputWrapper:Wrapper,
     authOptions,
     texts,
     locale = 'en',
+    user = $bindable(null),
     t,
+    children,
   }: AuthProps = $props()
 
   $saOptions = defaultsDeep(authOptions, SUPABASE_AUTH_DEFAULTS) as SupabaseAuthOptions
@@ -78,14 +78,15 @@
   onMount(() => {
     // Get initial session
     supabaseClient.auth.getSession().then(({ data: { session } }) => {
-      $user = session?.user ?? null
+      $userStore = session?.user ?? null
+      user = session?.user ?? null
       loading = false
     })
 
     // Listen for auth changes
     const { data: { subscription } } = supabaseClient.auth.onAuthStateChange(
       (event, session) => {
-        $user = session?.user ?? null
+        $userStore = session?.user ?? null
         loading = false
       }
     )
@@ -98,15 +99,14 @@
 <div dir="auto" class="sA {classes}" {style}>
   {#if !$saOptions.auth || $saOptions.auth.enabled === false}
     <p>{getText('noAuthMethods')}</p>
-  {:else if $user && !$user.is_anonymous}
+  {:else if $userStore && !$userStore.is_anonymous}
     <AuthenticatedView
       InputWrapper={Wrapper ?? InputWrapper}
       {supabaseClient}
-      {signedInAs}
       {providers}
       {getText}
       {locale}
-      {userInfo}
+      {children}
     />
   {:else if !providers.length && (!$saOptions.auth.email || $saOptions.auth.email.enabled === false)}
     <p>{getText('noAuthMethods')}</p>

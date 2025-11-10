@@ -12,6 +12,7 @@
       locale: { reflect: true, type: 'String' },
       authOptions: { reflect: true, type: 'String', attribute: 'auth-options' },
       texts: { reflect: true, type: 'String' },
+      user: { reflect: true, type: 'Object', attribute: 'user' },
       // property-only (not reflected): allows DI of an existing Supabase client
       supabaseClient: {}
     }
@@ -19,7 +20,7 @@
 />
 
 <script module lang="ts">
-  import type { SupabaseClient, Provider } from '@supabase/supabase-js'
+  import type { SupabaseClient, Provider, User } from '@supabase/supabase-js'
   import { type AuthTexts } from './i18n'
   import { type PartialSupabaseAuthOptions } from './options'
   import { type SignInView } from './stores.svelte'
@@ -38,6 +39,7 @@
     authOptions?: string // JSON string of PartialSupabaseAuthOptions
     texts?: string // JSON string of Partial<AuthTexts>
     supabaseClient?: SupabaseClient | null
+    user: User | null
   }
 </script>
 
@@ -57,6 +59,7 @@
     locale = 'en',
     authOptions = '{}',
     texts = '{}',
+    user = $bindable<User|null>(null),
     // Optional injected client; if provided we will use it instead of creating our own
     supabaseClient: injectedSupabaseClient = null,
   }: AuthCustomElementProps = $props()
@@ -111,6 +114,8 @@
       texts={parsedTexts()}
       initialView={initialView}
       locale={locale}
-    />
+      bind:user={user}
+    >
+    </Auth>
   {/if}
 </div>

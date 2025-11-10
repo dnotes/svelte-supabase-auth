@@ -1,7 +1,7 @@
 <script lang="ts">
 
   import type { PartialSupabaseAuthOptions } from '$lib/options';
-  import type { Provider } from '@supabase/supabase-js';
+  import type { Provider, User } from '@supabase/supabase-js';
   import Auth from '$lib/Auth.svelte'
   import { supabaseClient } from './supabase'
   import '$lib/i18n/languages/ar'
@@ -31,6 +31,8 @@
   let showOptions = $state(false)
   let providers = $state(['google', 'github']) as Provider[]
 
+  let user = $state<User|null>(null)
+
 </script>
 
 {#if showOptions}
@@ -49,21 +51,19 @@
     {/each}
   </div>
   <div class="py-6 px-3 m-4 shadow-md rounded-lg bg-stone-200 dark:bg-stone-800">
-    <Auth {supabaseClient} {locale} {providers} {authOptions}>
-      {#snippet signedInAs(user)}
-        <div class="prose prose-sm prose-stone dark:prose-invert prose-p:leading-tight">
-          <h2>You are signed in!</h2>
-          <p>
-            You are signed in as {user?.email}, an account created on 
-            {user?.created_at ? new Date(user?.created_at).toLocaleDateString() : '[unknown date]'}.
-          </p>
-          <p>
-            To see more information about Svelte Supabase Auth, the all-in-one front-end solution 
-            for Supabase authentication, visit the <a href="/about">about</a> page or try out the 
-            default functionality provided in the sections below.
-          </p>
-        </div>
-      {/snippet}
+    <Auth {supabaseClient} {locale} {providers} {authOptions} bind:user>
+      <div class="prose prose-sm prose-stone dark:prose-invert prose-p:leading-tight">
+        <h2>You are signed in!</h2>
+        <p>
+          You are signed in as {user?.email}, an account created on 
+          {user?.created_at ? new Date(user?.created_at).toLocaleDateString() : '[unknown date]'}.
+        </p>
+        <p>
+          To see more information about Svelte Supabase Auth, the all-in-one front-end solution 
+          for Supabase authentication, visit the <a href="/about">about</a> page or try out the 
+          default functionality provided in the sections below.
+        </p>
+      </div>
     </Auth>
   </div>
 </div>
