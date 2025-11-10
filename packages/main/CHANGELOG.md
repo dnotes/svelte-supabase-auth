@@ -1,5 +1,12 @@
 # svelte-supabase-auth
 
+## 1.0.1
+
+### Patch Changes
+
+- dafa460: Fix improper wrapping on passphrase
+- 5dc9709: Fix double inbox icon when using a passphrase for login / registration
+
 ## 1.0.0
 
 ### Major Changes
