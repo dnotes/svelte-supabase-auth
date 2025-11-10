@@ -138,7 +138,7 @@
     </Button>
   {:else}
     <!-- Password Flow -->
-    <Button submit block primary size="large" {loading} icon="inbox" onclick={() => submitPassword(false)}>
+    <Button submit block primary size="large" {loading} onclick={() => submitPassword(false)}>
       {getText('signIn')}
     </Button>
 
