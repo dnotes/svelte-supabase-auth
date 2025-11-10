@@ -1,7 +1,7 @@
 import { PlaywrightWorld, type PlaywrightWorldConfig } from '@quickpickle/playwright/PlaywrightWorld'
 import '@quickpickle/playwright/actions'
 import '@quickpickle/playwright/outcomes'
-import { Given, When, Then, DataTable, setWorldConstructor, After, Before } from 'quickpickle'
+import { Given, When, Then, DataTable, setWorldConstructor, After, Before, type AriaRoleExtended } from 'quickpickle'
 import { expect, type Locator } from 'playwright/test'
 import speakeasy from 'speakeasy'
 import { shuffle } from 'lodash-es'
@@ -420,6 +420,15 @@ Then('the screenshot {string} should match to within {float}%', async (world:Wor
   await world.page.waitForTimeout(1000)
   let explodedTags = world.info.explodedIdx ? `_(${world.info.tags.join(',')})` : '';
   await world.expectScreenshotMatch(world.page, `${world.screenshotDir}/${name}${explodedTags}.png`, { maxDiffPercentage });
+})
+
+Then('the {string} {AriaRole} and (the ){string} {AriaRole} should be the same width', async (world:World, name1:string, role1:AriaRoleExtended, name2:string, role2:AriaRoleExtended) => {
+  let locator1 = world.getLocator(world.page, name1, role1)
+  let locator2 = world.getLocator(world.page, name2, role2)
+  let width1 = (await locator1.boundingBox())?.width
+  let width2 = (await locator2.boundingBox())?.width
+  if (!width1 || !width2) throw new Error('Inputs not found')
+  expect(width1).toBe(width2)
 })
 
 Before(async (world:World) => {

@@ -56,5 +56,6 @@
   .input {
     position: relative;
     display: flex;
+    flex-wrap: wrap;
   }
 </style>

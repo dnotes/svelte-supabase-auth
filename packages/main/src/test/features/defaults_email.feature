@@ -23,6 +23,13 @@ Feature: Default config, email login
     When I click "Sign in with a passphrase"
     Then I should see a "Passphrase" input
 
+  Scenario: The passphrase is the same width as the email address
+    Then the "Passphrase" input and the "Email address" input should be the same width
+    When I enter the pwned passphrase "123456"
+    And I click the "Sign up" button
+    Then I should see a "data breach" error
+    And the "Passphrase" input and the "Email address" input should be the same width
+
   Scenario: The signup button shows only when needed
     When I enter a new email address
     And I enter the passphrase ""
