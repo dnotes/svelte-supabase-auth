@@ -1,6 +1,6 @@
 {
   "name": "svelte-supabase-auth",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A comprehensive, configurable, Svelte-based authentication UI component library for Supabase applications.",
   "author": "David Hunt",
   "license": "ISC",
