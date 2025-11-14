@@ -1,5 +1,11 @@
 # svelte-supabase-auth
 
+## 1.0.2
+
+### Patch Changes
+
+- ddf3ac5: Added lodash-es to dependencies to avoid errors in some conditions
+
 ## 1.0.1
 
 ### Patch Changes
