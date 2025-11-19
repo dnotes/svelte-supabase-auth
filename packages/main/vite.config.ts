@@ -22,10 +22,10 @@ const qpConfig:Partial<QuickPickleConfig> = {
 		defaultBrowserSize: 'mobile',
 		stepTimeout: 2000,
 		screenshotOptions: {
-      mask: [
-        'span.icon',
-      ],
-      maskColor: 'violet',
+			mask: [
+				'span.icon',
+			],
+	      	maskColor: 'violet',
 		},
 	}
 }
@@ -51,8 +51,8 @@ export default defineConfig({
 	},
   // @ts-ignore
 	test: {
-		include: ['src/**/*.feature'],
-		setupFiles: ['./src/test/qp.steps.ts'],
+		include: ['src/**/*.feature', 'tests/**/*.feature'],
+		setupFiles: ['./tests/qp.steps.ts'],
 		testTimeout: 10000,
 		maxWorkers: 1,
 		maxConcurrency: 3,
