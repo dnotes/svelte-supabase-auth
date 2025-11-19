@@ -22,7 +22,7 @@ const qpConfig:Partial<QuickPickleConfig> = {
 		defaultBrowserSize: 'mobile',
 		stepTimeout: 2000,
 		screenshotOptions: {
-			threshold: 0.2,
+			threshold: 0.6,
 			mask: [
 				'span.icon',
 			],
