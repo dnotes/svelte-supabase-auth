@@ -1,12 +1,25 @@
-import { PlaywrightWorld, type PlaywrightWorldConfig } from '@quickpickle/playwright/PlaywrightWorld'
+import { PlaywrightWorld } from '@quickpickle/playwright/PlaywrightWorld'
 import '@quickpickle/playwright/actions'
 import '@quickpickle/playwright/outcomes'
 import { Given, When, Then, DataTable, setWorldConstructor, After, Before, type AriaRoleExtended } from 'quickpickle'
-import { expect, type Locator } from 'playwright/test'
+import { expect } from 'playwright/test'
 import speakeasy from 'speakeasy'
 import { shuffle } from 'lodash-es'
 import fs from 'node:fs'
 import path from 'node:path'
+import { createClient } from '@supabase/supabase-js'
+
+const PUBLIC_SUPABASE_URL = 'http://127.0.0.1:54321'
+const PUBLIC_SUPABASE_ANON_KEY = 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH'
+const SUPABASE_SERVICE_ROLE_KEY = 'sb_secret_N7UND0UgjKTVK-Uodkm0Hg_xSvEMPvz'
+
+const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY)
+const supabaseAdmin = createClient(PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+  auth: {
+    autoRefreshToken: false,
+    persistSession: false
+  }
+})
 
 type MailTests = {
   count?:number
@@ -165,18 +178,24 @@ class World extends PlaywrightWorld {
   async setupAccount(stayLoggedIn:boolean = false):Promise<void> {
     this.messages = []
     this.emailAddress = crypto.randomUUID() + '@example.com'
-    await this.ensureLoginMethod('passphrase')
-    await this.getLocator(this.page, 'Email address', 'input').fill(this.emailAddress)
-    await this.getLocator(this.page, 'Passphrase', 'input').fill(this.passphrase)
-    await this.getLocator(this.page, 'Sign up', 'button').click()
-    await this.emailMessages({ code:true })
-    expect(this.latestCode).not.toBe('')
-    await this.getLocator(this.page, 'Enter code', 'textbox').fill(this.latestCode)
-    await this.getLocator(this.page, 'Verify code', 'button').click()
-    await this.expectSignedIn()
-    if (!stayLoggedIn) {
-      await this.getLocator(this.page, 'Sign out', 'button').click()
-      await this.expectSignedIn(false)
+    
+    // Use admin client to create auto-confirmed user (industry standard for testing)
+    const { data, error } = await supabaseAdmin.auth.admin.createUser({
+      email: this.emailAddress,
+      password: this.passphrase,
+      email_confirm: true
+    })
+    
+    if (error) throw new Error(`Account setup failed: ${error.message}`)
+    
+    // If we want to stay logged in, sign in the user in the browser session
+    if (stayLoggedIn) {
+      await this.page.goto(this.baseUrl.toString())
+      await this.ensureLoginMethod('passphrase')
+      await this.getLocator(this.page, 'Email address', 'input').fill(this.emailAddress)
+      await this.getLocator(this.page, 'Passphrase', 'input').fill(this.passphrase)
+      await this.page.getByRole('button', { name:'Sign in', exact:true }).click()
+      await this.expectSignedIn()
     }
   }
 
@@ -422,9 +441,9 @@ Then('the screenshot {string} should match to within {float}%', async (world:Wor
   await world.expectScreenshotMatch(world.page, `${world.screenshotDir}/${name}${explodedTags}.png`, { maxDiffPercentage });
 })
 
-Then('the {string} {AriaRole} and (the ){string} {AriaRole} should be the same width', async (world:World, name1:string, role1:AriaRoleExtended, name2:string, role2:AriaRoleExtended) => {
-  let locator1 = world.getLocator(world.page, name1, role1)
-  let locator2 = world.getLocator(world.page, name2, role2)
+Then('the {string} {word} and (the ){string} {word} should be the same width', async (world:World, name1:string, role1:string, name2:string, role2:string) => {
+  let locator1 = world.getLocator(world.page, name1, role1 as AriaRoleExtended)
+  let locator2 = world.getLocator(world.page, name2, role2 as AriaRoleExtended)
   let width1 = (await locator1.boundingBox())?.width
   let width2 = (await locator2.boundingBox())?.width
   if (!width1 || !width2) throw new Error('Inputs not found')
