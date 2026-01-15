@@ -37,12 +37,12 @@
   <Options bind:providers bind:showOptions />
 {/if}
 
-<button class:hidden={showOptions} class="cursor-pointer fixed top-2 left-2" onclick={() => showOptions = true}><GearIcon width="32" height="32" /></button>
+<button class:hidden={showOptions} class="cursor-pointer fixed top-2 left-2" aria-label="Show options menu" onclick={() => showOptions = true}><GearIcon role="presentation" width="32" height="32" /></button>
 
 <div class="login-wrapper mx-auto w-120 max-w-full p-5">
   <div class="flex justify-end">
     {#each Object.keys(defaultTranslations) as lc}
-    <label class="flex items-center px-2 text-xs relative overflow-hidden cursor-pointer {locale == lc ? 'font-bold text-sky-500' : 'text-stone-500'}">
+    <label class="flex items-center px-2 text-xs relative overflow-hidden cursor-pointer {locale == lc ? 'font-bold text-sky-500' : 'text-stone-600 dark:text-stone-400'}">
       {languages?.[lc] || lc}
       <input class="absolute -ml-50" type="radio" name="locale" value={lc} bind:group={locale}>
     </label>

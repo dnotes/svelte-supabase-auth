@@ -12,9 +12,9 @@
 
 </script>
 
-<div class="max-w-full px-5 pb-5 fixed z-10 top-0 left-0 max-h-[calc(100vh-34px)] overflow-y-auto
+<div role="dialog" aria-label="Options" class="max-w-full px-5 pb-5 fixed z-10 top-0 left-0 max-h-[calc(100vh-34px)] overflow-y-auto
   bg-stone-700 prose prose-sm prose-stone prose-invert {showOptions ? 'w-48' : 'w-0'}" transition:fly={{ duration:170, x:-180, easing:quintIn }}>
-  <button class="absolute top-0 left-0 cursor-pointer" onclick={() => showOptions = false}><XIcon width="32" height="32"/></button>
+  <button class="absolute top-0 left-0 cursor-pointer" aria-label="Close options" onclick={() => showOptions = false}><XIcon role="presentation" width="32" height="32"/></button>
 
   <h3>Providers</h3>
   <p class="text-xs leading-tight italic">Only Google and GitHub really function, regardless of which are shown.</p>
