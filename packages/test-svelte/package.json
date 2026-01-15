@@ -15,13 +15,13 @@
 		"playwright-install-ci": "playwright install --with-deps"
 	},
 	"devDependencies": {
-		"@quickpickle/playwright": "^1.0",
+		"@quickpickle/playwright": "^1.2.1",
 		"@supabase/supabase-js": "^2.57.3",
 		"@sveltejs/adapter-auto": "^6.0.0",
 		"@sveltejs/kit": "^2.22.0",
 		"@sveltejs/vite-plugin-svelte": "^6.0.0",
 		"playwright": "^1.55.0",
-		"quickpickle": "^1.10.1",
+		"quickpickle": "^1.11.0",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
 		"typescript": "^5.0.0",
