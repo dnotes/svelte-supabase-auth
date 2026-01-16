@@ -188,21 +188,45 @@ from svelte-supabase-auth, or you can check out the full [options.ts] file.
 
 ### CSS Custom Properties
 
-The component uses CSS variables for easy theming:
+The component uses CSS variables for easy theming with automatic dark mode support:
 
 ```css
 .sA {
-  --flex-gap: 0.5em;
+  color-scheme: light dark;
+  
+  /* Colors - with automatic light/dark mode */
+  --primary: light-dark(hsl(141, 71%, 48%), hsl(141, 71%, 55%));
+  --primary-fg: white;
+  --border: light-dark(#e5e7eb, #374151);
+  --muted-fg: light-dark(#6b7280, #9ca3af);
+  --danger: light-dark(hsl(358, 86%, 58%), hsl(358, 86%, 65%));
+  --warning: light-dark(hsl(36, 100%, 44%), hsl(36, 100%, 55%));
+  --success: light-dark(hsl(141, 71%, 48%), hsl(141, 71%, 55%));
+  --link: currentColor; /* Inherits from parent */
+  --ring: var(--primary); /* Focus ring color */
+  
+  /* Layout */
+  --radius: 0.375rem;
   --input-padding: 5px 3px 5px 35px;
-  --link-color: blue;
-  --layout-color: #ccc;
-  --primary-color: hsl(141, 71%, 48%);
-  --primary-text-color: white;
-  --danger-color: hsl(358, 86%, 58%);
-  --warning-color: hsl(36, 100%, 44%);
-  --success-color: hsl(141, 71%, 48%);
+  --gap: 0.5em;
 }
 ```
+
+#### Customization Example
+
+```svelte
+<Auth 
+  {supabaseClient}
+  style="
+    --primary: purple;
+    --radius: 1rem;
+    --gap: 1rem;
+  "
+/>
+```
+
+The `light-dark()` CSS function automatically adapts colors based on the user's system preference.
+You can override any color with a simple value (hex, rgb, hsl, or named colors) and it will work in both light and dark modes.
 
 If you want more control than this, you can choose not to import the library's CSS file,
 which will avoid most of the styling related to colors, font sizes, etc., and will only have

@@ -18,7 +18,7 @@
     text-align: match-parent;
     border: none;
     background: none;
-    color: var(--link-color);
+    color: var(--link);
     font-size: 80%;
   }
   button.block {

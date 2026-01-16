@@ -153,15 +153,23 @@
     flex-direction: column;
   }
   :global(.sA) {
-    --flex-gap: .5em;
+    color-scheme: light dark;
+    
+    /* Colors */
+    --primary: light-dark(hsl(141, 71%, 48%), hsl(141, 71%, 55%));
+    --primary-fg: white;
+    --border: light-dark(#e5e7eb, #374151);
+    --muted-fg: light-dark(#6b7280, #9ca3af);
+    --danger: light-dark(hsl(358, 86%, 58%), hsl(358, 86%, 65%));
+    --warning: light-dark(hsl(36, 100%, 44%), hsl(36, 100%, 55%));
+    --success: light-dark(hsl(141, 71%, 48%), hsl(141, 71%, 55%));
+    --link: currentColor;
+    --ring: var(--primary);
+    
+    /* Layout */
+    --radius: 0.375rem;
     --input-padding: 5px 3px 5px 35px;
-    --link-color: blue;
-    --layout-color: #ccc;
-    --primary-color: hsl(141, 71%, 48%);
-    --primary-text-color: white;
-    --danger-color: hsl(358, 86%, 58%);
-    --warning-color: hsl(36, 100%, 44%);
-    --success-color: hsl(141, 71%, 48%);
+    --gap: 0.5em;
   }
   :global(.sA .message) {
     font-size: 78%;
@@ -173,39 +181,48 @@
     width: 100%;
     flex: 1;
     padding: var(--input-padding);
-    border: 1px solid var(--layout-color);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
   }
   :global(.sA form) {
     display: flex;
-    gap: var(--flex-gap);
+    gap: var(--gap);
     flex-direction: column;
   }
   :global(.sA .flex) {
     display: flex;
-    gap: var(--flex-gap);
+    gap: var(--gap);
   }
   :global(.sA ul li) {
     padding: .5em;
     margin: .5em 0;
     display: flex;
     align-items: center;
-    gap: var(--flex-gap);
+    gap: var(--gap);
   }
   :global(.sA ul li span) {
     flex: 1;
   }
   :global(.sA .danger), :global(.sA .error) {
-    color: var(--danger-color);
+    color: var(--danger);
   }
   :global(.sA .warning) {
-    color: var(--warning-color);
+    color: var(--warning);
   }
   :global(.sA h3) {
     margin: 0;
   }
 
+  /* Add focus styles */
+  :global(.sA button:focus-visible),
+  :global(.sA input:focus-visible),
+  :global(.sA [role="link"]:focus-visible) {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
   .divider {
-    color: var(--layout-color);
+    color: var(--muted-fg);
     width: 100%;
     align-items: center;
     white-space: nowrap;
@@ -213,12 +230,11 @@
   }
 
   .divider span {
-    margin: var(--flex-gap);
+    margin: var(--gap);
   }
 
   .divider::before, .divider::after {
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
+    border-bottom: 1px solid var(--border);
     top: 50%;
     content: '';
     position: relative;

@@ -404,12 +404,12 @@
   .sA-authenticated-view {
     display: flex;
     flex-direction: column;
-    gap: .5em;
+    gap: var(--gap);
     padding: 1em;
   }
   hr {
     margin: 1em 0;
-    color: var(--layout-color);
+    color: var(--border);
     border-width: 1px;
     border-style: dashed;
     opacity: 0.5;

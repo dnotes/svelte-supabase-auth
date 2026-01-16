@@ -4,21 +4,21 @@
 @theme {
   /* Configure consistent fonts for all environments */
   --font-sans: 'Noto Sans', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-
-  /* Standardize focus ring appearance */
-  --color-blue-500: #3b82f6;
-
-  /* Override default focus ring styles */
-  --ring-offset-width: 2px;
-  --ring-width: 2px;
-  --ring-color: var(--color-blue-500);
+  --color-link: light-dark(var(--color-sky-700), var(--color-sky-300));
+  --color-fg: light-dark(var(--color-stone-50), var(--color-stone-900));
+  --color-muted: light-dark(var(--color-stone-600), var(--color-stone-400));
+  --color-primary: var(--color-sky-700);
+  --color-primary-fg: var(--color-stone-50);
 }
 
-/* Ensure consistent focus styling across all browsers */
-*:focus {
-  @apply ring-2 ring-blue-500 outline-none;
+body, div.sA {
+  color-scheme: light dark;
+  --link: var(--color-link);
+  --border: var(--color-muted);
+  --primary: var(--color-sky-700);
+  --primary-fg: var(--color-stone-50);
 }
 
-*:focus-visible {
-  @apply ring-2 ring-blue-500 outline-none;
+a {
+  color: var(--link);
 }

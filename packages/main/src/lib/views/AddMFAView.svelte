@@ -163,20 +163,20 @@
 
 <style>
   .mfa-secret-container {
-    margin: .5em 0;
+    margin: var(--gap) 0;
     text-align: center;
   }
   .mfa-secret, .mfa-secret-hidden {
     font-family: monospace;
     text-align: center;
-    margin: .5em 0;
+    margin: var(--gap) 0;
     line-height: 1;
-    padding: .5em;
-    border-radius: 4px;
+    padding: var(--gap);
+    border-radius: var(--radius);
     word-break: break-all;
   }
   .mfa-secret-hidden {
-    color: var(--layout-color);
+    color: var(--muted-fg);
   }
   img {
     display: block;

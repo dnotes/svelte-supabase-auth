@@ -42,7 +42,7 @@
 <div class="login-wrapper mx-auto w-120 max-w-full p-5">
   <div class="flex justify-end">
     {#each Object.keys(defaultTranslations) as lc}
-    <label class="flex items-center px-2 text-xs relative overflow-hidden cursor-pointer {locale == lc ? 'font-bold text-sky-500' : 'text-stone-600 dark:text-stone-400'}">
+    <label class="flex items-center px-2 text-xs relative overflow-hidden cursor-pointer {locale == lc ? 'font-bold text-link' : 'text-muted'}">
       {languages?.[lc] || lc}
       <input class="absolute -ml-50" type="radio" name="locale" value={lc} bind:group={locale}>
     </label>
@@ -67,22 +67,3 @@
     </Auth>
   </div>
 </div>
-
-<style lang="postcss">
-  @reference "tailwindcss";
-
-  @media (min-height: 800px) {
-    div.login-wrapper {
-      @apply mt-24;
-    }
-  }
-
-  :global(div.sA) {
-    --link-color: var(--color-sky-500);
-    --layout-color: var(--color-stone-500);
-    --primary-color: var(--color-sky-500);
-    --primary-text-color: var(--color-stone-50);
-    --danger-color: var(--color-rose-500);
-  }
-
-</style>

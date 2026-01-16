@@ -34,16 +34,16 @@
 <style>
   div.accordion {
     display: flex;
-    border-left: 2px solid var(--border-color);
+    border-left: 2px solid var(--border);
   }
   div.spacer {
-    width: var(--flex-gap);
+    width: var(--gap);
   }
   div.flex {
     flex: 1;
     flex-direction: column;
     transition: height 0.3s ease-in-out;
-    margin: var(--flex-gap) 0;
+    margin: var(--gap) 0;
   }
   div.hidden {
     height:0 !important;
