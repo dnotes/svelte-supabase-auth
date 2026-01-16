@@ -94,6 +94,15 @@ Feature: Default config, email login
     And I click the "Send link" button
     Then I should see an "email address: invalid format" message
 
+  Rule: Passphrase resets must work
+    
+    Scenario: Existing account with a passphrase
+      Given I have an existing account
+      When I click the "Reset your passphrase" link
+      And I enter my email address
+      And I click the "Reset your passphrase" button
+      Then I should see "Check your email for the passphrase reset link"
+
   @config
   Rule: Configurations should be handled gracefully
 

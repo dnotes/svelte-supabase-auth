@@ -268,7 +268,7 @@ Given('I have an existing account', async (world:World) => {
   await world.setupAccount()
 })
 
-Given('I am signed in with an existing account', async (world:World) => {
+Given('I am signed/logged in with an existing account', async (world:World) => {
   await world.setupAccount(true)
 })
 
@@ -296,6 +296,10 @@ Given('I enter a new email address', async (world:World) => {
 
 Given('I load the web component', async (world:PlaywrightWorld) => {
   await world.page.goto('file://' + path.join(__dirname, '../static/webcomponent-umd.html'))
+})
+
+When('I enter my email address', async (world:World) => {
+  await world.getLocator(world.page, 'Email address', 'input').fill(world.emailAddress)
 })
 
 When(`I enter a (pwned )passphrase of {int} characters`, async (world:World, length:number) => {

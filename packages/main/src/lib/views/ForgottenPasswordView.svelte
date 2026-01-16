@@ -37,7 +37,7 @@
   <Wrapper name="email" label={getText('emailLabel')} icon="mail">
     <input type="email" name="email" bind:value={$email} use:autofocus>
   </Wrapper>
-  <Button block primary size="large" {loading} icon="inbox">
+  <Button block primary submit size="large" {loading} icon="inbox">
     {getText('resetPassword')}
   </Button>
 
