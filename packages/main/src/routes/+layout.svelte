@@ -20,7 +20,7 @@
 		{@render children()}
 	</main>
 	<footer class="h-8 flex-shrink-0 flex gap-4 items-center justify-end w-full px-5 text-xs bg-stone-200 dark:bg-stone-800 text-stone-600 dark:text-stone-400">
-		<a href="https://npmjs.com/package/svelte-supabase-auth">Svelte Supabase Auth v{version}</a>
+		<h1><a href="https://npmjs.com/package/svelte-supabase-auth">Svelte Supabase Auth v{version}</a></h1>
 		<div class="flex-grow"></div>
 		<a href="/">login</a>
 		<a href="/about">about</a>
