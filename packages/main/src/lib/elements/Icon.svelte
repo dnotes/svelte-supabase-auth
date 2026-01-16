@@ -13,6 +13,7 @@
   <svg
     width={size}
     height={size}
+    role="presentation"
     viewBox={(iconData as any)[name]?.viewbox ?? '0 0 24 24'}
     xmlns="http://www.w3.org/2000/svg"
   >
