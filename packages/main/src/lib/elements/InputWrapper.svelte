@@ -18,7 +18,7 @@
 </script>
 
 <div class="sA-field">
-  <label>
+  <label id={name}>
     <span>{label}</span>
 
     <span class="input">

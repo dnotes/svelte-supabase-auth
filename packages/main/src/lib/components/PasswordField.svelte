@@ -97,11 +97,11 @@
     {#if isNull(val)}
       <Icon name="circledashed" />
     {:else if !val}
-      <span style="color: var(--success-color);">
+      <span style="color: var(--success);">
         <Icon name="circlecheck" />
       </span>
     {:else}
-      <span style="color: var(--danger-color);">
+      <span style="color: var(--danger);">
         <Icon name="circlealert" />
       </span>
     {/if}
@@ -116,7 +116,7 @@
       <Icon name="eyeoff" size="14" />
     {/if}
   </LinkButton>
-  <input type="{showPassword ? 'text' : 'password'}" aria-label={getText('pwLabel')} bind:value oninput={handleInput}>
+  <input type="{showPassword ? 'text' : 'password'}" aria-labelledby="password" bind:value oninput={handleInput}>
 </div>
 <div class="pw-strength">
   {#if feedback}
