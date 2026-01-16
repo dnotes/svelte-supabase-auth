@@ -29,6 +29,10 @@ const qpConfig:Partial<QuickPickleConfig> = {
 			],
 			maskColor: 'violet',
 		},
+		accessibilityExcludes: [
+			'button.danger span',
+			'.message.error',
+		]
 	}
 }
 
