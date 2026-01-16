@@ -17,6 +17,11 @@ body, div.sA {
   --border: var(--color-muted);
   --primary: var(--color-sky-700);
   --primary-fg: var(--color-stone-50);
+  --warning: light-dark(var(--color-stone-950), var(--color-amber-300));
+}
+
+.warning {
+  background-color: light-dark(var(--color-amber-300), transparent);
 }
 
 a {

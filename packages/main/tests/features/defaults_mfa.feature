@@ -16,6 +16,21 @@ Feature: Default config, MFA
     And I open the MFA panel
     Then I should see an MFA token named "default"
 
+  Scenario: Baseline accessibility
+    Then all accessibility tests should pass
+    When I click "add a new MFA token"
+    Then all accessibility tests should pass
+    When for "name" I enter "default"
+    And I click "Generate new token"
+    Then all accessibility tests should pass
+    When I save the TOTP named "default"
+    Then all accessibility tests should pass
+    When I verify the "default" TOTP code
+    Then all accessibility tests should pass
+    When I open the MFA panel
+    Then I should see an MFA token named "default"
+    And all accessibility tests should pass
+
   Scenario: Canceling MFA creation
     When I click "add a new MFA token"
     And for "name" I enter "default"
@@ -45,6 +60,7 @@ Feature: Default config, MFA
     And I am not signed in
     When I sign in with <method>
     Then I should see an MFA challenge
+    And all accessibility tests should pass
     When I verify the "default" code
     Then I should be signed in
 
