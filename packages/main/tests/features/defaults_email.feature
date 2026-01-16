@@ -5,13 +5,16 @@ Feature: Default config, email login
     Given the default configuration
     And no providers
 
-  @mobile
+  @mobile @light @dark
   Scenario: Visual regression for login form with no providers
     Then the screenshot "defaults_login-with-passphrase" should match to within 2%
+    And all accessibility tests should pass
 
+  @mobile @light @dark
   Scenario: Visual regression for login form with link only
     When I click "Sign in with an email link"
     Then the screenshot "defaults_login-with-link" should match to within 2%
+    And all accessibility tests should pass
 
   Scenario: The main fields show
     Then I should see an "Email address" input

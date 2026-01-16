@@ -10,6 +10,7 @@ const qpConfig:Partial<QuickPickleConfig> = {
 	// General quickpickle configuration
 	explodeTags: [
 		['nojs','js'],
+		['light','dark'],
 		['chromium','firefox','webkit'],
 		['mobile','tablet','desktop','widescreen'],
 	],
