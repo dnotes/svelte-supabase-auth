@@ -50,7 +50,7 @@
   </div>
   <div class="py-6 px-3 m-4 shadow-md rounded-lg bg-stone-200 dark:bg-stone-800">
     <Auth {supabaseClient} {locale} {providers} {authOptions}>
-      {#snippet signedInAs(user)}
+      {#snippet userInfo(user)}
         <div class="prose prose-sm prose-stone dark:prose-invert prose-p:leading-tight">
           <h2>You are signed in!</h2>
           <p>

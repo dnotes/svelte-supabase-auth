@@ -22,12 +22,11 @@
     supabaseClient: SupabaseClient
     locale?: string
     providers?: Provider[]
-    signedInAs?: Snippet<[User|null]>|undefined
     getText: (key: keyof AuthTexts, params?: Record<string, any>) => string
     userInfo?: Snippet<[User|null]>
   }
 
-  let { InputWrapper: Wrapper, supabaseClient, signedInAs, providers, getText, locale, userInfo }: Props = $props()
+  let { InputWrapper: Wrapper, supabaseClient, providers, getText, locale, userInfo }: Props = $props()
 
   let loading = $state(false)
   let mfaRequired = $state(false)
@@ -270,8 +269,8 @@
 {:else}
   <!-- User is fully authenticated -->
     <div class="sA-user-info">
-      {#if signedInAs}
-        {@render signedInAs($user)}
+      {#if userInfo}
+        {@render userInfo($user)}
       {:else}
         <p dir="auto">
           {getText('signedIn')}
@@ -287,10 +286,6 @@
         </p>
       {/if}
     </div>
-
-    {#if userInfo}
-      {@render userInfo($user)}
-    {/if}
 
     <!-- Account Security -->
     <Accordion title={getText('accountSecurityHeading')}>

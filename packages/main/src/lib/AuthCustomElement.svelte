@@ -9,9 +9,11 @@
       socialButtonSize: { reflect: true, type: 'String', attribute: 'social-button-size' },
       providers: { reflect: true, type: 'String' },
       initialView: { reflect: true, type: 'String', attribute: 'initial-view' },
+      activeView: { reflect: true, type: 'String', attribute: 'active-view' },
       locale: { reflect: true, type: 'String' },
       authOptions: { reflect: true, type: 'String', attribute: 'auth-options' },
       texts: { reflect: true, type: 'String' },
+      hideUserInfo: { type: 'Boolean', attribute: 'hide-user-info' },
       // property-only (not reflected): allows DI of an existing Supabase client
       supabaseClient: {}
     }
@@ -22,7 +24,7 @@
   import type { SupabaseClient, Provider } from '@supabase/supabase-js'
   import { type AuthTexts } from './i18n'
   import { type PartialSupabaseAuthOptions } from './options'
-  import { type SignInView } from './stores.svelte'
+  import { type ActiveView, type SignInView } from './stores.svelte'
 
   // Custom element props interface - simplified for web component usage
   export interface AuthCustomElementProps {
@@ -34,9 +36,11 @@
     socialButtonSize?: 'tiny' | 'small' | 'medium' | 'large'
     providers?: string // JSON string of Provider[]
     initialView?: SignInView
+    activeView?: ActiveView
     locale?: string
     authOptions?: string // JSON string of PartialSupabaseAuthOptions
     texts?: string // JSON string of Partial<AuthTexts>
+    hideUserInfo?: boolean
     supabaseClient?: SupabaseClient | null
   }
 </script>
@@ -54,9 +58,11 @@
     socialButtonSize = 'medium',
     providers = '[]',
     initialView = 'sign_in_with_password',
+    activeView = $bindable('loading'),
     locale = 'en',
     authOptions = '{}',
     texts = '{}',
+    hideUserInfo = false,
     // Optional injected client; if provided we will use it instead of creating our own
     supabaseClient: injectedSupabaseClient = null,
   }: AuthCustomElementProps = $props()
@@ -90,7 +96,6 @@
   const client = $derived(() => {
     if (injectedSupabaseClient) return injectedSupabaseClient
     if (!supabaseUrl || !supabaseAnonKey) {
-      console.error('supabase-auth: supabaseUrl and supabaseAnonKey are required')
       return null
     }
     return createClient(supabaseUrl, supabaseAnonKey)
@@ -98,19 +103,25 @@
 
 </script>
 
-<div dir="auto" class="sA {classes}" {style}>
-  {#if !client()}
-    <div class="sA-error">Error: supabaseUrl and supabaseAnonKey are required</div>
-  {:else}
-    <Auth
-      supabaseClient={client()!}
-      socialLayout={socialLayout}
-      socialButtonSize={socialButtonSize}
-      providers={parsedProviders()}
-      authOptions={parsedAuthOptions()}
-      texts={parsedTexts()}
-      initialView={initialView}
-      locale={locale}
-    />
-  {/if}
-</div>
+{#snippet noSnippet()}
+  <div style="display: none;"></div>
+{/snippet}
+
+{#if !client()}
+  <div class="sA-error {classes}" style={style}>Error: Supabase client could not be created. Please check supabaseUrl and supabaseAnonKey.</div>
+{:else}
+  <Auth
+    supabaseClient={client()!}
+    socialLayout={socialLayout}
+    socialButtonSize={socialButtonSize}
+    providers={parsedProviders()}
+    authOptions={parsedAuthOptions()}
+    texts={parsedTexts()}
+    initialView={initialView}
+    bind:activeView
+    userInfo={hideUserInfo ? noSnippet : undefined}
+    locale={locale}
+    class={classes}
+    style={style}
+  />
+{/if}

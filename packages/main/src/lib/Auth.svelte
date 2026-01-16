@@ -4,7 +4,7 @@
   import { type AuthTexts } from './i18n'
   import InputWrapper from './elements/InputWrapper.svelte'
   import { SUPABASE_AUTH_DEFAULTS, type PartialSupabaseAuthOptions, type SupabaseAuthOptions } from './options'
-  import { type SignInView } from './stores.svelte'
+  import { type ActiveView, type SignInView } from './stores.svelte'
 
   // Auth component props interface
   export interface AuthProps {
@@ -15,10 +15,10 @@
     socialColors?: boolean
     socialButtonSize?: 'tiny' | 'small' | 'medium' | 'large'
     providers?: Provider[]
-    signedInAs?: Snippet<[User|null]>
     userInfo?: Snippet<[User|null]>
     authOptions?: PartialSupabaseAuthOptions
     initialView?: SignInView
+    activeView?: ActiveView
 
     // Components
     InputWrapper?: typeof InputWrapper
@@ -51,7 +51,7 @@
     socialButtonSize = 'medium',
     providers = [],
     initialView = 'sign_in_with_password',
-    signedInAs,
+    activeView = $bindable('loading'),
     userInfo,
     InputWrapper:Wrapper,
     authOptions,
@@ -93,26 +93,31 @@
     return () => subscription.unsubscribe()
   })
 
+  $effect(() => {
+    if (!$saOptions.auth || $saOptions.auth.enabled === false || (!providers.length && (!$saOptions.auth.email || $saOptions.auth.email.enabled === false))) activeView = 'no_auth_methods'
+    else if ($user && !$user.is_anonymous) activeView = 'authenticated'
+    else if ($emailLinkSent) activeView = 'email_link_sent'
+    else if (loading) activeView = 'loading'
+    else activeView = $signInView
+  })
+
 </script>
 
 <div dir="auto" class="sA {classes}" {style}>
-  {#if !$saOptions.auth || $saOptions.auth.enabled === false}
+  {#if activeView == 'no_auth_methods'}
     <p>{getText('noAuthMethods')}</p>
-  {:else if $user && !$user.is_anonymous}
+  {:else if activeView == 'authenticated'}
     <AuthenticatedView
       InputWrapper={Wrapper ?? InputWrapper}
       {supabaseClient}
-      {signedInAs}
       {providers}
       {getText}
       {locale}
       {userInfo}
     />
-  {:else if !providers.length && (!$saOptions.auth.email || $saOptions.auth.email.enabled === false)}
-    <p>{getText('noAuthMethods')}</p>
-  {:else if $emailLinkSent}
+  {:else if activeView == 'email_link_sent'}
     <EmailLinkSentView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {getText} />
-  {:else if loading}
+  {:else if activeView == 'loading'}
     <div class="sA-loading"></div>
   {:else}
     {#if providers.length}
