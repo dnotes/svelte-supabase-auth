@@ -7,13 +7,13 @@ Feature: Default config, email login
 
   @mobile @light @dark
   Scenario: Visual regression for login form with no providers
-    Then the screenshot "defaults_login-with-passphrase" should match to within 2%
+    Then the screenshot "defaults_login-with-passphrase" should match to within 1%
     And all accessibility tests should pass
 
   @mobile @light @dark
   Scenario: Visual regression for login form with link only
     When I click "Sign in with an email link"
-    Then the screenshot "defaults_login-with-link" should match to within 2%
+    Then the screenshot "defaults_login-with-link" should match to within 1%
     And all accessibility tests should pass
 
   Scenario: The main fields show
@@ -33,10 +33,12 @@ Feature: Default config, email login
     Then I should see a "data breach" error
     And the "Passphrase" input and the "Email address" input should be the same width
 
+  @mobile @light @dark
   Scenario: When a passphrase is entered, the sign up button shows
     When I enter the passphrase "123456"
     Then I should see a "Sign up" button
-    And the screenshot "defaults_email-with-passphrase" should match to within 2%
+    And the screenshot "defaults_email-with-passphrase" should match to within 1%
+    And all accessibility tests should pass
 
   Scenario: The signup button shows only when needed
     When I enter a new email address
@@ -70,10 +72,11 @@ Feature: Default config, email login
     When I click the link in the email
     Then I should be signed in
 
-  @mobile
+  @mobile @light @dark
   Scenario: Existing account
     Given I have an existing account
-    Then the screenshot "defaults_login-with-passphrase" should match to within 2%
+    Then the screenshot "defaults_login-with-passphrase" should match to within 1%
+    And all accessibility tests should pass
 
   Scenario Outline: Signing in with <method>
     Given I have an existing account
