@@ -23,10 +23,11 @@ const qpConfig:Partial<QuickPickleConfig> = {
 		defaultBrowserSize: 'mobile',
 		stepTimeout: 2000,
 		screenshotOptions: {
+			resizeEnabled: true,
 			mask: [
 				'span.icon',
 			],
-	      	maskColor: 'violet',
+			maskColor: 'violet',
 		},
 	}
 }

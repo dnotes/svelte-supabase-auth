@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="./webcomponent-page.css">
 </head>
 <body>
-    <div class="container config-section">
+
+    <header class="container config-section">
+        <h1>Supabase Auth UMD Web Component Test Page</h1>
         <p>
             This page demonstrates the use of the Supabase Auth web component in a plain HTML document.
             It is configured to use a default local Supabase project. You can set it to interact with
@@ -24,9 +26,9 @@
             </label>
             <button onclick="updateConfig()">Update Configuration</button>
         </div>
-    </div>
+    </header>
 
-    <div class="container auth-container">
+    <main class="container auth-container">
         <div class="auth-section">
 
             <supabase-auth
@@ -38,8 +40,7 @@
             ></supabase-auth>
 
         </div>
-
-    </div>
+    </main>
 
     <!-- Load Supabase client library (always from CDN) -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
