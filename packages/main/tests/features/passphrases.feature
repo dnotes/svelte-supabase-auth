@@ -15,6 +15,7 @@ Feature: Passphrases
     When I click "Sign up"
     Then I should see an "at least 15 characters" error
     And I should see a "data breach" error
+    And all accessibility tests should pass
 
 
   Scenario: Passphrases are checked against HIBP at signup

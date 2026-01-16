@@ -31,6 +31,7 @@ const qpConfig:Partial<QuickPickleConfig> = {
 		},
 		accessibilityExcludes: [
 			'button.danger span',
+			'p.danger',
 			'.message.error',
 		]
 	}
