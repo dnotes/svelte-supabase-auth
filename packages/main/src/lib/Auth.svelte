@@ -188,7 +188,18 @@
     padding: var(--input-padding);
     border: 1px solid var(--border);
     border-radius: var(--radius);
+    font-size: .875rem;
+    line-height: 1.25rem;
+    font-weight: 300;
+    background: transparent;
+    box-sizing: border-box;
   }
+  :global(.sA label) {
+    font-weight: 500;
+    font-size: .875rem;
+    line-height: 1.25rem;
+  }
+
   :global(.sA form) {
     display: flex;
     gap: var(--gap);
@@ -204,6 +215,9 @@
     display: flex;
     align-items: center;
     gap: var(--gap);
+    font-size: 90%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
   }
   :global(.sA ul li span) {
     flex: 1;
@@ -214,6 +228,13 @@
   :global(.sA .warning) {
     color: var(--warning);
   }
+  :global(.sA .success) {
+    color: var(--success);
+  }
+  :global(.sA .primary .icon) {
+    color: var(--primary-fg);
+  }
+
   :global(.sA h3) {
     margin: 0;
   }
@@ -226,11 +247,19 @@
     outline-offset: 2px;
   }
 
+  :global(.sA label:has(input:focus) .icon),
+  :global(.sA label:has(input:active) .icon) {
+    color: inherit;
+  }
+
+
   .divider {
     color: var(--muted-fg);
     width: 100%;
     align-items: center;
     white-space: nowrap;
+    font-size: 80%;
+    color: var(--muted-fg);
     font-size: 80%;
   }
 
@@ -245,6 +274,8 @@
     position: relative;
     display: inline-block;
     width: 50%;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
   }
 
 </style>

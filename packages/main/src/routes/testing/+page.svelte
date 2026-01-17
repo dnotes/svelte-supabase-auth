@@ -25,7 +25,7 @@
 
 {#if browser}
 
-<div class="mx-auto mt-6 w-120 max-w-full p-5">
+<div class="mx-auto mt-6 w-120 max-w-full p-5 login-wrapper">
   <div class="py-6 px-3 m-4 shadow-md rounded-lg bg-stone-200 dark:bg-stone-800">
     <Auth {supabaseClient} {providers} {authOptions} />
   </div>

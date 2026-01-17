@@ -12,7 +12,6 @@
   import { languages } from './languages'
   import GearIcon from 'virtual:icons/lucide/settings'
   import Options from './Options.svelte';
-	import '$lib/supabase-auth.css';
 
   let locale = $state('en')
 

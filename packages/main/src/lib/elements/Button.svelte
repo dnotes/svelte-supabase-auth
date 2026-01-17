@@ -61,6 +61,16 @@
     position: relative;
     padding: 0.2rem 0.5rem;
     cursor: pointer;
+    color: inherit;
+    background: none;
+    border-color: var(--border);
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    text-align: center;
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-weight: inherit;
   }
 
   button.large {
@@ -68,6 +78,8 @@
     padding-bottom: 0.5rem;
     padding-left: 1rem;
     padding-right: 1rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 
   button.medium {
@@ -75,6 +87,8 @@
     padding-bottom: 0.5rem;
     padding-left: 1rem;
     padding-right: 1rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 
   button.block {
@@ -83,4 +97,32 @@
     justify-content: center;
     width: 100%;
   }
+
+  button.primary {
+    background: var(--primary);
+    border-color: transparent;
+    color: var(--primary-fg);
+  }
+  button:is([onclick]) {
+    cursor: pointer;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--link);
+  }
+
+  button:hover .icon,
+  button:focus .icon,
+  button:active .icon {
+    color: inherit;
+  }
+
+  button:disabled {
+    opacity: 0.4;
+  }
+
+  button.primary .icon {
+    color: var(--primary-fg);
+  }
+
+
 </style>

@@ -37,7 +37,7 @@ Feature: Default config, email login
   Scenario: When a passphrase is entered, the sign up button shows
     When I enter the passphrase "123456"
     Then I should see a "Sign up" button
-    And the screenshot "defaults_email-with-passphrase" should match to within 1%
+    And the screenshot "defaults_signup-with-passphrase" should match to within 1%
     And all accessibility tests should pass
 
   Scenario: The signup button shows only when needed
