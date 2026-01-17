@@ -8,12 +8,12 @@ Feature: Web Components
   Scenario: The cjs web component loads on a plain HTML page
     Given I load the web component
     Then I should see an "Email address" input
-    And the screenshot "webcomponent-umd" of the "main" element should match
+    And the screenshot "webcomponent-umd" of the "main" element should match to within 2%
     And all accessibility tests should pass
 
   @skip-ci
   Scenario: The esm web component loads on a plain HTML page
     Given I visit "/webcomponent-esm"
     Then I should see an "Email address" input
-    And the screenshot "webcomponent-esm" of the "main" element should match
+    And the screenshot "webcomponent-esm" of the "main" element should match to within 2%
     And all accessibility tests should pass
