@@ -4,6 +4,7 @@
   import type { AuthTexts } from '../i18n'
   import { messages } from '$lib/messages.svelte';
   import { providerList } from '$lib/providers'
+  import { getRedirect } from '$lib/stores.svelte';
 
   interface Props {
     supabaseClient: SupabaseClient
@@ -24,10 +25,20 @@
     loading = true
 
     if (isLinking) {
-      const { error: linkError } = await supabaseClient.auth.linkIdentity({ provider })
+      const { error: linkError } = await supabaseClient.auth.linkIdentity({ 
+        provider, 
+        options: {
+          redirectTo: getRedirect()
+        }
+      })
       if (linkError) messages.add('error', linkError.message)
     } else {
-      const { error: signInError } = await supabaseClient.auth.signInWithOAuth({ provider })
+      const { error: signInError } = await supabaseClient.auth.signInWithOAuth({ 
+        provider, 
+        options: {
+          redirectTo: getRedirect()
+        }
+      })
       if (signInError) messages.add('error', signInError.message)
     }
     loading = false

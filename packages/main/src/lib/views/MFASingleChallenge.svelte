@@ -4,7 +4,7 @@
   import CodeField from '../components/CodeField.svelte'
   import type { AuthMFAChallengeResponse, Factor, SupabaseClient } from '@supabase/supabase-js'
   import type { AuthTexts } from '../i18n'
-  import { onDestroy, onMount } from 'svelte'
+  import { onDestroy } from 'svelte'
   import { messages } from '../messages.svelte'
 
   interface Props {

@@ -5,7 +5,7 @@
   import type { AuthTexts } from '../i18n'
   import InputWrapper from '$lib/elements/InputWrapper.svelte';
   import { messages } from '$lib/messages.svelte';
-  import { emailLinkSent, saOptions, signInView, email } from '$lib/stores.svelte';
+  import { emailLinkSent, saOptions, signInView, email, getRedirect } from '$lib/stores.svelte';
   import { autofocus } from '$lib/utils/autofocus.svelte';
   import { tick } from 'svelte';
   import PasswordField from '$lib/components/PasswordField.svelte';
@@ -45,7 +45,7 @@
     const { error: err } = await supabaseClient.auth.signInWithOtp({
       email: $email,
       options: {
-        emailRedirectTo: `${window.location.origin}${window.location.pathname}${window.location.search}`
+        emailRedirectTo: getRedirect()
       }
     })
 
@@ -74,7 +74,9 @@
       }
 
       const { data, error: err } = await supabaseClient.auth.signUp({
-        email: $email, password
+        email: $email, password, options: {
+          emailRedirectTo: getRedirect()
+        }
       })
 
       if (err || !data.user) messages.add('error', err?.message ?? getText('error'))

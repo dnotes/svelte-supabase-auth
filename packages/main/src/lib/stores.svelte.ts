@@ -1,4 +1,4 @@
-import { writable, type Writable } from "svelte/store";
+import { writable, type Readable, type Writable } from "svelte/store";
 import type { User } from "@supabase/supabase-js";
 import type { SupabaseAuthOptions } from "./options";
 
@@ -40,3 +40,9 @@ export const socialSettings:Writable<SocialSettings> = writable({
   socialLayout: 'vertical',
   socialButtonSize: 'medium',
 })
+
+export function getRedirect() {
+  return typeof window !== 'undefined' && window.location 
+    ? `${window.location.origin}${window.location.pathname}${window.location.search}` 
+    : ''
+}

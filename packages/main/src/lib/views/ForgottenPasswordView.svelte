@@ -5,7 +5,7 @@
   import type { AuthTexts } from '../i18n'
   import InputWrapper from '$lib/elements/InputWrapper.svelte';
   import { messages } from '$lib/messages.svelte';
-  import { signInView, email } from '$lib/stores.svelte';
+  import { signInView, email, getRedirect } from '$lib/stores.svelte';
   import { autofocus } from '$lib/utils/autofocus.svelte';
 
   interface Props {
@@ -22,7 +22,9 @@
     messages.clear()
     loading = true
 
-    const { error: err } = await supabaseClient.auth.resetPasswordForEmail($email)
+    const { error: err } = await supabaseClient.auth.resetPasswordForEmail($email, {
+      redirectTo: getRedirect()
+    })
 
     if (err)
       messages.add('error', err.message)

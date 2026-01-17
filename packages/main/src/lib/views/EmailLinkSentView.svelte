@@ -6,7 +6,7 @@
   import InputWrapper from '$lib/elements/InputWrapper.svelte';
   import CodeField from '../components/CodeField.svelte';
   import { messages } from '$lib/messages.svelte';
-  import { emailLinkSent, saOptions } from '$lib/stores.svelte';
+  import { emailLinkSent, getRedirect, saOptions } from '$lib/stores.svelte';
 
   interface Props {
     InputWrapper: typeof InputWrapper
@@ -59,7 +59,12 @@
     resendLoading = true
 
     try {
-      const { error } = await supabaseClient.auth.signInWithOtp({ email: $emailLinkSent.email })
+      const { error } = await supabaseClient.auth.signInWithOtp({ 
+        email: $emailLinkSent.email, 
+        options: {
+          emailRedirectTo: getRedirect()
+        }
+      })
 
       if (error) {
         messages.add('error', error.message)
