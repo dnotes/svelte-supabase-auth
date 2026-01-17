@@ -234,7 +234,7 @@ class World extends PlaywrightWorld {
     let panels = [
       'Account security',
       'Multi-factor authentication (MFA)',
-      'Providers',
+      'Linked accounts',
     ]
     let fullText = panels.find(p => p.match(new RegExp(panel, 'i')))
     let locator = this.getLocator(this.page, `+ ${fullText}`, 'link')
@@ -452,6 +452,15 @@ Then('the {string} {word} and (the ){string} {word} should be the same width', a
   let width2 = (await locator2.boundingBox())?.width
   if (!width1 || !width2) throw new Error('Inputs not found')
   expect(width1).toBe(width2)
+})
+
+Then('I screenshot {string}', async(world:World, name:string, identifier:string, role:string) => {
+  world.worldConfig.screenshotOptions = {
+    mask: [],
+  }
+  // set the browser viewport size
+  await world.page.setViewportSize({ width:500, height:2000 })
+  await world.screenshot({ name, locator:world.page.locator('.login-wrapper') })
 })
 
 Before(async (world:World) => {
