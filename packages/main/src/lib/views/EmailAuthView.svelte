@@ -99,9 +99,11 @@
 
 {#snippet emailLinks()}
   {#if !usePassword}
-    <LinkButton onclick={() => { $signInView = 'sign_in_with_password'; focus('password') }}>
-      {getText('switchToPassword')}
-    </LinkButton>
+    {#if $signInView !== 'forgotten_password'}
+      <LinkButton onclick={() => { $signInView = 'sign_in_with_password'; focus('password') }}>
+        {getText('switchToPassword')}
+      </LinkButton>
+    {/if}
   {:else}
     <LinkButton onclick={() => { $signInView = 'sign_in'; focus('email') }}>
       {getText('switchToMagicLink')}
@@ -131,6 +133,10 @@
     <Wrapper name="password" label={getText('pwLabel')} icon="key" links={resetPasswordLink}>
       <PasswordField {feedback} bind:isGood bind:value={password} bind:validate {getText} />
     </Wrapper>
+  {/if}
+
+  {#if $signInView === 'forgotten_password'}
+    <p class="message">{getText('resetPasswordLabel')}</p>
   {/if}
 
   {#if !usePassword || !password.trim().length}

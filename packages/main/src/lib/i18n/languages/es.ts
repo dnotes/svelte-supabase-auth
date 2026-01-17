@@ -19,6 +19,7 @@ export const spanishTranslations: AuthTexts = {
   pwConfirmLabel: 'Confirmar frase de contraseña',
   sendLink: 'Enviar enlace',
   resetPassword: 'Restablecer frase de contraseña',
+  resetPasswordLabel: 'Para restablecer tu frase de contraseña, inicia sesión con el enlace o código enviado a tu correo electrónico y luego cámbiala a través de la configuración de seguridad de la cuenta.',
 
   // Password confirmation
   pwLength: 'Tu frase de contraseña debe tener al menos {min} caracteres.',
@@ -38,7 +39,6 @@ export const spanishTranslations: AuthTexts = {
 
   // Messages
   emailLinkSent: 'Enlace de inicio enviado a {email}.',
-  resetPasswordSent: 'Revisa tu correo electrónico para el enlace de restablecimiento de frase de contraseña',
   error: 'Ocurrió un error. ({error})',
   networkError: 'Debido a un error de red o servidor, no se pudo completar tu inicio de sesión. Inténtalo de nuevo o recarga esta página. ({error})',
   invalidCodeError: 'Código inválido. Verifica e inténtalo de nuevo.',

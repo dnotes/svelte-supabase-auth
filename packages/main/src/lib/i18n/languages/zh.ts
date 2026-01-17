@@ -20,6 +20,7 @@ export const chineseTranslations: AuthTexts = {
   pwConfirmLabel: '确认密码短语',
   sendLink: '发送链接',
   resetPassword: '重置密码短语',
+  resetPasswordLabel: '要重置您的密码短语，请使用发送到您邮箱的链接或代码登录，然后通过账户安全设置进行更改。',
 
   // Password confirmation
   pwLength: '您的密码短语必须至少包含 {min} 个字符。',
@@ -39,7 +40,6 @@ export const chineseTranslations: AuthTexts = {
 
   // Messages
   emailLinkSent: '登录链接已发送至 {email}。',
-  resetPasswordSent: '请查看您的邮箱获取密码短语重置链接',
   error: '发生错误。({error})',
   networkError: '由于网络或服务器错误，无法完成您的登录。请重试或刷新此页面。({error})',
   invalidCodeError: '代码无效。请检查后重试。',

@@ -20,6 +20,7 @@ export const frenchTranslations: AuthTexts = {
   pwConfirmLabel: 'Confirmer la phrase de passe',
   sendLink: 'Envoyer le lien',
   resetPassword: 'Réinitialiser la phrase de passe',
+  resetPasswordLabel: 'Pour réinitialiser votre phrase de passe, connectez-vous avec le lien ou le code envoyé à votre e-mail, puis modifiez-la via les paramètres de sécurité du compte.',
 
   // Password confirmation
   pwLength: 'Votre phrase de passe doit contenir au moins {min} caractères.',
@@ -39,7 +40,6 @@ export const frenchTranslations: AuthTexts = {
 
   // Messages
   emailLinkSent: 'Lien de connexion envoyé à {email}.',
-  resetPasswordSent: 'Vérifiez votre e-mail pour le lien de réinitialisation de la phrase de passe',
   error: 'Une erreur s\'est produite. ({error})',
   networkError: 'En raison d\'une erreur réseau ou serveur, votre connexion n\'a pas pu être complétée. Veuillez réessayer ou recharger cette page. ({error})',
   invalidCodeError: 'Code invalide. Veuillez vérifier et réessayer.',

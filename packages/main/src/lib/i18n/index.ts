@@ -19,7 +19,10 @@ export interface AuthTexts {
   pwLabel: string
   pwConfirmLabel: string
   sendLink: string
+
+  // Reset passphrase
   resetPassword: string
+  resetPasswordLabel: string
 
   // Password confirmation
   pwLength: string
@@ -39,7 +42,6 @@ export interface AuthTexts {
 
   // Messages
   emailLinkSent: string
-  resetPasswordSent: string
   error: string
   networkError: string
   invalidCodeError: string
@@ -129,11 +131,14 @@ const en:AuthTexts = {
   signUp: 'Sign up',
   emailLabel: 'Email address',
   sendLink: 'Send link',
-  resetPassword: 'Reset your passphrase',
   verifyCode: 'Verify code',
   enterCode: 'Enter code',
   enterCodeTitle: 'Enter exactly 6 digits',
   resendEmail: 'Resend email',
+
+  // Reset passphrase
+  resetPassword: 'Reset your passphrase',
+  resetPasswordLabel: 'To reset your passphrase, login with the link or code sent to your email and then change it through the account security settings.',
 
   // Password confirmation
   pwLabel: 'Passphrase',
@@ -155,7 +160,6 @@ const en:AuthTexts = {
 
   // Messages
   emailLinkSent: 'Login link sent to {email}.',
-  resetPasswordSent: 'Check your email for the passphrase reset link',
   error: 'An error occurred. ({error})',
   networkError: 'Due to a network or server error, your login could not be completed. Please try again or reload this page. ({error})',
   invalidCodeError: 'Invalid code. Please check and try again.',

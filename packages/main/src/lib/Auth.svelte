@@ -33,7 +33,6 @@
 <script lang="ts">
   import EmailAuthView from './views/EmailAuthView.svelte'
   import SocialAuthView from './views/SocialAuthView.svelte'
-  import ForgottenPasswordView from './views/ForgottenPasswordView.svelte'
   import AuthenticatedView from './views/AuthenticatedView.svelte'
   import EmailLinkSentView from './views/EmailLinkSentView.svelte'
   import { onMount } from 'svelte'
@@ -132,10 +131,8 @@
       </div>
     {/if}
 
-    {#if $saOptions.auth.email && $saOptions.auth.email.enabled && ($signInView == 'sign_in' || $signInView == 'sign_in_with_password')}
+    {#if $saOptions.auth.email && $saOptions.auth.email.enabled && ($signInView == 'sign_in' || $signInView == 'sign_in_with_password' || $signInView == 'forgotten_password')}
       <EmailAuthView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {getText} />
-    {:else if $signInView == 'forgotten_password'}
-      <ForgottenPasswordView InputWrapper={Wrapper ?? InputWrapper} {supabaseClient} {getText}/>
     {/if}
   {/if}
 

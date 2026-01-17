@@ -20,6 +20,7 @@ export const arabicTranslations: AuthTexts = {
   pwConfirmLabel: 'تأكيد عبارة المرور',
   sendLink: 'إرسال الرابط',
   resetPassword: 'إعادة تعيين عبارة المرور',
+  resetPasswordLabel: 'لإعادة تعيين عبارة المرور، قم بتسجيل الدخول باستخدام الرابط أو الرمز المرسل إلى بريدك الإلكتروني ثم قم بتغييرها من خلال إعدادات أمان الحساب.',
 
   // Password confirmation
   pwLength: 'يجب أن تحتوي عبارة المرور على {min} حرف على الأقل.',
@@ -39,7 +40,6 @@ export const arabicTranslations: AuthTexts = {
 
   // Messages
   emailLinkSent: 'تم إرسال رابط تسجيل الدخول إلى {email}.',
-  resetPasswordSent: 'تحقق من بريدك الإلكتروني لرابط إعادة تعيين عبارة المرور',
   error: 'حدث خطأ. ({error})',
   networkError: 'بسبب خطأ في الشبكة أو الخادم، لم يتمكن من إكمال تسجيل دخولك. يرجى المحاولة مرة أخرى أو إعادة تحميل هذه الصفحة. ({error})',
   invalidCodeError: 'رمز غير صالح. يرجى التحقق والمحاولة مرة أخرى.',

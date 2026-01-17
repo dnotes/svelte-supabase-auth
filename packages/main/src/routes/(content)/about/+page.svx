@@ -90,6 +90,7 @@ to an existing, signed-in account (see above).*
 
 [passphrases.feature](https://github.com/dnotes/supabase-ui-svelte/blob/main/src/test/features/passphrases.feature)
 
+- [x] Resetting a forgotten passphrase
 - [x] Changing or setting a passphrase for an existing account
 - [ ] Config: Secure password changes not required
 
