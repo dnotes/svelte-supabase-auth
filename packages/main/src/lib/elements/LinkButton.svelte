@@ -20,6 +20,16 @@
     background: none;
     color: var(--link);
     font-size: 80%;
+    cursor:pointer;
+  }
+  button.danger {
+    color: var(--danger);
+  }
+  button.warning {
+    color: var(--warning);
+  }
+  button.success {
+    color: var(--success);
   }
   button.block {
     width: 100%;

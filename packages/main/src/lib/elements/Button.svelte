@@ -66,7 +66,6 @@
     border-color: var(--border);
     border-style: solid;
     border-width: 1px;
-    cursor: pointer;
     text-align: center;
     border-radius: var(--radius);
     font-family: inherit;
@@ -104,7 +103,6 @@
     color: var(--primary-fg);
   }
   button:is([onclick]) {
-    cursor: pointer;
     font-size: 0.875rem;
     line-height: 1.25rem;
     color: var(--link);
@@ -123,6 +121,5 @@
   button.primary .icon {
     color: var(--primary-fg);
   }
-
 
 </style>
