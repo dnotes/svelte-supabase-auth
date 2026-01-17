@@ -445,6 +445,12 @@ Then('the screenshot {string} should match to within {float}%', async (world:Wor
   await world.expectScreenshotMatch(world.page, `${world.screenshotDir}/${name}${explodedTags}.png`, { maxDiffPercentage });
 })
 
+Then('the screenshot {string} of the {string} {word} should match to within {float}%', async (world:World, name:string, identifier:string, role:string, maxDiffPercentage:number) => {
+  await world.page.waitForTimeout(1000)
+  let explodedTags = world.info.explodedIdx ? `_(${world.info.tags.join(',')})` : '';
+  await world.expectScreenshotMatch(world.getLocator(world.page, identifier, role), `${world.screenshotDir}/${name}${explodedTags}.png`, { maxDiffPercentage });
+})
+
 Then('the {string} {word} and (the ){string} {word} should be the same width', async (world:World, name1:string, role1:string, name2:string, role2:string) => {
   let locator1 = world.getLocator(world.page, name1, role1 as AriaRoleExtended)
   let locator2 = world.getLocator(world.page, name2, role2 as AriaRoleExtended)

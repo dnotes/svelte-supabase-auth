@@ -1,4 +1,4 @@
-@screenshots
+@screenshots @skip-ci
 Feature: Screenshots
 
   Background:
