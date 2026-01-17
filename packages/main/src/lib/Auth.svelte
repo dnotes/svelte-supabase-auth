@@ -158,13 +158,13 @@
     color-scheme: light dark;
     
     /* Colors */
-    --primary: light-dark(hsl(141, 71%, 48%), hsl(141, 71%, 55%));
+    --primary: light-dark(hsl(141, 71%, 29%), hsl(141, 71%, 55%));
     --primary-fg: white;
     --border: light-dark(#e5e7eb, #374151);
     --muted-fg: light-dark(#6b7280, #9ca3af);
     --danger: light-dark(hsl(358, 86%, 58%), hsl(358, 86%, 65%));
     --warning: light-dark(hsl(36, 100%, 44%), hsl(36, 100%, 55%));
-    --success: light-dark(hsl(141, 71%, 48%), hsl(141, 71%, 55%));
+    --success: light-dark(hsl(141, 71%, 29%), hsl(141, 71%, 55%));
     --link: currentColor;
     --ring: var(--primary);
     
