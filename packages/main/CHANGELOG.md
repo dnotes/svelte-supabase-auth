@@ -1,5 +1,42 @@
 # svelte-supabase-auth
 
+## 1.1.0
+
+### Minor Changes
+
+- 2d66db1: Feat: Better flow for password resets; The new flow guides users to login with another method
+  and then change their password through the account security settings.
+
+  BREAKING CHANGE: The string for 'resetPasswordSent' has been removed, and replaced with a string
+  for 'resetPasswordLabel', which will need to be handled by translations.
+
+- 578e2f6: Move default styles from external css file to components.
+- 4a0f9fb: fix: Standardize on userInfo snippet, eliminating loggedInAs.
+
+  BREAKING CHANGE: If you used a `signedInAs` snippet, you'll need to replace it with `userInfo`;
+  if you used `userInfo`, you may wish to add the basic info displayed in AuthenticatedView.svelte.
+
+- 4a0f9fb: fix: Remove slots for custom element, as they don't really work with no shadow DOM.
+- 94de715: Changed css variable names to align with standard design tokens.
+- 4a0f9fb: feat: Add bindable "activeView" prop and "active-view" html attribute for custom element,
+  so that consumers can tell which view is active and potentially add their own HTML
+  depending on the active view. For example, to add a profile form for authenticated users,
+  you could observe the "active-view" html attribute and implement your own code that is
+  visible when the active view is "authenticated", or in a Svelte context, bind to activeView
+  with `<Auth bind:activeView ... />`
+- 4a0f9fb: feat: Add "hide-user-info" html attribute for custom element
+
+  If you're using the web component and you want to add your own user info,
+  use the "hide-user-info" html attribute to avoid displaying the default.
+
+- 51e82f0: fix: Redirects to the same page from which the user came.
+
+### Patch Changes
+
+- 6a490d3: Fix presentation role for icons
+- 469299d: Fix accessible text label for password fields, as they are nested within the label
+- f1c8de3: fix: Password reset form
+
 ## 1.0.2
 
 ### Patch Changes
